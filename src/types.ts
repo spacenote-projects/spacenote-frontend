@@ -9,5 +9,5 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  authToken: string
+  token: string
 }

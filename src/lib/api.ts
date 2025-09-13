@@ -70,7 +70,7 @@ export const api = {
         mutationFn: (credentials: LoginRequest) =>
           httpClient.post("api/v1/auth/login", { json: credentials }).json<LoginResponse>(),
         onSuccess: async (response) => {
-          authStorage.setAuthToken(response.authToken)
+          authStorage.setAuthToken(response.token)
           // Fetch the current user after successful login
           await queryClient.invalidateQueries({ queryKey: ["currentUser"] })
         },

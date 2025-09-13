@@ -10,10 +10,12 @@ import { authStorage } from "@/lib/auth-storage"
 export default function Layout() {
   const location = useLocation()
   const hasToken = authStorage.getAuthToken()
-  const { data: currentUser } = useQuery(api.queries.currentUser())
+  const { data: currentUser } = useQuery({
+    ...api.queries.currentUser(),
+    enabled: !!hasToken,
+  })
 
   if (!hasToken || !currentUser) {
-    console.log("No auth token or user, redirecting to login")
     return <Navigate to="/login" replace />
   }
   return (
