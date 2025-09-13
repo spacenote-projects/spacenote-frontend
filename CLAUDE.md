@@ -15,4 +15,3 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `just agent-start` - Start the application
 - `just agent-stop` - Stop the application
 - `just dev` - Never run this command. It's for humans only.
-

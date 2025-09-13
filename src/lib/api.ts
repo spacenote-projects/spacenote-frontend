@@ -4,8 +4,10 @@ import { AppError } from "@/lib/errors"
 import { authStorage } from "@/lib/auth-storage"
 import type { LoginRequest, LoginResponse, User } from "@/types"
 
+const apiUrl = import.meta.env.VITE_API_URL || ""
+
 const httpClient = ky.create({
-  prefixUrl: "/",
+  prefixUrl: apiUrl,
   hooks: {
     beforeRequest: [
       (request) => {
@@ -55,7 +57,7 @@ export const api = {
     currentUser: () =>
       queryOptions({
         queryKey: ["currentUser"],
-        queryFn: () => httpClient.get("api/profile").json<User>(),
+        queryFn: () => httpClient.get("api/v1/profile").json<User>(),
         staleTime: Infinity,
         gcTime: Infinity,
       }),
@@ -65,7 +67,8 @@ export const api = {
       const queryClient = useQueryClient()
 
       return useMutation({
-        mutationFn: (credentials: LoginRequest) => httpClient.post("api/auth/login", { json: credentials }).json<LoginResponse>(),
+        mutationFn: (credentials: LoginRequest) =>
+          httpClient.post("api/v1/auth/login", { json: credentials }).json<LoginResponse>(),
         onSuccess: async (response) => {
           authStorage.setAuthToken(response.authToken)
           // Fetch the current user after successful login
@@ -78,7 +81,7 @@ export const api = {
       const queryClient = useQueryClient()
 
       return useMutation({
-        mutationFn: () => httpClient.post("api/auth/logout"),
+        mutationFn: () => httpClient.post("api/v1/auth/logout"),
         onSuccess: () => {
           authStorage.clearAuthToken()
           queryClient.setQueryData(["currentUser"], null)
@@ -90,7 +93,7 @@ export const api = {
     useChangePassword: () => {
       return useMutation({
         mutationFn: ({ currentPassword, newPassword }: { currentPassword: string; newPassword: string }) =>
-          httpClient.post("api/profile/change-password", { json: { currentPassword, newPassword } }),
+          httpClient.post("api/v1/profile/change-password", { json: { currentPassword, newPassword } }),
       })
     },
   },

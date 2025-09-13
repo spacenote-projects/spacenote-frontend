@@ -5,6 +5,7 @@ Start a new session by reading the project documentation.
 ## Description
 
 This command initializes a new work session by reading the essential project files:
+
 - `CLAUDE.md` - Agent-specific instructions and guidelines
 - `docs/concepts.md` - Project core concepts
 - `docs/architecture.md` - Project backend architecture

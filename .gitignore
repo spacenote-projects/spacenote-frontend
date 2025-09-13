@@ -12,6 +12,14 @@ dist
 dist-ssr
 *.local
 
+# Environment variables
+.env.local
+.env.*.local
+.env.production
+.env.development
+# Only .env.development and .env.example are committed
+# Each deployment creates its own .env.local or .env.production
+
 # Agent files
 agent.pid
 agent.log
