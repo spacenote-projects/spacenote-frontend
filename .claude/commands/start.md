@@ -8,7 +8,7 @@ This command initializes a new work session by reading the essential project fil
 
 - `CLAUDE.md` - Agent-specific instructions and guidelines
 - `docs/concepts.md` - Project core concepts
-- `docs/architecture.md` - Project backend architecture
+- `docs/architecture.md` - Project frontend architecture
 
 ## Usage
 
@@ -20,7 +20,7 @@ This command initializes a new work session by reading the essential project fil
 
 1. Read `CLAUDE.md` to understand agent-specific instructions
 2. Read `docs/concepts.md` to understand the project core concepts
-3. Read `docs/architecture.md` to understand the project backend architecture
+3. Read `docs/architecture.md` to understand the project frontend architecture
 4. Confirm readiness to begin work
 
 ## Response
