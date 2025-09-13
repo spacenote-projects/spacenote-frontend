@@ -33,7 +33,7 @@ export default function Header() {
   return (
     <header className="py-4 border-b flex items-center justify-between">
       <Link to="/" className="text-2xl font-bold hover:no-underline">
-        DemoForums
+        SpaceNote
       </Link>
 
       <DropdownMenu>

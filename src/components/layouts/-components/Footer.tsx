@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <footer className="py-4 border-t text-sm text-gray-500">
-      <p>© 2025 DemoForums</p>
+      <p>© 2025 SpaceNote</p>
     </footer>
   )
 }

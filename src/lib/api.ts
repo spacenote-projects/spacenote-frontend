@@ -36,8 +36,8 @@ const httpClient = ky.create({
             const contentType = response.headers.get("content-type")
             if (contentType?.includes("application/json")) {
               const data = (await response.clone().json()) as Record<string, unknown>
-              if (typeof data.error === "string" && data.error.trim() !== "") {
-                message = data.error
+              if (typeof data.message === "string" && data.message.trim() !== "") {
+                message = data.message
               }
             }
           } catch {
