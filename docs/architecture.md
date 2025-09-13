@@ -1,5 +1,8 @@
 # Architecture
 
+> **Note: Implementation Status**
+> This document describes the target architecture for the SpaceNote frontend. The project is currently in active development, and not all components, files, and features mentioned in the examples exist yet. The architectural patterns, technologies, and design principles outlined here serve as the blueprint we're following during implementation.
+
 ## Repository Structure
 SpaceNote is organized as a multi-repository project:
 - **spacenote-backend** - Python + MongoDB + FastAPI 
