@@ -10,8 +10,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 3. **Critical thinking** - Always critically evaluate user ideas. Users can make mistakes. Think first about whether the user's idea is good before implementing.
 
+4. **Use pnpm** - Always use `pnpm` instead of `npm` for package management commands.
+
 ## Development Commands
 
 - `just agent-start` - Start the application
 - `just agent-stop` - Stop the application
 - `just dev` - Never run this command. It's for humans only.
+
+## Type Generation
+
+- `pnpm run generate-types` - Generate TypeScript types from OpenAPI spec at http://localhost:3100/openapi.json
+- Generated types are in `src/types/generated.ts` (auto-generated, do not edit)
+- Re-exported types are in `src/types/index.ts` for convenient access

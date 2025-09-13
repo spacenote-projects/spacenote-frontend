@@ -37,8 +37,8 @@ export function ChangePasswordDialog({ open, onOpenChange }: { open: boolean; on
   const onSubmit = (data: PasswordChangeForm) => {
     changePasswordMutation.mutate(
       {
-        currentPassword: data.currentPassword,
-        newPassword: data.newPassword,
+        old_password: data.currentPassword,
+        new_password: data.newPassword,
       },
       {
         onSuccess: () => {

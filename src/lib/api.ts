@@ -2,7 +2,7 @@ import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query
 import ky from "ky"
 import { AppError } from "@/lib/errors"
 import { authStorage } from "@/lib/auth-storage"
-import type { LoginRequest, LoginResponse, User } from "@/types"
+import type { LoginRequest, LoginResponse, User, ChangePasswordRequest } from "@/types"
 
 const apiUrl = import.meta.env.VITE_API_URL || ""
 
@@ -92,8 +92,7 @@ export const api = {
 
     useChangePassword: () => {
       return useMutation({
-        mutationFn: ({ currentPassword, newPassword }: { currentPassword: string; newPassword: string }) =>
-          httpClient.post("api/v1/profile/change-password", { json: { currentPassword, newPassword } }),
+        mutationFn: (data: ChangePasswordRequest) => httpClient.post("api/v1/profile/change-password", { json: data }),
       })
     },
   },

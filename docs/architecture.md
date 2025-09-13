@@ -4,10 +4,11 @@
 > This document describes the target architecture for the SpaceNote frontend. The project is currently in active development, and not all components, files, and features mentioned in the examples exist yet. The architectural patterns, technologies, and design principles outlined here serve as the blueprint we're following during implementation.
 
 ## Repository Structure
-SpaceNote is organized as a multi-repository project:
-- **spacenote-backend** - Python + MongoDB + FastAPI 
-- **spacenote-frontend** - React application (this repository)
 
+SpaceNote is organized as a multi-repository project:
+
+- **spacenote-backend** - Python + MongoDB + FastAPI
+- **spacenote-frontend** - React application (this repository)
 
 ### Project Structure
 
@@ -49,10 +50,56 @@ src/
 │   ├── data.ts               # Mock data generation
 │   ├── handlers.ts           # API request handlers
 │   └── browser.ts            # Browser service worker setup
-├── types.ts                   # TypeScript type definitions
+├── types/                     # TypeScript type system
+│   ├── generated.ts          # Auto-generated types from OpenAPI
+│   └── index.ts              # Type re-exports with cleaner names
 ├── router.ts                  # Route configuration
 └── main.tsx                   # Application entry point
 ```
+
+### Type System
+
+The frontend uses an automated type generation system that keeps TypeScript types in sync with the backend API:
+
+#### Type Generation from OpenAPI
+
+- **Source of Truth**: Backend OpenAPI specification at `http://localhost:3100/openapi.json`
+- **Generation Tool**: `openapi-typescript` generates TypeScript types automatically
+- **Command**: `pnpm run generate-types` fetches the OpenAPI spec and generates types
+
+#### Type File Organization
+
+**`src/types/generated.ts`**
+
+- Auto-generated file from OpenAPI specification
+- Contains all API types, paths, and operations
+- DO NOT EDIT manually - changes will be overwritten
+- Committed to git for reproducible builds without backend
+
+**`src/types/index.ts`**
+
+- Re-exports generated types with cleaner, more convenient names
+- Maps verbose OpenAPI paths to simple type aliases
+- Example: `components["schemas"]["UserView"]` → `User`
+- This is where you import types in your components
+
+#### Type Usage Example
+
+```typescript
+// Import from types/index.ts, not from generated.ts
+import type { User, Space, Note, LoginRequest } from "@/types"
+
+// Types are automatically kept in sync with backend
+const user: User = await api.getCurrentUser()
+```
+
+#### Benefits
+
+- **Type Safety**: Full type coverage for all API operations
+- **Auto-sync**: Types automatically match backend API changes
+- **Developer Experience**: Auto-completion and type checking in IDE
+- **Single Source of Truth**: Backend OpenAPI drives frontend types
+- **No Manual Maintenance**: Eliminates hand-written API type definitions
 
 ### API Layer and State Management
 
