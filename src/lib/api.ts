@@ -2,7 +2,7 @@ import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query
 import ky from "ky"
 import { AppError } from "@/lib/errors"
 import { authStorage } from "@/lib/auth-storage"
-import type { LoginRequest, LoginResponse, User, ChangePasswordRequest, Space } from "@/types"
+import type { LoginRequest, LoginResponse, User, ChangePasswordRequest, Space, SpaceField } from "@/types"
 
 const apiUrl = import.meta.env.VITE_API_URL || ""
 
@@ -100,6 +100,19 @@ export const api = {
     useChangePassword: () => {
       return useMutation({
         mutationFn: (data: ChangePasswordRequest) => httpClient.post("api/v1/profile/change-password", { json: data }),
+      })
+    },
+
+    useAddSpaceField: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: ({ slug, field }: { slug: string; field: SpaceField }) =>
+          httpClient.post(`api/v1/spaces/${slug}/fields`, { json: field }).json<Space>(),
+        onSuccess: () => {
+          // Invalidate spaces query to refresh the fields list
+          void queryClient.invalidateQueries({ queryKey: ["spaces"] })
+        },
       })
     },
   },
