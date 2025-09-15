@@ -3,6 +3,11 @@ import LoginPage from "@/components/pages/LoginPage"
 import Layout from "@/components/layouts/Layout"
 import HomePage from "@/components/pages/home/HomePage"
 import SpaceDetailPage from "@/components/pages/SpaceDetailPage"
+import MembersPage from "@/components/pages/space/MembersPage"
+import FieldsPage from "@/components/pages/space/FieldsPage"
+import FiltersPage from "@/components/pages/space/FiltersPage"
+import TemplatesPage from "@/components/pages/space/TemplatesPage"
+import SettingsPage from "@/components/pages/space/SettingsPage"
 
 export const createRouter = () =>
   createBrowserRouter([
@@ -22,6 +27,26 @@ export const createRouter = () =>
         {
           path: "s/:slug",
           Component: SpaceDetailPage,
+        },
+        {
+          path: "s/:slug/members",
+          Component: MembersPage,
+        },
+        {
+          path: "s/:slug/fields",
+          Component: FieldsPage,
+        },
+        {
+          path: "s/:slug/filters",
+          Component: FiltersPage,
+        },
+        {
+          path: "s/:slug/templates",
+          Component: TemplatesPage,
+        },
+        {
+          path: "s/:slug/settings",
+          Component: SettingsPage,
         },
       ],
     },

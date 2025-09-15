@@ -23,11 +23,21 @@ export function SpaceCard({ space }: { space: Space }) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem disabled>Members</DropdownMenuItem>
-              <DropdownMenuItem disabled>Fields</DropdownMenuItem>
-              <DropdownMenuItem disabled>Filters</DropdownMenuItem>
-              <DropdownMenuItem disabled>Templates</DropdownMenuItem>
-              <DropdownMenuItem disabled>Settings</DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to={`/s/${space.slug}/members`}>Members ({space.members.length})</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to={`/s/${space.slug}/fields`}>Fields ({space.fields.length})</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to={`/s/${space.slug}/filters`}>Filters ({space.filters.length})</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to={`/s/${space.slug}/templates`}>Templates</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to={`/s/${space.slug}/settings`}>Settings</Link>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </CardAction>
