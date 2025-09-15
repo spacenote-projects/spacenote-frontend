@@ -2,7 +2,7 @@ import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query
 import ky from "ky"
 import { AppError } from "@/lib/errors"
 import { authStorage } from "@/lib/auth-storage"
-import type { LoginRequest, LoginResponse, User, ChangePasswordRequest, Space, SpaceField } from "@/types"
+import type { LoginRequest, LoginResponse, User, ChangePasswordRequest, Space, SpaceField, AddMemberRequest } from "@/types"
 
 const apiUrl = import.meta.env.VITE_API_URL || ""
 
@@ -118,6 +118,32 @@ export const api = {
           httpClient.post(`api/v1/spaces/${slug}/fields`, { json: field }).json<Space>(),
         onSuccess: () => {
           // Invalidate spaces query to refresh the fields list
+          void queryClient.invalidateQueries({ queryKey: ["spaces"] })
+        },
+      })
+    },
+
+    useAddMember: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: ({ slug, username }: { slug: string; username: string }) =>
+          httpClient.post(`api/v1/spaces/${slug}/members`, { json: { username } as AddMemberRequest }).json<Space>(),
+        onSuccess: () => {
+          // Invalidate spaces query to refresh the members list
+          void queryClient.invalidateQueries({ queryKey: ["spaces"] })
+        },
+      })
+    },
+
+    useRemoveMember: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: ({ slug, username }: { slug: string; username: string }) =>
+          httpClient.delete(`api/v1/spaces/${slug}/members/${username}`),
+        onSuccess: () => {
+          // Invalidate spaces query to refresh the members list
           void queryClient.invalidateQueries({ queryKey: ["spaces"] })
         },
       })
