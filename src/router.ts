@@ -8,6 +8,7 @@ import FieldsPage from "@/components/pages/space/FieldsPage"
 import FiltersPage from "@/components/pages/space/FiltersPage"
 import TemplatesPage from "@/components/pages/space/TemplatesPage"
 import SettingsPage from "@/components/pages/space/SettingsPage"
+import NewFieldPage from "@/components/pages/space/NewFieldPage"
 
 export const createRouter = () =>
   createBrowserRouter([
@@ -35,6 +36,10 @@ export const createRouter = () =>
         {
           path: "s/:slug/fields",
           Component: FieldsPage,
+        },
+        {
+          path: "s/:slug/fields/new",
+          Component: NewFieldPage,
         },
         {
           path: "s/:slug/filters",
