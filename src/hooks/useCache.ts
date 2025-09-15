@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { api } from "@/lib/api"
 import { AppError } from "@/lib/errors"
-import type { Space } from "@/types"
+import type { Space, User } from "@/types"
 
 /**
  * Hook to get all spaces from cache
@@ -22,4 +22,25 @@ export function useSpace(slug: string): Space {
     throw new AppError("not_found", "Space not found: " + slug)
   }
   return space
+}
+
+/**
+ * Hook to get all users from cache
+ * Users are loaded once on app start and cached indefinitely
+ */
+export function useUsers() {
+  const { data: users } = useSuspenseQuery(api.queries.users())
+  return users
+}
+
+/**
+ * Hook to get a specific user by ID from cached users list
+ */
+export function useUser(id: string): User {
+  const users = useUsers()
+  const user = users.find((u) => u.id === id)
+  if (!user) {
+    throw new AppError("not_found", "User not found: " + id)
+  }
+  return user
 }

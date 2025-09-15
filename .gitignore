@@ -20,6 +20,7 @@ dist-ssr
 .env.*.local
 .env.production
 .env.development
+.env
 # Only .env.development and .env.example are committed
 # Each deployment creates its own .env.local or .env.production
 

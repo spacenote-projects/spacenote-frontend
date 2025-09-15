@@ -4,1359 +4,1547 @@
  */
 
 export type paths = {
-  "/health": {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Health Check */
-    get: operations["health_check_health_get"]
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  "/api/v1/auth/login": {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /**
-     * Authenticate user
-     * @description Authenticate with username and password to receive an authentication token.
-     */
-    post: operations["login"]
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  "/api/v1/auth/logout": {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /**
-     * End session
-     * @description Invalidate the current authentication session.
-     */
-    post: operations["logout"]
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  "/api/v1/profile": {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /**
-     * Get current user profile
-     * @description Get the profile of the currently authenticated user.
-     */
-    get: operations["getCurrentUserProfile"]
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  "/api/v1/profile/change-password": {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /**
-     * Change password
-     * @description Change the password for the currently authenticated user.
-     */
-    post: operations["changePassword"]
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  "/api/v1/spaces": {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /**
-     * List user spaces
-     * @description Get all spaces where the authenticated user is a member.
-     */
-    get: operations["listSpaces"]
-    put?: never
-    /**
-     * Create new space
-     * @description Create a new space with the specified slug and title. The authenticated user becomes a member.
-     */
-    post: operations["createSpace"]
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  "/api/v1/spaces/{space_slug}/fields": {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /**
-     * Add field to space
-     * @description Add a new field definition to an existing space. Only space members can add fields.
-     */
-    post: operations["addFieldToSpace"]
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  "/api/v1/spaces/{space_slug}/notes": {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /**
-     * List space notes
-     * @description Get all notes in a space. Only space members can view notes.
-     */
-    get: operations["listNotes"]
-    put?: never
-    /**
-     * Create new note
-     * @description Create a new note in a space with the provided field values. Only space members can create notes.
-     */
-    post: operations["createNote"]
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  "/api/v1/spaces/{space_slug}/notes/{number}": {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /**
-     * Get note by number
-     * @description Get a specific note by its number within a space. Only space members can view notes.
-     */
-    get: operations["getNote"]
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  "/api/v1/spaces/{space_slug}/notes/{number}/comments": {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /**
-     * List note comments
-     * @description Get all comments for a specific note. Only space members can view comments.
-     */
-    get: operations["listComments"]
-    put?: never
-    /**
-     * Create comment
-     * @description Add a new comment to a note. Only space members can create comments.
-     */
-    post: operations["createComment"]
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  "/api/v1/users": {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /**
-     * List all users
-     * @description Get all users in the system.
-     */
-    get: operations["listUsers"]
-    put?: never
-    /**
-     * Create new user
-     * @description Create a new user account. Only accessible by admin users.
-     */
-    post: operations["createUser"]
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-}
-export type webhooks = Record<string, never>
+    "/health": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Health Check */
+        get: operations["health_check_health_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/auth/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Authenticate user
+         * @description Authenticate with username and password to receive an authentication token.
+         */
+        post: operations["login"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/auth/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * End session
+         * @description Invalidate the current authentication session.
+         */
+        post: operations["logout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get current user profile
+         * @description Get the profile of the currently authenticated user.
+         */
+        get: operations["getCurrentUserProfile"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/profile/change-password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Change password
+         * @description Change the password for the currently authenticated user.
+         */
+        post: operations["changePassword"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/spaces": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List user spaces
+         * @description Get all spaces where the authenticated user is a member.
+         */
+        get: operations["listSpaces"];
+        put?: never;
+        /**
+         * Create new space
+         * @description Create a new space with the specified slug and title. The authenticated user becomes a member.
+         */
+        post: operations["createSpace"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/spaces/{space_slug}/fields": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Add field to space
+         * @description Add a new field definition to an existing space. Only space members can add fields.
+         */
+        post: operations["addFieldToSpace"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/spaces/{space_slug}/members": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Add member to space
+         * @description Add a new member to a space. Only existing space members can add new members.
+         */
+        post: operations["addMemberToSpace"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/spaces/{space_slug}/members/{username}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Remove member from space
+         * @description Remove a member from a space. Only existing space members can remove other members. Cannot remove the last member.
+         */
+        delete: operations["removeMemberFromSpace"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/spaces/{space_slug}/notes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List space notes
+         * @description Get all notes in a space. Only space members can view notes.
+         */
+        get: operations["listNotes"];
+        put?: never;
+        /**
+         * Create new note
+         * @description Create a new note in a space with the provided field values. Only space members can create notes.
+         */
+        post: operations["createNote"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/spaces/{space_slug}/notes/{number}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get note by number
+         * @description Get a specific note by its number within a space. Only space members can view notes.
+         */
+        get: operations["getNote"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/spaces/{space_slug}/notes/{number}/comments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List note comments
+         * @description Get all comments for a specific note. Only space members can view comments.
+         */
+        get: operations["listComments"];
+        put?: never;
+        /**
+         * Create comment
+         * @description Add a new comment to a note. Only space members can create comments.
+         */
+        post: operations["createComment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List all users
+         * @description Get all users in the system.
+         */
+        get: operations["listUsers"];
+        put?: never;
+        /**
+         * Create new user
+         * @description Create a new user account. Only accessible by admin users.
+         */
+        post: operations["createUser"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+};
+export type webhooks = Record<string, never>;
 export type components = {
-  schemas: {
-    /**
-     * ChangePasswordRequest
-     * @description Request to change user password.
-     */
-    ChangePasswordRequest: {
-      /**
-       * Old Password
-       * @description Current password
-       */
-      old_password: string
-      /**
-       * New Password
-       * @description New password
-       */
-      new_password: string
-    }
-    /**
-     * Comment
-     * @description Comment on a note with threading support.
-     */
-    Comment: {
-      /**
-       * Id
-       * Format: uuid
-       */
-      id: string
-      /**
-       * Note Id
-       * Format: uuid
-       */
-      note_id: string
-      /**
-       * Space Id
-       * Format: uuid
-       */
-      space_id: string
-      /**
-       * Author Id
-       * Format: uuid
-       */
-      author_id: string
-      /** Number */
-      number: number
-      /** Content */
-      content: string
-      /**
-       * Created At
-       * Format: date-time
-       */
-      created_at: string
-      /** Edited At */
-      edited_at: string | null
-      /** Parent Id */
-      parent_id: string | null
-    }
-    /**
-     * CreateCommentRequest
-     * @description Request to create a new comment.
-     */
-    CreateCommentRequest: {
-      /**
-       * Content
-       * @description The comment text
-       */
-      content: string
-    }
-    /**
-     * CreateNoteRequest
-     * @description Request to create a new note.
-     * @example {
-     *       "raw_fields": {
-     *         "description": "Add comprehensive OpenAPI documentation",
-     *         "priority": "high",
-     *         "status": "in_progress",
-     *         "title": "Complete API documentation"
-     *       }
-     *     }
-     */
-    CreateNoteRequest: {
-      /**
-       * Raw Fields
-       * @description Field values as raw strings (will be parsed according to field types)
-       */
-      raw_fields: {
-        [key: string]: string
-      }
-    }
-    /**
-     * CreateSpaceRequest
-     * @description Request to create a new space.
-     * @example {
-     *       "slug": "my-tasks",
-     *       "title": "My Task Tracker"
-     *     }
-     */
-    CreateSpaceRequest: {
-      /**
-       * Slug
-       * @description URL-friendly unique identifier (lowercase letters, numbers, hyphens; no leading/trailing/double hyphens)
-       */
-      slug: string
-      /**
-       * Title
-       * @description Human-readable space name
-       */
-      title: string
-    }
-    /**
-     * CreateUserRequest
-     * @description Request to create a new user.
-     */
-    CreateUserRequest: {
-      /**
-       * Username
-       * @description Username for the new user
-       */
-      username: string
-      /**
-       * Password
-       * @description Password for the new user
-       */
-      password: string
-    }
-    /**
-     * ErrorResponse
-     * @description Standard error response format.
-     * @example {
-     *       "message": "Invalid credentials",
-     *       "type": "authentication_error"
-     *     }
-     * @example {
-     *       "message": "Space not found",
-     *       "type": "not_found"
-     *     }
-     * @example {
-     *       "message": "Access denied",
-     *       "type": "access_denied"
-     *     }
-     */
-    ErrorResponse: {
-      /**
-       * Message
-       * @description Human-readable error message
-       */
-      message: string
-      /**
-       * Type
-       * @description Machine-readable error type
-       */
-      type: string
-    }
-    /**
-     * FieldOption
-     * @description Configuration options for field types.
-     * @enum {string}
-     */
-    FieldOption: "values" | "min" | "max"
-    /**
-     * FieldType
-     * @description Available field types for space schemas.
-     * @enum {string}
-     */
-    FieldType: "string" | "markdown" | "boolean" | "string_choice" | "tags" | "user" | "datetime" | "int" | "float"
-    /**
-     * Filter
-     * @description Saved filter configuration for a space.
-     */
-    Filter: {
-      /**
-       * Name
-       * @description Unique filter identifier within the space
-       */
-      name: string
-      /**
-       * Title
-       * @description Display name for the filter
-       */
-      title: string
-      /**
-       * Description
-       * @description Optional description of what this filter shows
-       * @default
-       */
-      description: string
-      /**
-       * Conditions
-       * @description Filter conditions (combined with AND)
-       */
-      conditions?: components["schemas"]["FilterCondition"][]
-      /**
-       * Sort
-       * @description Sort order - field names with optional '-' prefix for descending
-       */
-      sort?: string[]
-      /**
-       * List Fields
-       * @description Fields to display in list view when this filter is active
-       */
-      list_fields?: string[]
-    }
-    /**
-     * FilterCondition
-     * @description Single filter condition for querying notes.
-     */
-    FilterCondition: {
-      /**
-       * Field
-       * @description Field name to filter on
-       */
-      field: string
-      /** @description Comparison operator */
-      operator: components["schemas"]["FilterOperator"]
-      /**
-       * Value
-       * @description Value to compare against
-       */
-      value: string | boolean | string[] | number | null
-    }
-    /**
-     * FilterOperator
-     * @description Query operators for filtering notes.
-     * @enum {string}
-     */
-    FilterOperator: "eq" | "ne" | "contains" | "startswith" | "endswith" | "in" | "nin" | "all" | "gt" | "gte" | "lt" | "lte"
-    /** HTTPValidationError */
-    HTTPValidationError: {
-      /** Detail */
-      detail?: components["schemas"]["ValidationError"][]
-    }
-    /**
-     * LoginRequest
-     * @description Authentication request.
-     */
-    LoginRequest: {
-      /**
-       * Username
-       * @description Username for authentication
-       */
-      username: string
-      /**
-       * Password
-       * @description Password for authentication
-       */
-      password: string
-    }
-    /**
-     * LoginResponse
-     * @description Authentication response.
-     */
-    LoginResponse: {
-      /**
-       * Token
-       * @description Authentication token for subsequent requests
-       */
-      token: string
-    }
-    /**
-     * Note
-     * @description Note with custom fields stored in a space.
-     */
-    Note: {
-      /**
-       * Id
-       * Format: uuid
-       */
-      id: string
-      /**
-       * Space Id
-       * Format: uuid
-       */
-      space_id: string
-      /** Number */
-      number: number
-      /**
-       * Author Id
-       * Format: uuid
-       */
-      author_id: string
-      /**
-       * Created At
-       * Format: date-time
-       */
-      created_at: string
-      /** Edited At */
-      edited_at: string | null
-      /** Fields */
-      fields: {
-        [key: string]: string | boolean | string[] | number | null
-      }
-    }
-    /**
-     * Space
-     * @description Container for notes with custom schemas.
-     */
-    Space: {
-      /**
-       * Id
-       * Format: uuid
-       */
-      id: string
-      /** Slug */
-      slug: string
-      /** Title */
-      title: string
-      /** Members */
-      members: string[]
-      /** Fields */
-      fields: components["schemas"]["SpaceField"][]
-      /** List Fields */
-      list_fields: string[]
-      /** Hidden Create Fields */
-      hidden_create_fields: string[]
-      /** Filters */
-      filters: components["schemas"]["Filter"][]
-      /** @default {} */
-      templates: components["schemas"]["SpaceTemplates"]
-    }
-    /**
-     * SpaceField
-     * @description Field definition in a space schema.
-     */
-    SpaceField: {
-      /**
-       * Name
-       * @description Field name (must be unique within space)
-       */
-      name: string
-      /** @description Field data type */
-      type: components["schemas"]["FieldType"]
-      /**
-       * Required
-       * @description Whether this field is required
-       * @default false
-       */
-      required: boolean
-      /**
-       * Options
-       * @description Field type-specific options (e.g., 'values' for string_choice, 'min'/'max' for numeric types)
-       */
-      options?: {
-        [key: string]: string[] | number
-      }
-      /**
-       * Default
-       * @description Default value for this field
-       */
-      default?: string | boolean | string[] | number | null
-    }
-    /**
-     * SpaceTemplates
-     * @description Templates for customizing space views.
-     */
-    SpaceTemplates: {
-      /**
-       * Note Detail
-       * @description Optional Liquid template for customizing note detail view
-       */
-      note_detail?: string | null
-      /**
-       * Note List
-       * @description Optional Liquid template for customizing note list item view
-       */
-      note_list?: string | null
-    }
-    /**
-     * UserView
-     * @description User account information (API representation).
-     */
-    UserView: {
-      /**
-       * Id
-       * Format: uuid
-       * @description User ID
-       */
-      id: string
-      /**
-       * Username
-       * @description Username
-       */
-      username: string
-    }
-    /** ValidationError */
-    ValidationError: {
-      /** Location */
-      loc: (string | number)[]
-      /** Message */
-      msg: string
-      /** Error Type */
-      type: string
-    }
-  }
-  responses: never
-  parameters: never
-  requestBodies: never
-  headers: never
-  pathItems: never
-}
-export type $defs = Record<string, never>
+    schemas: {
+        /**
+         * AddMemberRequest
+         * @description Request to add a member to a space.
+         */
+        AddMemberRequest: {
+            /**
+             * Username
+             * @description Username of the user to add as a member
+             */
+            username: string;
+        };
+        /**
+         * ChangePasswordRequest
+         * @description Request to change user password.
+         */
+        ChangePasswordRequest: {
+            /**
+             * Old Password
+             * @description Current password
+             */
+            old_password: string;
+            /**
+             * New Password
+             * @description New password
+             */
+            new_password: string;
+        };
+        /**
+         * Comment
+         * @description Comment on a note with threading support.
+         */
+        Comment: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Note Id
+             * Format: uuid
+             */
+            note_id: string;
+            /**
+             * Space Id
+             * Format: uuid
+             */
+            space_id: string;
+            /**
+             * Author Id
+             * Format: uuid
+             */
+            author_id: string;
+            /** Number */
+            number: number;
+            /** Content */
+            content: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /** Edited At */
+            edited_at: string | null;
+            /** Parent Id */
+            parent_id: string | null;
+        };
+        /**
+         * CreateCommentRequest
+         * @description Request to create a new comment.
+         */
+        CreateCommentRequest: {
+            /**
+             * Content
+             * @description The comment text
+             */
+            content: string;
+        };
+        /**
+         * CreateNoteRequest
+         * @description Request to create a new note.
+         * @example {
+         *       "raw_fields": {
+         *         "description": "Add comprehensive OpenAPI documentation",
+         *         "priority": "high",
+         *         "status": "in_progress",
+         *         "title": "Complete API documentation"
+         *       }
+         *     }
+         */
+        CreateNoteRequest: {
+            /**
+             * Raw Fields
+             * @description Field values as raw strings (will be parsed according to field types)
+             */
+            raw_fields: {
+                [key: string]: string;
+            };
+        };
+        /**
+         * CreateSpaceRequest
+         * @description Request to create a new space.
+         * @example {
+         *       "slug": "my-tasks",
+         *       "title": "My Task Tracker"
+         *     }
+         */
+        CreateSpaceRequest: {
+            /**
+             * Slug
+             * @description URL-friendly unique identifier (lowercase letters, numbers, hyphens; no leading/trailing/double hyphens)
+             */
+            slug: string;
+            /**
+             * Title
+             * @description Human-readable space name
+             */
+            title: string;
+        };
+        /**
+         * CreateUserRequest
+         * @description Request to create a new user.
+         */
+        CreateUserRequest: {
+            /**
+             * Username
+             * @description Username for the new user
+             */
+            username: string;
+            /**
+             * Password
+             * @description Password for the new user
+             */
+            password: string;
+        };
+        /**
+         * ErrorResponse
+         * @description Standard error response format.
+         * @example {
+         *       "message": "Invalid credentials",
+         *       "type": "authentication_error"
+         *     }
+         * @example {
+         *       "message": "Space not found",
+         *       "type": "not_found"
+         *     }
+         * @example {
+         *       "message": "Access denied",
+         *       "type": "access_denied"
+         *     }
+         */
+        ErrorResponse: {
+            /**
+             * Message
+             * @description Human-readable error message
+             */
+            message: string;
+            /**
+             * Type
+             * @description Machine-readable error type
+             */
+            type: string;
+        };
+        /**
+         * FieldOption
+         * @description Configuration options for field types.
+         * @enum {string}
+         */
+        FieldOption: "values" | "min" | "max";
+        /**
+         * FieldType
+         * @description Available field types for space schemas.
+         * @enum {string}
+         */
+        FieldType: "string" | "markdown" | "boolean" | "string_choice" | "tags" | "user" | "datetime" | "int" | "float";
+        /**
+         * Filter
+         * @description Saved filter configuration for a space.
+         */
+        Filter: {
+            /**
+             * Name
+             * @description Unique filter identifier within the space
+             */
+            name: string;
+            /**
+             * Title
+             * @description Display name for the filter
+             */
+            title: string;
+            /**
+             * Description
+             * @description Optional description of what this filter shows
+             * @default
+             */
+            description: string;
+            /**
+             * Conditions
+             * @description Filter conditions (combined with AND)
+             */
+            conditions?: components["schemas"]["FilterCondition"][];
+            /**
+             * Sort
+             * @description Sort order - field names with optional '-' prefix for descending
+             */
+            sort?: string[];
+            /**
+             * List Fields
+             * @description Fields to display in list view when this filter is active
+             */
+            list_fields?: string[];
+        };
+        /**
+         * FilterCondition
+         * @description Single filter condition for querying notes.
+         */
+        FilterCondition: {
+            /**
+             * Field
+             * @description Field name to filter on
+             */
+            field: string;
+            /** @description Comparison operator */
+            operator: components["schemas"]["FilterOperator"];
+            /**
+             * Value
+             * @description Value to compare against
+             */
+            value: string | boolean | string[] | number | null;
+        };
+        /**
+         * FilterOperator
+         * @description Query operators for filtering notes.
+         * @enum {string}
+         */
+        FilterOperator: "eq" | "ne" | "contains" | "startswith" | "endswith" | "in" | "nin" | "all" | "gt" | "gte" | "lt" | "lte";
+        /** HTTPValidationError */
+        HTTPValidationError: {
+            /** Detail */
+            detail?: components["schemas"]["ValidationError"][];
+        };
+        /**
+         * LoginRequest
+         * @description Authentication request.
+         */
+        LoginRequest: {
+            /**
+             * Username
+             * @description Username for authentication
+             */
+            username: string;
+            /**
+             * Password
+             * @description Password for authentication
+             */
+            password: string;
+        };
+        /**
+         * LoginResponse
+         * @description Authentication response.
+         */
+        LoginResponse: {
+            /**
+             * Token
+             * @description Authentication token for subsequent requests
+             */
+            token: string;
+        };
+        /**
+         * Note
+         * @description Note with custom fields stored in a space.
+         */
+        Note: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Space Id
+             * Format: uuid
+             */
+            space_id: string;
+            /** Number */
+            number: number;
+            /**
+             * Author Id
+             * Format: uuid
+             */
+            author_id: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /** Edited At */
+            edited_at: string | null;
+            /** Fields */
+            fields: {
+                [key: string]: string | boolean | string[] | number | null;
+            };
+        };
+        /**
+         * Space
+         * @description Container for notes with custom schemas.
+         */
+        Space: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Slug */
+            slug: string;
+            /** Title */
+            title: string;
+            /** Members */
+            members: string[];
+            /** Fields */
+            fields: components["schemas"]["SpaceField"][];
+            /** List Fields */
+            list_fields: string[];
+            /** Hidden Create Fields */
+            hidden_create_fields: string[];
+            /** Filters */
+            filters: components["schemas"]["Filter"][];
+            /** @default {} */
+            templates: components["schemas"]["SpaceTemplates"];
+        };
+        /**
+         * SpaceField
+         * @description Field definition in a space schema.
+         */
+        SpaceField: {
+            /**
+             * Name
+             * @description Field name (must be unique within space)
+             */
+            name: string;
+            /** @description Field data type */
+            type: components["schemas"]["FieldType"];
+            /**
+             * Required
+             * @description Whether this field is required
+             * @default false
+             */
+            required: boolean;
+            /**
+             * Options
+             * @description Field type-specific options (e.g., 'values' for string_choice, 'min'/'max' for numeric types)
+             */
+            options?: {
+                [key: string]: string[] | number;
+            };
+            /**
+             * Default
+             * @description Default value for this field
+             */
+            default?: string | boolean | string[] | number | null;
+        };
+        /**
+         * SpaceTemplates
+         * @description Templates for customizing space views.
+         */
+        SpaceTemplates: {
+            /**
+             * Note Detail
+             * @description Optional Liquid template for customizing note detail view
+             */
+            note_detail?: string | null;
+            /**
+             * Note List
+             * @description Optional Liquid template for customizing note list item view
+             */
+            note_list?: string | null;
+        };
+        /**
+         * UserView
+         * @description User account information (API representation).
+         */
+        UserView: {
+            /**
+             * Id
+             * Format: uuid
+             * @description User ID
+             */
+            id: string;
+            /**
+             * Username
+             * @description Username
+             */
+            username: string;
+        };
+        /** ValidationError */
+        ValidationError: {
+            /** Location */
+            loc: (string | number)[];
+            /** Message */
+            msg: string;
+            /** Error Type */
+            type: string;
+        };
+    };
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
+};
+export type $defs = Record<string, never>;
 export interface operations {
-  health_check_health_get: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": {
-            [key: string]: string
-          }
-        }
-      }
-    }
-  }
-  login: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["LoginRequest"]
-      }
-    }
-    responses: {
-      /** @description Successfully authenticated */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["LoginResponse"]
-        }
-      }
-      /** @description Invalid credentials */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"]
-        }
-      }
-    }
-  }
-  logout: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successfully logged out */
-      204: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      /** @description Not authenticated */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-    }
-  }
-  getCurrentUserProfile: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Current user profile */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["UserView"]
-        }
-      }
-      /** @description Not authenticated */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-    }
-  }
-  changePassword: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["ChangePasswordRequest"]
-      }
-    }
-    responses: {
-      /** @description Password changed successfully */
-      204: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      /** @description Invalid request */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Not authenticated or invalid current password */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"]
-        }
-      }
-    }
-  }
-  listSpaces: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description List of spaces */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["Space"][]
-        }
-      }
-      /** @description Not authenticated */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-    }
-  }
-  createSpace: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateSpaceRequest"]
-      }
-    }
-    responses: {
-      /** @description Space created successfully */
-      201: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["Space"]
-        }
-      }
-      /** @description Invalid request data or slug already exists */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Not authenticated */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"]
-        }
-      }
-    }
-  }
-  addFieldToSpace: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        space_slug: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["SpaceField"]
-      }
-    }
-    responses: {
-      /** @description Field added successfully */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["Space"]
-        }
-      }
-      /** @description Invalid field data or field name already exists */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Not authenticated */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Not a member of this space */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Space not found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"]
-        }
-      }
-    }
-  }
-  listNotes: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        space_slug: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description List of notes */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["Note"][]
-        }
-      }
-      /** @description Not authenticated */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Not a member of this space */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Space not found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"]
-        }
-      }
-    }
-  }
-  createNote: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        space_slug: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateNoteRequest"]
-      }
-    }
-    responses: {
-      /** @description Note created successfully */
-      201: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["Note"]
-        }
-      }
-      /** @description Invalid field data or validation failed */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Not authenticated */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Not a member of this space */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Space not found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"]
-        }
-      }
-    }
-  }
-  getNote: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        space_slug: string
-        number: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Note details */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["Note"]
-        }
-      }
-      /** @description Not authenticated */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Not a member of this space */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Space or note not found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"]
-        }
-      }
-    }
-  }
-  listComments: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        space_slug: string
-        number: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description List of comments */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["Comment"][]
-        }
-      }
-      /** @description Not authenticated */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Not a member of this space */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Space or note not found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"]
-        }
-      }
-    }
-  }
-  createComment: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        space_slug: string
-        number: number
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateCommentRequest"]
-      }
-    }
-    responses: {
-      /** @description Comment created successfully */
-      201: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["Comment"]
-        }
-      }
-      /** @description Not authenticated */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Not a member of this space */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Space or note not found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"]
-        }
-      }
-    }
-  }
-  listUsers: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description List of all users */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["UserView"][]
-        }
-      }
-      /** @description Not authenticated */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-    }
-  }
-  createUser: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateUserRequest"]
-      }
-    }
-    responses: {
-      /** @description User created successfully */
-      201: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["UserView"]
-        }
-      }
-      /** @description Invalid request */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Not authenticated */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Admin privileges required */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"]
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"]
-        }
-      }
-    }
-  }
+    health_check_health_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: string;
+                    };
+                };
+            };
+        };
+    };
+    login: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LoginRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully authenticated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LoginResponse"];
+                };
+            };
+            /** @description Invalid credentials */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    logout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully logged out */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not authenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    getCurrentUserProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current user profile */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserView"];
+                };
+            };
+            /** @description Not authenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    changePassword: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChangePasswordRequest"];
+            };
+        };
+        responses: {
+            /** @description Password changed successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not authenticated or invalid current password */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    listSpaces: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of spaces */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Space"][];
+                };
+            };
+            /** @description Not authenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    createSpace: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateSpaceRequest"];
+            };
+        };
+        responses: {
+            /** @description Space created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Space"];
+                };
+            };
+            /** @description Invalid request data or slug already exists */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not authenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    addFieldToSpace: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                space_slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SpaceField"];
+            };
+        };
+        responses: {
+            /** @description Field added successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Space"];
+                };
+            };
+            /** @description Invalid field data or field name already exists */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not authenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not a member of this space */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Space not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    addMemberToSpace: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                space_slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddMemberRequest"];
+            };
+        };
+        responses: {
+            /** @description Member added successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Space"];
+                };
+            };
+            /** @description User is already a member */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not authenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not a member of this space */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Space or user not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    removeMemberFromSpace: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                space_slug: string;
+                username: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Member removed successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Cannot remove last member or user is not a member */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not authenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not a member of this space */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Space or user not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    listNotes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                space_slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of notes */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Note"][];
+                };
+            };
+            /** @description Not authenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not a member of this space */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Space not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    createNote: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                space_slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateNoteRequest"];
+            };
+        };
+        responses: {
+            /** @description Note created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Note"];
+                };
+            };
+            /** @description Invalid field data or validation failed */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not authenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not a member of this space */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Space not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    getNote: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                space_slug: string;
+                number: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Note details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Note"];
+                };
+            };
+            /** @description Not authenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not a member of this space */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Space or note not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    listComments: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                space_slug: string;
+                number: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of comments */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Comment"][];
+                };
+            };
+            /** @description Not authenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not a member of this space */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Space or note not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    createComment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                space_slug: string;
+                number: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateCommentRequest"];
+            };
+        };
+        responses: {
+            /** @description Comment created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Comment"];
+                };
+            };
+            /** @description Not authenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not a member of this space */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Space or note not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    listUsers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of all users */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserView"][];
+                };
+            };
+            /** @description Not authenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    createUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateUserRequest"];
+            };
+        };
+        responses: {
+            /** @description User created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserView"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not authenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Admin privileges required */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
 }

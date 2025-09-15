@@ -1,3 +1,6 @@
+set dotenv-load
+
+
 dev:
     pnpm run dev
 
@@ -5,6 +8,9 @@ lint:
     pnpm run format
     pnpm run lint
     pnpm run typecheck
+
+generate-types:
+    pnpm run generate-types    
 
 agent-start: agent-stop # For AI agents
     sh -c 'pnpm run agent-dev > agent.log 2>&1 & echo $! > agent.pid'

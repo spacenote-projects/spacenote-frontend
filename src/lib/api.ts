@@ -68,6 +68,13 @@ export const api = {
         staleTime: Infinity,
         gcTime: Infinity,
       }),
+    users: () =>
+      queryOptions({
+        queryKey: ["users"],
+        queryFn: () => httpClient.get("api/v1/users").json<User[]>(),
+        staleTime: Infinity,
+        gcTime: Infinity,
+      }),
   },
   mutations: {
     useLogin: () => {

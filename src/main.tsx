@@ -48,8 +48,8 @@ async function startApp() {
     try {
       await Promise.all([
         queryClient.prefetchQuery(api.queries.currentUser()),
-        // queryClient.prefetchQuery(api.queries.forums()),
-        // queryClient.prefetchQuery(api.queries.users()),
+        queryClient.prefetchQuery(api.queries.spaces()),
+        queryClient.prefetchQuery(api.queries.users()),
       ])
     } catch (error) {
       // If prefetch fails (likely 401), the afterResponse hook will handle redirect
