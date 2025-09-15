@@ -23,3 +23,31 @@ export function formatDate(date: Date | string): string {
     day: "numeric",
   })
 }
+
+/**
+ * Format a field value based on its type
+ */
+export function formatFieldValue(value: string | boolean | string[] | number | null | undefined, fieldType?: string): string {
+  if (value == null) {
+    return "-"
+  }
+
+  if (!fieldType) {
+    return String(value)
+  }
+
+  switch (fieldType) {
+    case "datetime":
+      return typeof value === "string" ? formatDateTime(value) : String(value)
+    case "string_choice":
+    case "tags":
+      if (Array.isArray(value)) {
+        return value.join(", ")
+      }
+      return String(value)
+    case "boolean":
+      return value ? "Yes" : "No"
+    default:
+      return String(value)
+  }
+}

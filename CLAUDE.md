@@ -23,3 +23,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `pnpm run generate-types` - Generate TypeScript types from OpenAPI spec at http://localhost:3100/openapi.json
 - Generated types are in `src/types/generated.ts` (auto-generated, do not edit)
 - Re-exported types are in `src/types/index.ts` for convenient access
+
+## Code Quality
+
+- `just lint` - Run linters and formatters after making code changes

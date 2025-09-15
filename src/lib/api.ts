@@ -2,7 +2,7 @@ import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query
 import ky from "ky"
 import { AppError } from "@/lib/errors"
 import { authStorage } from "@/lib/auth-storage"
-import type { LoginRequest, LoginResponse, User, ChangePasswordRequest, Space, SpaceField, AddMemberRequest } from "@/types"
+import type { LoginRequest, LoginResponse, User, ChangePasswordRequest, Space, SpaceField, AddMemberRequest, Note } from "@/types"
 
 const apiUrl = import.meta.env.VITE_API_URL || ""
 
@@ -74,6 +74,13 @@ export const api = {
         queryFn: () => httpClient.get("api/v1/users").json<User[]>(),
         staleTime: Infinity,
         gcTime: Infinity,
+      }),
+    spaceNotes: (slug: string) =>
+      queryOptions({
+        queryKey: ["spaces", slug, "notes"],
+        queryFn: () => httpClient.get(`api/v1/spaces/${slug}/notes`).json<Note[]>(),
+        staleTime: 60 * 1000, // 1 minute
+        gcTime: 5 * 60 * 1000, // 5 minutes
       }),
   },
   mutations: {

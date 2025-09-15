@@ -1,0 +1,38 @@
+import type { Note, SpaceField } from "@/types"
+import { formatDateTime, formatFieldValue } from "@/lib/formatters"
+import { useUser } from "@/hooks/useCache"
+
+interface NoteFieldValueProps {
+  note: Note
+  fieldKey: string
+  field?: SpaceField
+}
+
+function AuthorField({ authorId }: { authorId: string }) {
+  try {
+    const author = useUser(authorId)
+    return <>{author.username}</>
+  } catch {
+    return <>Unknown</>
+  }
+}
+
+/**
+ * Component for displaying a note field value with appropriate formatting
+ */
+export default function NoteFieldValue({ note, fieldKey, field }: NoteFieldValueProps) {
+  // Handle special built-in fields
+  switch (fieldKey) {
+    case "number":
+      return <>{note.number}</>
+    case "created_at":
+      return <>{formatDateTime(note.created_at)}</>
+    case "author":
+      return <AuthorField authorId={note.author_id} />
+    default: {
+      // Custom field value
+      const value = note.fields[fieldKey]
+      return <>{formatFieldValue(value, field?.type)}</>
+    }
+  }
+}
