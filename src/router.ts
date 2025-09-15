@@ -1,14 +1,14 @@
 import { createBrowserRouter } from "react-router"
-import LoginPage from "@/components/pages/LoginPage"
+import LoginPage from "@/components/pages/login/LoginPage"
 import Layout from "@/components/layouts/Layout"
 import HomePage from "@/components/pages/home/HomePage"
-import SpaceDetailPage from "@/components/pages/SpaceDetailPage"
-import MembersPage from "@/components/pages/space/members/MembersPage"
-import FieldsPage from "@/components/pages/space/FieldsPage"
-import FiltersPage from "@/components/pages/space/FiltersPage"
-import TemplatesPage from "@/components/pages/space/TemplatesPage"
-import SettingsPage from "@/components/pages/space/SettingsPage"
-import NewFieldPage from "@/components/pages/space/NewFieldPage"
+import NotesPage from "@/components/pages/notes/NotesPage"
+import MembersPage from "@/components/pages/members/MembersPage"
+import FieldsPage from "@/components/pages/fields/FieldsPage"
+import FiltersPage from "@/components/pages/filters/FiltersPage"
+import SpaceTemplatesPage from "@/components/pages/space-templates/SpaceTemplatesPage"
+import SpaceSettingsPage from "@/components/pages/space-settings/SpaceSettingsPage"
+import NewFieldPage from "@/components/pages/new-field/NewFieldPage"
 
 export const createRouter = () =>
   createBrowserRouter([
@@ -27,7 +27,7 @@ export const createRouter = () =>
         },
         {
           path: "s/:slug",
-          Component: SpaceDetailPage,
+          Component: NotesPage,
         },
         {
           path: "s/:slug/members",
@@ -47,11 +47,11 @@ export const createRouter = () =>
         },
         {
           path: "s/:slug/templates",
-          Component: TemplatesPage,
+          Component: SpaceTemplatesPage,
         },
         {
           path: "s/:slug/settings",
-          Component: SettingsPage,
+          Component: SpaceSettingsPage,
         },
       ],
     },

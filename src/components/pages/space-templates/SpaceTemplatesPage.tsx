@@ -1,6 +1,6 @@
 import { useParams } from "react-router"
 
-export default function TemplatesPage() {
+export default function SpaceTemplatesPage() {
   const { slug } = useParams() as { slug: string }
 
   return (

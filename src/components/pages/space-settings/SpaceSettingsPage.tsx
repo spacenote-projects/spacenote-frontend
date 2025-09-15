@@ -1,6 +1,6 @@
 import { useParams } from "react-router"
 
-export default function SettingsPage() {
+export default function SpaceSettingsPage() {
   const { slug } = useParams() as { slug: string }
 
   return (
