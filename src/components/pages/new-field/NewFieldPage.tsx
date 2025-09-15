@@ -62,7 +62,7 @@ export default function NewFieldPage() {
   const { slug } = useParams() as { slug: string }
   const navigate = useNavigate()
   const space = useSpace(slug)
-  const addFieldMutation = api.mutations.useAddSpaceField()
+  const mutation = api.mutations.useAddSpaceField()
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -81,7 +81,7 @@ export default function NewFieldPage() {
       ? (JSON.parse(data.default) as string | boolean | string[] | number | null)
       : undefined
 
-    addFieldMutation.mutate(
+    mutation.mutate(
       {
         slug,
         field: {
@@ -200,11 +200,11 @@ export default function NewFieldPage() {
             )}
           />
 
-          {addFieldMutation.error && <ErrorMessage error={addFieldMutation.error} />}
+          {mutation.error && <ErrorMessage error={mutation.error} />}
 
           <div className="flex gap-4">
-            <Button type="submit" disabled={addFieldMutation.isPending}>
-              {addFieldMutation.isPending ? "Creating..." : "Create Field"}
+            <Button type="submit" disabled={mutation.isPending}>
+              {mutation.isPending ? "Creating..." : "Create Field"}
             </Button>
           </div>
         </form>

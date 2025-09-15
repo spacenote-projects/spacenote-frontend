@@ -1,8 +1,10 @@
-import { useParams } from "react-router"
+import { useParams, Link } from "react-router"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { api } from "@/lib/api"
 import { useSpace } from "@/hooks/useCache"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Button } from "@/components/ui/button"
+import { Plus } from "lucide-react"
 import NoteFieldValue from "@/components/shared/NoteFieldValue"
 
 export default function NotesPage() {
@@ -14,9 +16,17 @@ export default function NotesPage() {
   const columns = space.list_fields.length > 0 ? space.list_fields : ["number", "created_at", "author"]
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold">{space.title}</h1>
-        <p className="text-muted-foreground">All notes in this space</p>
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold">{space.title}</h1>
+          <p className="text-muted-foreground">All notes in this space</p>
+        </div>
+        <Button asChild>
+          <Link to={`/s/${slug}/new`}>
+            <Plus className="mr-2 h-4 w-4" />
+            New Note
+          </Link>
+        </Button>
       </div>
 
       {notes.length === 0 ? (

@@ -2,7 +2,17 @@ import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query
 import ky from "ky"
 import { AppError } from "@/lib/errors"
 import { authStorage } from "@/lib/auth-storage"
-import type { LoginRequest, LoginResponse, User, ChangePasswordRequest, Space, SpaceField, AddMemberRequest, Note } from "@/types"
+import type {
+  LoginRequest,
+  LoginResponse,
+  User,
+  ChangePasswordRequest,
+  Space,
+  SpaceField,
+  AddMemberRequest,
+  Note,
+  CreateNoteRequest,
+} from "@/types"
 
 const apiUrl = import.meta.env.VITE_API_URL || ""
 
@@ -152,6 +162,19 @@ export const api = {
         onSuccess: () => {
           // Invalidate spaces query to refresh the members list
           void queryClient.invalidateQueries({ queryKey: ["spaces"] })
+        },
+      })
+    },
+
+    useCreateNote: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: ({ slug, data }: { slug: string; data: CreateNoteRequest }) =>
+          httpClient.post(`api/v1/spaces/${slug}/notes`, { json: data }).json<Note>(),
+        onSuccess: (_data, variables) => {
+          // Invalidate notes query to refresh the notes list
+          void queryClient.invalidateQueries({ queryKey: ["spaces", variables.slug, "notes"] })
         },
       })
     },
