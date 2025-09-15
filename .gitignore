@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+/tmp
+/.claude
+
 # Environment variables
 .env.local
 .env.*.local

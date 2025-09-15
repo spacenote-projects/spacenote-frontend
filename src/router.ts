@@ -1,7 +1,8 @@
 import { createBrowserRouter } from "react-router"
 import LoginPage from "@/components/pages/LoginPage"
 import Layout from "@/components/layouts/Layout"
-import HomePage from "@/components/pages/HomePage"
+import HomePage from "@/components/pages/home/HomePage"
+import SpaceDetailPage from "@/components/pages/SpaceDetailPage"
 
 export const createRouter = () =>
   createBrowserRouter([
@@ -17,6 +18,10 @@ export const createRouter = () =>
         {
           index: true,
           Component: HomePage,
+        },
+        {
+          path: "s/:slug",
+          Component: SpaceDetailPage,
         },
       ],
     },
