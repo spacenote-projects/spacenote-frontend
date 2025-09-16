@@ -1,9 +1,9 @@
 import type { Control } from "react-hook-form"
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import MarkdownEditor from "@/components/shared/MarkdownEditor"
 import type { SpaceField } from "@/types"
 
 interface FieldInputProps {
@@ -47,9 +47,9 @@ export default function FieldInput({ field, control, name }: FieldInputProps) {
                 {field.required && <span className="text-destructive ml-1">*</span>}
               </FormLabel>
               <FormControl>
-                <Textarea
-                  {...formField}
+                <MarkdownEditor
                   value={formField.value as string}
+                  onChange={formField.onChange}
                   placeholder={`Enter ${field.name} (Markdown supported)`}
                 />
               </FormControl>
