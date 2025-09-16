@@ -11,6 +11,8 @@ import type {
   AddMemberRequest,
   Note,
   CreateNoteRequest,
+  Comment,
+  CreateCommentRequest,
 } from "@/types"
 import { httpClient } from "@/lib/http-client"
 
@@ -50,6 +52,13 @@ export const api = {
         queryFn: () => httpClient.get(`api/v1/spaces/${slug}/notes/${String(number)}`).json<Note>(),
         staleTime: 60 * 1000, // 1 minute
         gcTime: 5 * 60 * 1000, // 5 minutes
+      }),
+    noteComments: (slug: string, number: number) =>
+      queryOptions({
+        queryKey: ["spaces", slug, "notes", number, "comments"],
+        queryFn: () => httpClient.get(`api/v1/spaces/${slug}/notes/${String(number)}/comments`).json<Comment[]>(),
+        staleTime: 30 * 1000, // 30 seconds
+        gcTime: 2 * 60 * 1000, // 2 minutes
       }),
   },
   mutations: {
@@ -146,6 +155,19 @@ export const api = {
         onSuccess: () => {
           // Clear all queries after deleting a space
           void queryClient.invalidateQueries({ queryKey: ["spaces"] })
+        },
+      })
+    },
+
+    useCreateComment: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: ({ slug, number, data }: { slug: string; number: number; data: CreateCommentRequest }) =>
+          httpClient.post(`api/v1/spaces/${slug}/notes/${String(number)}/comments`, { json: data }).json<Comment>(),
+        onSuccess: (_data, variables) => {
+          // Invalidate comments query to refresh the comments list
+          void queryClient.invalidateQueries({ queryKey: ["spaces", variables.slug, "notes", variables.number, "comments"] })
         },
       })
     },

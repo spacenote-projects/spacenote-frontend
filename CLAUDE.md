@@ -12,6 +12,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 4. **Use pnpm** - Always use `pnpm` instead of `npm` for package management commands.
 
+5. **Component props** - Use inline types for simple props (1-3 properties). Never create interfaces for simple props. Only use interfaces for 4+ properties or when JSDoc comments are needed. See `docs/architecture.md` for details.
+
 ## Development Commands
 
 - `just agent-start` - Start the application

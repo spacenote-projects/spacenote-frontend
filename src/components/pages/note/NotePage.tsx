@@ -1,10 +1,13 @@
 import { useParams, Link } from "react-router"
 import { useSuspenseQuery } from "@tanstack/react-query"
+import { Suspense } from "react"
 import { api } from "@/lib/api"
 import { useSpace } from "@/hooks/useCache"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 import NoteFieldValue from "@/components/shared/NoteFieldValue"
+import { CommentForm } from "./-components/CommentForm"
+import { CommentList } from "./-components/CommentList"
 
 export default function NotePage() {
   const { slug, number } = useParams() as { slug: string; number: string }
@@ -50,6 +53,18 @@ export default function NotePage() {
             <NoteFieldValue note={note} fieldKey="author" />
           </div>
         </div>
+      </div>
+
+      <div className="mt-8 space-y-6">
+        <h2 className="text-xl font-semibold">Comments</h2>
+
+        <div className="border rounded-lg p-4">
+          <CommentForm slug={slug} noteNumber={Number(number)} />
+        </div>
+
+        <Suspense fallback={<div>Loading comments...</div>}>
+          <CommentList slug={slug} noteNumber={Number(number)} />
+        </Suspense>
       </div>
     </div>
   )

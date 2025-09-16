@@ -54,3 +54,33 @@ export function formatFieldValue(value: string | boolean | string[] | number | n
       return String(value)
   }
 }
+
+/**
+ * Format a date to relative time (e.g., "2 hours ago")
+ */
+export function formatRelativeTime(date: Date | string): string {
+  const dateObj = typeof date === "string" ? new Date(date) : date
+  const now = new Date()
+  const diffInSeconds = Math.floor((now.getTime() - dateObj.getTime()) / 1000)
+
+  if (diffInSeconds < 60) {
+    return "just now"
+  }
+
+  const diffInMinutes = Math.floor(diffInSeconds / 60)
+  if (diffInMinutes < 60) {
+    return `${String(diffInMinutes)} minute${diffInMinutes !== 1 ? "s" : ""} ago`
+  }
+
+  const diffInHours = Math.floor(diffInMinutes / 60)
+  if (diffInHours < 24) {
+    return `${String(diffInHours)} hour${diffInHours !== 1 ? "s" : ""} ago`
+  }
+
+  const diffInDays = Math.floor(diffInHours / 24)
+  if (diffInDays < 30) {
+    return `${String(diffInDays)} day${diffInDays !== 1 ? "s" : ""} ago`
+  }
+
+  return formatDate(dateObj)
+}
