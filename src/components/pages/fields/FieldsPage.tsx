@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router"
 import { useSpace } from "@/hooks/useCache"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
 
 export default function FieldsPage() {
   const { slug } = useParams() as { slug: string }
@@ -9,12 +10,15 @@ export default function FieldsPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Fields - {space.title}</h1>
-        <Button asChild>
-          <Link to={`/s/${slug}/fields/new`}>Create New Field</Link>
-        </Button>
-      </div>
+      <SpacePageHeader
+        space={space}
+        section="Fields"
+        actions={
+          <Button variant="outline" size="sm" asChild>
+            <Link to={`/s/${slug}/fields/new`}>New Field</Link>
+          </Button>
+        }
+      />
 
       <Table>
         <TableHeader>

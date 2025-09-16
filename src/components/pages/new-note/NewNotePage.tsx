@@ -7,6 +7,7 @@ import { useSpace } from "@/hooks/useCache"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import { ErrorMessage } from "@/components/shared/ErrorMessage"
+import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
 import type { CreateNoteRequest } from "@/types"
 import FieldInput from "./-components/FieldInput"
 
@@ -70,10 +71,7 @@ export default function NewNotePage() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-2xl">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold">Create New Note</h1>
-        <p className="text-muted-foreground">Fill in the fields below to create a new note in {space.title}</p>
-      </div>
+      <SpacePageHeader space={space} section="New Note" />
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

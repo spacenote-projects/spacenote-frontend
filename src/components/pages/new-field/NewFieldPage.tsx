@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { ErrorMessage } from "@/components/shared/ErrorMessage"
 import { toast } from "sonner"
 import { useSpace } from "@/hooks/useCache"
+import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
 import type { FieldType } from "@/types"
 
 const fieldTypes: FieldType[] = ["string", "markdown", "boolean", "string_choice", "tags", "user", "datetime", "int", "float"]
@@ -103,7 +104,7 @@ export default function NewFieldPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-2xl">
-      <h1 className="text-2xl font-bold mb-6">Create New Field - {space.title}</h1>
+      <SpacePageHeader space={space} section="New Field" />
 
       <Form {...form}>
         <form onSubmit={onSubmit} className="space-y-6">

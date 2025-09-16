@@ -3,6 +3,7 @@ import { useSpace } from "@/hooks/useCache"
 import { Username } from "@/components/shared/Username"
 import { AddMemberForm } from "./-components/AddMemberForm"
 import { RemoveMemberButton } from "./-components/RemoveMemberButton"
+import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
 
 export default function MembersPage() {
   const { slug } = useParams() as { slug: string }
@@ -10,7 +11,7 @@ export default function MembersPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">Members - {space.title}</h1>
+      <SpacePageHeader space={space} section="Members" />
 
       <div className="mb-6">
         <AddMemberForm slug={slug} />

@@ -6,6 +6,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 import NoteFieldValue from "@/components/shared/NoteFieldValue"
+import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
+import { SpaceActionsDropdown } from "@/components/shared/SpaceActionsDropdown"
 
 export default function NotesPage() {
   const { slug } = useParams() as { slug: string }
@@ -17,18 +19,20 @@ export default function NotesPage() {
   const columns = space.list_fields.length > 0 ? space.list_fields : ["number", "created_at", "author"]
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mb-6 flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">{space.title}</h1>
-          <p className="text-muted-foreground">All notes in this space</p>
-        </div>
-        <Button asChild>
-          <Link to={`/s/${slug}/new`}>
-            <Plus className="mr-2 h-4 w-4" />
-            New Note
-          </Link>
-        </Button>
-      </div>
+      <SpacePageHeader
+        space={space}
+        actions={
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" asChild>
+              <Link to={`/s/${slug}/new`}>
+                <Plus className="mr-2 h-4 w-4" />
+                New Note
+              </Link>
+            </Button>
+            <SpaceActionsDropdown space={space} />
+          </div>
+        }
+      />
 
       {notes.length === 0 ? (
         <div className="text-center py-8 text-muted-foreground">No notes yet in this space</div>
