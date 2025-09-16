@@ -40,7 +40,7 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center">
       <Card className="w-80">
         <CardHeader>
-          <CardTitle>DemoForums</CardTitle>
+          <CardTitle>SpaceNote</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
