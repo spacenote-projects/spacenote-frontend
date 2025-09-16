@@ -13,6 +13,7 @@ import type {
   CreateNoteRequest,
   Comment,
   CreateCommentRequest,
+  CreateSpaceRequest,
 } from "@/types"
 import { httpClient } from "@/lib/http-client"
 
@@ -92,6 +93,18 @@ export const api = {
     useChangePassword: () => {
       return useMutation({
         mutationFn: (data: ChangePasswordRequest) => httpClient.post("api/v1/profile/change-password", { json: data }),
+      })
+    },
+
+    useCreateSpace: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: (data: CreateSpaceRequest) => httpClient.post("api/v1/spaces", { json: data }).json<Space>(),
+        onSuccess: async () => {
+          // Refetch spaces to ensure cache is updated before navigation
+          await queryClient.refetchQueries({ queryKey: ["spaces"] })
+        },
       })
     },
 

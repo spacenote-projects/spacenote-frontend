@@ -11,6 +11,7 @@ import SpaceTemplatesPage from "@/components/pages/space-templates/SpaceTemplate
 import SpaceSettingsPage from "@/components/pages/space-settings/SpaceSettingsPage"
 import NewFieldPage from "@/components/pages/new-field/NewFieldPage"
 import NewNotePage from "@/components/pages/new-note/NewNotePage"
+import NewSpacePage from "@/components/pages/new-space/NewSpacePage"
 
 export const createRouter = () =>
   createBrowserRouter([
@@ -26,6 +27,10 @@ export const createRouter = () =>
         {
           index: true,
           Component: HomePage,
+        },
+        {
+          path: "spaces/new",
+          Component: NewSpacePage,
         },
         {
           path: "s/:slug",

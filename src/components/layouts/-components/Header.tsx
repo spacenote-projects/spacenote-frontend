@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useQuery } from "@tanstack/react-query"
 import { api } from "@/lib/api"
-import { ChevronDownIcon, UserIcon, PlusCircleIcon, LockIcon } from "lucide-react"
+import { ChevronDownIcon } from "lucide-react"
 import { Link, useNavigate } from "react-router"
 import { ChangePasswordDialog } from "./ChangePasswordDialog"
 
@@ -38,20 +38,13 @@ export default function Header() {
 
       <DropdownMenu>
         <DropdownMenuTrigger className="flex items-center space-x-2 font-medium border-0 bg-transparent shadow-none focus:outline-none">
-          <UserIcon className="w-5 h-5" />
           {currentUser?.username}
           <ChevronDownIcon className="w-4 h-4" />
         </DropdownMenuTrigger>
 
         <DropdownMenuContent>
-          <DropdownMenuItem onClick={() => void navigate("/forums/new")}>
-            <PlusCircleIcon className="mr-2 h-4 w-4" />
-            Create Forum
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleChangePassword}>
-            <LockIcon className="mr-2 h-4 w-4" />
-            Change Password
-          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => void navigate("/spaces/new")}>Create Space</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleChangePassword}>Change Password</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
         </DropdownMenuContent>
