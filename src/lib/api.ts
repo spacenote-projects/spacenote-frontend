@@ -137,5 +137,17 @@ export const api = {
         },
       })
     },
+
+    useDeleteSpace: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: (slug: string) => httpClient.delete(`api/v1/spaces/${slug}`),
+        onSuccess: () => {
+          // Clear all queries after deleting a space
+          void queryClient.invalidateQueries({ queryKey: ["spaces"] })
+        },
+      })
+    },
   },
 }
