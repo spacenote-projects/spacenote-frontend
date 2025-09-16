@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router"
+import { useParams, Link, useNavigate } from "react-router"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { api } from "@/lib/api"
 import { useSpace } from "@/hooks/useCache"
@@ -9,6 +9,7 @@ import NoteFieldValue from "@/components/shared/NoteFieldValue"
 
 export default function NotesPage() {
   const { slug } = useParams() as { slug: string }
+  const navigate = useNavigate()
   const space = useSpace(slug)
   const { data: notes } = useSuspenseQuery(api.queries.spaceNotes(slug))
 
@@ -42,7 +43,11 @@ export default function NotesPage() {
           </TableHeader>
           <TableBody>
             {notes.map((note) => (
-              <TableRow key={note.id}>
+              <TableRow
+                key={note.id}
+                className="cursor-pointer hover:bg-muted/50"
+                onClick={() => navigate(`/s/${slug}/${String(note.number)}`)}
+              >
                 {columns.map((column) => (
                   <TableCell key={column}>
                     <NoteFieldValue note={note} fieldKey={column} field={space.fields.find((f) => f.name === column)} />

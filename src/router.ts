@@ -3,6 +3,7 @@ import LoginPage from "@/components/pages/login/LoginPage"
 import Layout from "@/components/layouts/Layout"
 import HomePage from "@/components/pages/home/HomePage"
 import NotesPage from "@/components/pages/notes/NotesPage"
+import NotePage from "@/components/pages/note/NotePage"
 import MembersPage from "@/components/pages/members/MembersPage"
 import FieldsPage from "@/components/pages/fields/FieldsPage"
 import FiltersPage from "@/components/pages/filters/FiltersPage"
@@ -33,6 +34,10 @@ export const createRouter = () =>
         {
           path: "s/:slug/new",
           Component: NewNotePage,
+        },
+        {
+          path: "s/:slug/:number",
+          Component: NotePage,
         },
         {
           path: "s/:slug/members",

@@ -44,6 +44,13 @@ export const api = {
         staleTime: 60 * 1000, // 1 minute
         gcTime: 5 * 60 * 1000, // 5 minutes
       }),
+    spaceNote: (slug: string, number: number) =>
+      queryOptions({
+        queryKey: ["spaces", slug, "notes", number],
+        queryFn: () => httpClient.get(`api/v1/spaces/${slug}/notes/${String(number)}`).json<Note>(),
+        staleTime: 60 * 1000, // 1 minute
+        gcTime: 5 * 60 * 1000, // 5 minutes
+      }),
   },
   mutations: {
     useLogin: () => {

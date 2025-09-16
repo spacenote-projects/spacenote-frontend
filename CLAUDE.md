@@ -27,3 +27,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Code Quality
 
 - `just lint` - Run linters and formatters after making code changes
+
+## Navigation
+
+- **Always use React Router's `useNavigate`** for navigation between pages
+- **Never use `window.location.href`** for internal navigation (only exception: login page after auth token changes)
+- This preserves SPA benefits: faster transitions, maintained state, no full page reloads
