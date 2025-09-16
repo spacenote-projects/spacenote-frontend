@@ -14,6 +14,8 @@ import type {
   Comment,
   CreateCommentRequest,
   CreateSpaceRequest,
+  NotePaginationResult,
+  CommentPaginationResult,
 } from "@/types"
 import { httpClient } from "@/lib/http-client"
 
@@ -40,10 +42,17 @@ export const api = {
         staleTime: Infinity,
         gcTime: Infinity,
       }),
-    spaceNotes: (slug: string) =>
+    spaceNotes: (slug: string, page = 1, limit = 50) =>
       queryOptions({
-        queryKey: ["spaces", slug, "notes"],
-        queryFn: () => httpClient.get(`api/v1/spaces/${slug}/notes`).json<Note[]>(),
+        queryKey: ["spaces", slug, "notes", page, limit],
+        queryFn: () => {
+          const offset = (page - 1) * limit
+          const searchParams = new URLSearchParams({
+            limit: String(limit),
+            offset: String(offset),
+          })
+          return httpClient.get(`api/v1/spaces/${slug}/notes?${searchParams}`).json<NotePaginationResult>()
+        },
         staleTime: 60 * 1000, // 1 minute
         gcTime: 5 * 60 * 1000, // 5 minutes
       }),
@@ -54,10 +63,19 @@ export const api = {
         staleTime: 60 * 1000, // 1 minute
         gcTime: 5 * 60 * 1000, // 5 minutes
       }),
-    noteComments: (slug: string, number: number) =>
+    noteComments: (slug: string, number: number, page = 1, limit = 50) =>
       queryOptions({
-        queryKey: ["spaces", slug, "notes", number, "comments"],
-        queryFn: () => httpClient.get(`api/v1/spaces/${slug}/notes/${String(number)}/comments`).json<Comment[]>(),
+        queryKey: ["spaces", slug, "notes", number, "comments", page, limit],
+        queryFn: () => {
+          const offset = (page - 1) * limit
+          const searchParams = new URLSearchParams({
+            limit: String(limit),
+            offset: String(offset),
+          })
+          return httpClient
+            .get(`api/v1/spaces/${slug}/notes/${String(number)}/comments?${searchParams}`)
+            .json<CommentPaginationResult>()
+        },
         staleTime: 30 * 1000, // 30 seconds
         gcTime: 2 * 60 * 1000, // 2 minutes
       }),
@@ -154,8 +172,8 @@ export const api = {
         mutationFn: ({ slug, data }: { slug: string; data: CreateNoteRequest }) =>
           httpClient.post(`api/v1/spaces/${slug}/notes`, { json: data }).json<Note>(),
         onSuccess: (_data, variables) => {
-          // Invalidate notes query to refresh the notes list
-          void queryClient.invalidateQueries({ queryKey: ["spaces", variables.slug, "notes"] })
+          // Invalidate all pages of notes query to refresh the notes list
+          void queryClient.invalidateQueries({ queryKey: ["spaces", variables.slug, "notes"], exact: false })
         },
       })
     },
@@ -179,8 +197,11 @@ export const api = {
         mutationFn: ({ slug, number, data }: { slug: string; number: number; data: CreateCommentRequest }) =>
           httpClient.post(`api/v1/spaces/${slug}/notes/${String(number)}/comments`, { json: data }).json<Comment>(),
         onSuccess: (_data, variables) => {
-          // Invalidate comments query to refresh the comments list
-          void queryClient.invalidateQueries({ queryKey: ["spaces", variables.slug, "notes", variables.number, "comments"] })
+          // Invalidate all pages of comments query to refresh the comments list
+          void queryClient.invalidateQueries({
+            queryKey: ["spaces", variables.slug, "notes", variables.number, "comments"],
+            exact: false,
+          })
         },
       })
     },

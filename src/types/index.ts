@@ -25,6 +25,16 @@ export type CreateCommentRequest = components["schemas"]["CreateCommentRequest"]
 export type CreateUserRequest = components["schemas"]["CreateUserRequest"]
 export type AddMemberRequest = components["schemas"]["AddMemberRequest"]
 
+// Pagination types
+export interface PaginationResult<T> {
+  items: T[]
+  total: number
+  limit: number
+  offset: number
+}
+export type NotePaginationResult = components["schemas"]["PaginationResult_Note_"]
+export type CommentPaginationResult = components["schemas"]["PaginationResult_Comment_"]
+
 // Error types
 export type ErrorResponse = components["schemas"]["ErrorResponse"]
 export type ValidationError = components["schemas"]["ValidationError"]

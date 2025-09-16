@@ -22,7 +22,9 @@ function CommentItem({ comment }: { comment: Comment }) {
 }
 
 export function CommentList({ slug, noteNumber }: { slug: string; noteNumber: number }) {
-  const { data: comments } = useSuspenseQuery(api.queries.noteComments(slug, noteNumber))
+  // For now, just fetch first page of comments (no pagination UI yet)
+  const { data: paginatedComments } = useSuspenseQuery(api.queries.noteComments(slug, noteNumber, 1, 50))
+  const comments = paginatedComments.items
 
   if (comments.length === 0) {
     return <div className="text-center py-8 text-muted-foreground">No comments yet. Be the first to comment!</div>
