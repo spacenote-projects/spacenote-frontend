@@ -47,6 +47,9 @@ export function formatFieldValue(value: string | boolean | string[] | number | n
       return String(value)
     case "boolean":
       return value ? "Yes" : "No"
+    case "markdown":
+      // Return raw markdown string - will be rendered by MarkdownDisplay component
+      return String(value)
     default:
       return String(value)
   }

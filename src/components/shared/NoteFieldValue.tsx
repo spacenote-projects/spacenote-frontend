@@ -1,6 +1,7 @@
 import type { Note, SpaceField } from "@/types"
 import { formatDateTime, formatFieldValue } from "@/lib/formatters"
 import { useUser } from "@/hooks/useCache"
+import MarkdownDisplay from "@/components/shared/MarkdownDisplay"
 
 interface NoteFieldValueProps {
   note: Note
@@ -32,6 +33,12 @@ export default function NoteFieldValue({ note, fieldKey, field }: NoteFieldValue
     default: {
       // Custom field value
       const value = note.fields[fieldKey]
+
+      // Special handling for markdown fields
+      if (field?.type === "markdown" && typeof value === "string") {
+        return <MarkdownDisplay content={value} />
+      }
+
       return <>{formatFieldValue(value, field?.type)}</>
     }
   }
