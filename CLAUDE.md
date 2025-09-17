@@ -16,6 +16,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 6. **Never disable linters** - NEVER use eslint-disable comments or disable any other linters/type checkers. Fix the actual issues instead. If absolutely necessary and there's no other way, you MUST ask the user for explicit permission first.
 
+7. **Follow architecture guidelines** - Always follow all architectural rules and approaches defined in `docs/architecture.md`. This includes component patterns, type system usage, API layer structure, form handling, caching strategies, and file organization conventions.
+
 ## Development Commands
 
 - `just agent-start` - Start the application
