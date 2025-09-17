@@ -6,6 +6,7 @@ import { api } from "@/lib/api"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import { ErrorMessage } from "@/components/shared/ErrorMessage"
 import { toast } from "sonner"
 
@@ -15,6 +16,7 @@ const formSchema = z.object({
     .min(1, "Slug is required")
     .regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "Slug must be lowercase letters and numbers, optionally separated by single hyphens"),
   title: z.string().min(1, "Title is required"),
+  description: z.string().min(1, "Description is required"),
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -28,6 +30,7 @@ export default function NewSpacePage() {
     defaultValues: {
       slug: "",
       title: "",
+      description: "",
     },
   })
 
@@ -71,6 +74,21 @@ export default function NewSpacePage() {
                   <Input {...field} placeholder="my-project" />
                 </FormControl>
                 <FormDescription>URL-friendly identifier (lowercase letters, numbers, and hyphens only)</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Textarea {...field} placeholder="Describe what this space is about..." rows={3} />
+                </FormControl>
+                <FormDescription>Brief description of your space</FormDescription>
                 <FormMessage />
               </FormItem>
             )}

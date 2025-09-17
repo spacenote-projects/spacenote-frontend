@@ -293,6 +293,46 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/spaces/{space_slug}/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Export space configuration
+         * @description Export a space configuration as portable JSON. Only space members can export.
+         */
+        get: operations["exportSpace"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/spaces/import": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Import space configuration
+         * @description Import a space configuration from exported JSON. Optionally rename the space with new_slug.
+         */
+        post: operations["importSpace"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/users": {
         parameters: {
             query?: never;
@@ -490,6 +530,86 @@ export type components = {
             type: string;
         };
         /**
+         * ExportData
+         * @description Complete export package with metadata.
+         */
+        "ExportData-Input": {
+            space: components["schemas"]["ExportSpace-Input"];
+            /**
+             * Exported At
+             * Format: date-time
+             */
+            exported_at: string;
+            /** Spacenote Version */
+            spacenote_version: string;
+        };
+        /**
+         * ExportData
+         * @description Complete export package with metadata.
+         */
+        "ExportData-Output": {
+            space: components["schemas"]["ExportSpace-Output"];
+            /**
+             * Exported At
+             * Format: date-time
+             */
+            exported_at: string;
+            /** Spacenote Version */
+            spacenote_version: string;
+        };
+        /**
+         * ExportSpace
+         * @description Space representation for export without system-specific IDs.
+         */
+        "ExportSpace-Input": {
+            /** Slug */
+            slug: string;
+            /** Title */
+            title: string;
+            /** Description */
+            description: string;
+            /**
+             * Members
+             * @description Member usernames (not UUIDs)
+             */
+            members: string[];
+            /** Fields */
+            fields: components["schemas"]["SpaceField"][];
+            /** List Fields */
+            list_fields: string[];
+            /** Hidden Create Fields */
+            hidden_create_fields: string[];
+            /** Filters */
+            filters: components["schemas"]["Filter-Input"][];
+            templates: components["schemas"]["SpaceTemplates"];
+        };
+        /**
+         * ExportSpace
+         * @description Space representation for export without system-specific IDs.
+         */
+        "ExportSpace-Output": {
+            /** Slug */
+            slug: string;
+            /** Title */
+            title: string;
+            /** Description */
+            description: string;
+            /**
+             * Members
+             * @description Member usernames (not UUIDs)
+             */
+            members: string[];
+            /** Fields */
+            fields: components["schemas"]["SpaceField"][];
+            /** List Fields */
+            list_fields: string[];
+            /** Hidden Create Fields */
+            hidden_create_fields: string[];
+            /** Filters */
+            filters: components["schemas"]["Filter-Output"][];
+            templates: components["schemas"]["SpaceTemplates"];
+        };
+        /**
          * FieldOption
          * @description Configuration options for field types.
          * @enum {string}
@@ -505,7 +625,44 @@ export type components = {
          * Filter
          * @description Saved filter configuration for a space.
          */
-        Filter: {
+        "Filter-Input": {
+            /**
+             * Name
+             * @description Unique filter identifier within the space
+             */
+            name: string;
+            /**
+             * Title
+             * @description Display name for the filter
+             */
+            title: string;
+            /**
+             * Description
+             * @description Optional description of what this filter shows
+             * @default
+             */
+            description: string;
+            /**
+             * Conditions
+             * @description Filter conditions (combined with AND)
+             */
+            conditions?: components["schemas"]["FilterCondition"][];
+            /**
+             * Sort
+             * @description Sort order - field names with optional '-' prefix for descending
+             */
+            sort?: string[];
+            /**
+             * List Fields
+             * @description Fields to display in list view when this filter is active
+             */
+            list_fields?: string[];
+        };
+        /**
+         * Filter
+         * @description Saved filter configuration for a space.
+         */
+        "Filter-Output": {
             /**
              * Name
              * @description Unique filter identifier within the space
@@ -702,7 +859,7 @@ export type components = {
             /** Hidden Create Fields */
             hidden_create_fields: string[];
             /** Filters */
-            filters: components["schemas"]["Filter"][];
+            filters: components["schemas"]["Filter-Output"][];
             /** @default {} */
             templates: components["schemas"]["SpaceTemplates"];
         };
@@ -1695,6 +1852,120 @@ export interface operations {
             };
             /** @description Space or note not found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    exportSpace: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                space_slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Space exported successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExportData-Output"];
+                };
+            };
+            /** @description Not authenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not a member of this space */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Space not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    importSpace: {
+        parameters: {
+            query?: {
+                /** @description Optional new slug to rename the space on import */
+                new_slug?: string | null;
+                /** @description Create users that don't exist (with random passwords) */
+                create_missing_users?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ExportData-Input"];
+            };
+        };
+        responses: {
+            /** @description Space imported successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Space"];
+                };
+            };
+            /** @description Invalid data or slug already exists */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not authenticated */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
