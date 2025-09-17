@@ -45,7 +45,12 @@ export default function NewSpacePage() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-2xl">
-      <h1 className="text-2xl font-bold mb-6">Create New Space</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">Create New Space</h1>
+        <Button variant="outline" onClick={() => navigate("/spaces/import")}>
+          Import Space
+        </Button>
+      </div>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

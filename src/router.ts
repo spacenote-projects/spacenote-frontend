@@ -13,6 +13,7 @@ import ExportPage from "@/components/pages/export/ExportPage"
 import NewFieldPage from "@/components/pages/new-field/NewFieldPage"
 import NewNotePage from "@/components/pages/new-note/NewNotePage"
 import NewSpacePage from "@/components/pages/new-space/NewSpacePage"
+import ImportSpacePage from "@/components/pages/import-space/ImportSpacePage"
 
 export const createRouter = () =>
   createBrowserRouter([
@@ -32,6 +33,10 @@ export const createRouter = () =>
         {
           path: "spaces/new",
           Component: NewSpacePage,
+        },
+        {
+          path: "spaces/import",
+          Component: ImportSpacePage,
         },
         {
           path: "s/:slug",

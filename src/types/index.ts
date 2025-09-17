@@ -44,4 +44,4 @@ export type ErrorResponse = components["schemas"]["ErrorResponse"]
 export type ValidationError = components["schemas"]["ValidationError"]
 
 // Export types
-export type ExportData = components["schemas"]["ExportData-Output"]
+export type ExportData = components["schemas"]["ExportData"]

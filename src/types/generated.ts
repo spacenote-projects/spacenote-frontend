@@ -533,22 +533,8 @@ export type components = {
      * ExportData
      * @description Complete export package with metadata.
      */
-    "ExportData-Input": {
-      space: components["schemas"]["ExportSpace-Input"]
-      /**
-       * Exported At
-       * Format: date-time
-       */
-      exported_at: string
-      /** Spacenote Version */
-      spacenote_version: string
-    }
-    /**
-     * ExportData
-     * @description Complete export package with metadata.
-     */
-    "ExportData-Output": {
-      space: components["schemas"]["ExportSpace-Output"]
+    ExportData: {
+      space: components["schemas"]["ExportSpace"]
       /**
        * Exported At
        * Format: date-time
@@ -561,7 +547,7 @@ export type components = {
      * ExportSpace
      * @description Space representation for export without system-specific IDs.
      */
-    "ExportSpace-Input": {
+    ExportSpace: {
       /** Slug */
       slug: string
       /** Title */
@@ -581,32 +567,6 @@ export type components = {
       hidden_create_fields: string[]
       /** Filters */
       filters: components["schemas"]["Filter-Input"][]
-      templates: components["schemas"]["SpaceTemplates"]
-    }
-    /**
-     * ExportSpace
-     * @description Space representation for export without system-specific IDs.
-     */
-    "ExportSpace-Output": {
-      /** Slug */
-      slug: string
-      /** Title */
-      title: string
-      /** Description */
-      description: string
-      /**
-       * Members
-       * @description Member usernames (not UUIDs)
-       */
-      members: string[]
-      /** Fields */
-      fields: components["schemas"]["SpaceField"][]
-      /** List Fields */
-      list_fields: string[]
-      /** Hidden Create Fields */
-      hidden_create_fields: string[]
-      /** Filters */
-      filters: components["schemas"]["Filter-Output"][]
       templates: components["schemas"]["SpaceTemplates"]
     }
     /**
@@ -1887,7 +1847,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          "application/json": components["schemas"]["ExportData-Output"]
+          "application/json": components["schemas"]["ExportData"]
         }
       }
       /** @description Not authenticated */
@@ -1942,7 +1902,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        "application/json": components["schemas"]["ExportData-Input"]
+        "application/json": components["schemas"]["ExportData"]
       }
     }
     responses: {

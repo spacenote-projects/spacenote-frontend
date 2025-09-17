@@ -144,6 +144,25 @@ export const api = {
       })
     },
 
+    /** Import a space from JSON export */
+    useImportSpace: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: (params: { data: ExportData; newSlug?: string; createMissingUsers?: boolean }) => {
+          const searchParams = new URLSearchParams()
+          if (params.newSlug) searchParams.append("new_slug", params.newSlug)
+          if (params.createMissingUsers) searchParams.append("create_missing_users", "true")
+          const url = searchParams.toString() ? `api/v1/spaces/import?${searchParams}` : "api/v1/spaces/import"
+          return httpClient.post(url, { json: params.data }).json<Space>()
+        },
+        onSuccess: async () => {
+          // Refetch spaces to ensure cache is updated before navigation
+          await queryClient.refetchQueries({ queryKey: ["spaces"] })
+        },
+      })
+    },
+
     /** Add a field to space schema */
     useAddSpaceField: () => {
       const queryClient = useQueryClient()
