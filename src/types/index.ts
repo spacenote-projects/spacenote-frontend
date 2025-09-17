@@ -11,7 +11,7 @@ export type Comment = components["schemas"]["Comment"]
 // Field-related types
 export type SpaceField = components["schemas"]["SpaceField"]
 export type FieldType = components["schemas"]["FieldType"]
-export type Filter = components["schemas"]["Filter"]
+export type Filter = components["schemas"]["Filter-Output"]
 export type FilterCondition = components["schemas"]["FilterCondition"]
 export type FilterOperator = components["schemas"]["FilterOperator"]
 
@@ -42,3 +42,6 @@ export type CommentPaginationResult = components["schemas"]["PaginationResult_Co
 // Error types
 export type ErrorResponse = components["schemas"]["ErrorResponse"]
 export type ValidationError = components["schemas"]["ValidationError"]
+
+// Export types
+export type ExportData = components["schemas"]["ExportData-Output"]

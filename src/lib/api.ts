@@ -17,6 +17,7 @@ import type {
   NotePaginationResult,
   CommentPaginationResult,
   UpdateSpaceTemplateRequest,
+  ExportData,
 } from "@/types"
 import { httpClient } from "@/lib/http-client"
 
@@ -79,6 +80,11 @@ export const api = {
         },
         staleTime: 30 * 1000, // 30 seconds
         gcTime: 2 * 60 * 1000, // 2 minutes
+      }),
+    spaceExport: (slug: string) =>
+      queryOptions({
+        queryKey: ["spaces", slug, "export"],
+        queryFn: () => httpClient.get(`api/v1/spaces/${slug}/export`).json<ExportData>(),
       }),
   },
   mutations: {

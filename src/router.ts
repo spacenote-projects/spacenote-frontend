@@ -9,6 +9,7 @@ import FieldsPage from "@/components/pages/fields/FieldsPage"
 import FiltersPage from "@/components/pages/filters/FiltersPage"
 import SpaceTemplatesPage from "@/components/pages/space-templates/SpaceTemplatesPage"
 import SpaceSettingsPage from "@/components/pages/space-settings/SpaceSettingsPage"
+import ExportPage from "@/components/pages/export/ExportPage"
 import NewFieldPage from "@/components/pages/new-field/NewFieldPage"
 import NewNotePage from "@/components/pages/new-note/NewNotePage"
 import NewSpacePage from "@/components/pages/new-space/NewSpacePage"
@@ -63,6 +64,10 @@ export const createRouter = () =>
         {
           path: "s/:slug/templates",
           Component: SpaceTemplatesPage,
+        },
+        {
+          path: "s/:slug/export",
+          Component: ExportPage,
         },
         {
           path: "s/:slug/settings",
