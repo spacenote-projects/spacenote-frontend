@@ -23,6 +23,7 @@ import { httpClient } from "@/lib/http-client"
 
 export const api = {
   queries: {
+    /** Get the current authenticated user */
     currentUser: () =>
       queryOptions({
         queryKey: ["currentUser"],
@@ -30,6 +31,7 @@ export const api = {
         staleTime: Infinity,
         gcTime: Infinity,
       }),
+    /** Get all spaces the user has access to */
     spaces: () =>
       queryOptions({
         queryKey: ["spaces"],
@@ -37,6 +39,7 @@ export const api = {
         staleTime: Infinity,
         gcTime: Infinity,
       }),
+    /** Get all users in the system */
     users: () =>
       queryOptions({
         queryKey: ["users"],
@@ -44,6 +47,7 @@ export const api = {
         staleTime: Infinity,
         gcTime: Infinity,
       }),
+    /** Get paginated notes for a space */
     spaceNotes: (slug: string, page = 1, limit = 50) =>
       queryOptions({
         queryKey: ["spaces", slug, "notes", page, limit],
@@ -58,6 +62,7 @@ export const api = {
         staleTime: 60 * 1000, // 1 minute
         gcTime: 5 * 60 * 1000, // 5 minutes
       }),
+    /** Get a specific note by number */
     spaceNote: (slug: string, number: number) =>
       queryOptions({
         queryKey: ["spaces", slug, "notes", number],
@@ -65,6 +70,7 @@ export const api = {
         staleTime: 60 * 1000, // 1 minute
         gcTime: 5 * 60 * 1000, // 5 minutes
       }),
+    /** Get paginated comments for a note */
     noteComments: (slug: string, number: number, page = 1, limit = 50) =>
       queryOptions({
         queryKey: ["spaces", slug, "notes", number, "comments", page, limit],
@@ -81,6 +87,7 @@ export const api = {
         staleTime: 30 * 1000, // 30 seconds
         gcTime: 2 * 60 * 1000, // 2 minutes
       }),
+    /** Export all space data */
     spaceExport: (slug: string) =>
       queryOptions({
         queryKey: ["spaces", slug, "export"],
@@ -88,6 +95,7 @@ export const api = {
       }),
   },
   mutations: {
+    /** Authenticate user and store token */
     useLogin: () => {
       const queryClient = useQueryClient()
 
@@ -102,6 +110,7 @@ export const api = {
       })
     },
 
+    /** Clear authentication and cache */
     useLogout: () => {
       const queryClient = useQueryClient()
 
@@ -115,12 +124,14 @@ export const api = {
       })
     },
 
+    /** Update user password */
     useChangePassword: () => {
       return useMutation({
         mutationFn: (data: ChangePasswordRequest) => httpClient.post("api/v1/profile/change-password", { json: data }),
       })
     },
 
+    /** Create a new space */
     useCreateSpace: () => {
       const queryClient = useQueryClient()
 
@@ -133,6 +144,7 @@ export const api = {
       })
     },
 
+    /** Add a field to space schema */
     useAddSpaceField: () => {
       const queryClient = useQueryClient()
 
@@ -146,6 +158,7 @@ export const api = {
       })
     },
 
+    /** Add member to a space */
     useAddMember: () => {
       const queryClient = useQueryClient()
 
@@ -159,6 +172,7 @@ export const api = {
       })
     },
 
+    /** Remove member from a space */
     useRemoveMember: () => {
       const queryClient = useQueryClient()
 
@@ -172,6 +186,7 @@ export const api = {
       })
     },
 
+    /** Create a new note in a space */
     useCreateNote: () => {
       const queryClient = useQueryClient()
 
@@ -185,6 +200,7 @@ export const api = {
       })
     },
 
+    /** Delete a space permanently */
     useDeleteSpace: () => {
       const queryClient = useQueryClient()
 
@@ -197,6 +213,7 @@ export const api = {
       })
     },
 
+    /** Add comment to a note */
     useCreateComment: () => {
       const queryClient = useQueryClient()
 
@@ -213,6 +230,7 @@ export const api = {
       })
     },
 
+    /** Update space note template */
     useUpdateSpaceTemplate: () => {
       const queryClient = useQueryClient()
 
