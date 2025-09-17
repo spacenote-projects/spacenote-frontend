@@ -1,11 +1,31 @@
-import { useParams } from "react-router"
-import { useSpace } from "@/hooks/useCache"
+import { useParams, useNavigate } from "react-router"
+import { useSpaces } from "@/hooks/useCache"
 import { DeleteSpace } from "./-components/DeleteSpace"
 import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
+import { useEffect } from "react"
 
 export default function SpaceSettingsPage() {
   const { slug } = useParams() as { slug: string }
-  const space = useSpace(slug)
+  const navigate = useNavigate()
+  const spaces = useSpaces()
+
+  // Check if space exists in cache to handle deletion scenario
+  // When a space is deleted, the cache is invalidated and refetched
+  // This component may still be rendered during that transition
+  // Without this check, useSpace() hook would throw an error
+  const space = spaces.find((s) => s.slug === slug)
+
+  useEffect(() => {
+    if (!space) {
+      void navigate("/")
+    }
+  }, [space, navigate])
+
+  // Prevent rendering if space doesn't exist (e.g., after deletion)
+  // This avoids React errors during the navigation transition
+  if (!space) {
+    return null
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
