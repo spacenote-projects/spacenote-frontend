@@ -15,6 +15,10 @@ export type Filter = components["schemas"]["Filter"]
 export type FilterCondition = components["schemas"]["FilterCondition"]
 export type FilterOperator = components["schemas"]["FilterOperator"]
 
+// Template-related types
+export type SpaceTemplates = components["schemas"]["SpaceTemplates"]
+export type UpdateSpaceTemplateRequest = components["schemas"]["UpdateSpaceTemplateRequest"]
+
 // Request/Response types
 export type LoginRequest = components["schemas"]["LoginRequest"]
 export type LoginResponse = components["schemas"]["LoginResponse"]

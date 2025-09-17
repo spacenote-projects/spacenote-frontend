@@ -1,6 +1,8 @@
 import { useParams } from "react-router"
 import { useSpace } from "@/hooks/useCache"
 import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
+import { NoteDetailTemplateEditor } from "./-components/NoteDetailTemplate"
+import { NoteListTemplateEditor } from "./-components/NoteListTemplate"
 
 export default function SpaceTemplatesPage() {
   const { slug } = useParams() as { slug: string }
@@ -9,8 +11,10 @@ export default function SpaceTemplatesPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <SpacePageHeader space={space} section="Templates" />
-      <div className="text-center text-muted-foreground">
-        <p>Templates Page - Under Construction</p>
+
+      <div className="space-y-6">
+        <NoteListTemplateEditor space={space} />
+        <NoteDetailTemplateEditor space={space} />
       </div>
     </div>
   )

@@ -18,6 +18,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 7. **Follow architecture guidelines** - Always follow all architectural rules and approaches defined in `docs/architecture.md`. This includes component patterns, type system usage, API layer structure, form handling, caching strategies, and file organization conventions.
 
+8. **No Cancel buttons** - Never add Cancel buttons to forms unless explicitly requested. Keep forms simple with just the submit action.
+
 ## Development Commands
 
 - `just agent-start` - Start the application

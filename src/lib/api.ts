@@ -16,6 +16,7 @@ import type {
   CreateSpaceRequest,
   NotePaginationResult,
   CommentPaginationResult,
+  UpdateSpaceTemplateRequest,
 } from "@/types"
 import { httpClient } from "@/lib/http-client"
 
@@ -201,6 +202,22 @@ export const api = {
           void queryClient.invalidateQueries({
             queryKey: ["spaces", variables.slug, "notes", variables.number, "comments"],
             exact: false,
+          })
+        },
+      })
+    },
+
+    useUpdateSpaceTemplate: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: (variables: { slug: string; data: UpdateSpaceTemplateRequest }) =>
+          httpClient.patch(`api/v1/spaces/${variables.slug}/templates`, { json: variables.data }).json<Space>(),
+        onSuccess: (space) => {
+          // Update the space in cache
+          void queryClient.setQueryData(["spaces"], (oldSpaces: Space[] | undefined) => {
+            if (!oldSpaces) return oldSpaces
+            return oldSpaces.map((s) => (s.slug === space.slug ? space : s))
           })
         },
       })

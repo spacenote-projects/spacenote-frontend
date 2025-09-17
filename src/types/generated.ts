@@ -423,6 +423,7 @@ export type components = {
          * CreateSpaceRequest
          * @description Request to create a new space.
          * @example {
+         *       "description": "Track personal tasks and projects",
          *       "slug": "my-tasks",
          *       "title": "My Task Tracker"
          *     }
@@ -438,6 +439,11 @@ export type components = {
              * @description Human-readable space name
              */
             title: string;
+            /**
+             * Description
+             * @description Space description
+             */
+            description: string;
         };
         /**
          * CreateUserRequest
@@ -682,6 +688,11 @@ export type components = {
             slug: string;
             /** Title */
             title: string;
+            /**
+             * Description
+             * @default
+             */
+            description: string;
             /** Members */
             members: string[];
             /** Fields */
