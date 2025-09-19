@@ -185,6 +185,46 @@ export type paths = {
     patch: operations["updateSpaceTemplate"]
     trace?: never
   }
+  "/api/v1/spaces/{space_slug}/list-fields": {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    /**
+     * Update list fields
+     * @description Update the fields shown in list view for a space. Only space members can update list fields.
+     */
+    patch: operations["updateSpaceListFields"]
+    trace?: never
+  }
+  "/api/v1/spaces/{space_slug}/hidden-create-fields": {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    /**
+     * Update hidden create fields
+     * @description Update the fields hidden in create form for a space. Only space members can update hidden create fields.
+     */
+    patch: operations["updateSpaceHiddenCreateFields"]
+    trace?: never
+  }
   "/api/v1/spaces/{space_slug}": {
     parameters: {
       query?: never
@@ -240,6 +280,46 @@ export type paths = {
      * @description Remove a field definition from a space. Only space members can remove fields. The field must not be in use by any notes.
      */
     delete: operations["removeFieldFromSpace"]
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  "/api/v1/spaces/{space_slug}/filters": {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * Add filter to space
+     * @description Add a new filter definition to an existing space. Only space members can add filters.
+     */
+    post: operations["addFilterToSpace"]
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  "/api/v1/spaces/{space_slug}/filters/{filter_name}": {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    /**
+     * Remove filter from space
+     * @description Remove a filter definition from a space. Only space members can remove filters.
+     */
+    delete: operations["removeFilterFromSpace"]
     options?: never
     head?: never
     patch?: never
@@ -891,6 +971,43 @@ export type components = {
       note_list?: string | null
     }
     /**
+     * UpdateHiddenCreateFieldsRequest
+     * @description Request to update hidden_create_fields for a space.
+     * @example {
+     *       "field_names": [
+     *         "internal_id",
+     *         "created_by",
+     *         "created_at"
+     *       ]
+     *     }
+     */
+    UpdateHiddenCreateFieldsRequest: {
+      /**
+       * Field Names
+       * @description List of field names to hide in create form
+       */
+      field_names: string[]
+    }
+    /**
+     * UpdateListFieldsRequest
+     * @description Request to update list_fields for a space.
+     * @example {
+     *       "field_names": [
+     *         "title",
+     *         "status",
+     *         "priority",
+     *         "created_at"
+     *       ]
+     *     }
+     */
+    UpdateListFieldsRequest: {
+      /**
+       * Field Names
+       * @description List of field names to show in list view
+       */
+      field_names: string[]
+    }
+    /**
      * UpdateSpaceTemplateRequest
      * @description Request to update a space template.
      * @example {
@@ -1403,6 +1520,148 @@ export interface operations {
       }
     }
   }
+  updateSpaceListFields: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        space_slug: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateListFieldsRequest"]
+      }
+    }
+    responses: {
+      /** @description List fields updated successfully */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["Space"]
+        }
+      }
+      /** @description Invalid field names */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Not authenticated */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Not a member of this space */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Space not found */
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"]
+        }
+      }
+    }
+  }
+  updateSpaceHiddenCreateFields: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        space_slug: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateHiddenCreateFieldsRequest"]
+      }
+    }
+    responses: {
+      /** @description Hidden create fields updated successfully */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["Space"]
+        }
+      }
+      /** @description Invalid field names */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Not authenticated */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Not a member of this space */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Space not found */
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"]
+        }
+      }
+    }
+  }
   deleteSpace: {
     parameters: {
       query?: never
@@ -1577,6 +1836,134 @@ export interface operations {
         }
       }
       /** @description Space or field not found */
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"]
+        }
+      }
+    }
+  }
+  addFilterToSpace: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        space_slug: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["Filter-Input"]
+      }
+    }
+    responses: {
+      /** @description Filter added successfully */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["Space"]
+        }
+      }
+      /** @description Invalid filter data or filter name already exists */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Not authenticated */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Not a member of this space */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Space not found */
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"]
+        }
+      }
+    }
+  }
+  removeFilterFromSpace: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        space_slug: string
+        filter_name: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Filter removed successfully */
+      204: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      /** @description Not authenticated */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Not a member of this space */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Space or filter not found */
       404: {
         headers: {
           [name: string]: unknown

@@ -1,6 +1,8 @@
 import { useParams, useNavigate } from "react-router"
 import { cache } from "@/hooks/useCache"
 import { DeleteSpace } from "./-components/DeleteSpace"
+import { ListFieldsSettings } from "./-components/ListFieldsSettings"
+import { HiddenCreateFieldsSettings } from "./-components/HiddenCreateFieldsSettings"
 import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
 import { useEffect } from "react"
 
@@ -32,14 +34,8 @@ export default function SpaceSettingsPage() {
       <SpacePageHeader space={space} section="Settings" />
 
       <div className="space-y-8">
-        {/* General Settings Section */}
-        <section>
-          <h2 className="text-xl font-semibold mb-4">General</h2>
-          <div className="border rounded-lg p-4">
-            <p className="text-muted-foreground">Space settings will be available here soon.</p>
-          </div>
-        </section>
-
+        <ListFieldsSettings space={space} />
+        <HiddenCreateFieldsSettings space={space} />
         <DeleteSpace slug={slug} title={space.title} />
       </div>
     </div>

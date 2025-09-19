@@ -28,6 +28,8 @@ export type CreateNoteRequest = components["schemas"]["CreateNoteRequest"]
 export type CreateCommentRequest = components["schemas"]["CreateCommentRequest"]
 export type CreateUserRequest = components["schemas"]["CreateUserRequest"]
 export type AddMemberRequest = components["schemas"]["AddMemberRequest"]
+export type UpdateListFieldsRequest = components["schemas"]["UpdateListFieldsRequest"]
+export type UpdateHiddenCreateFieldsRequest = components["schemas"]["UpdateHiddenCreateFieldsRequest"]
 
 // Pagination types
 export interface PaginationResult<T> {

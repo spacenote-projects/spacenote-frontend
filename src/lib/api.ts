@@ -18,6 +18,8 @@ import type {
   CommentPaginationResult,
   UpdateSpaceTemplateRequest,
   ExportData,
+  UpdateListFieldsRequest,
+  UpdateHiddenCreateFieldsRequest,
 } from "@/types"
 import { httpClient } from "@/lib/http-client"
 
@@ -214,6 +216,40 @@ export const api = {
           httpClient.delete(`api/v1/spaces/${slug}/members/${username}`),
         onSuccess: () => {
           // Invalidate spaces query to refresh the members list
+          void queryClient.invalidateQueries({ queryKey: ["spaces"] })
+        },
+      })
+    },
+
+    /** Update list fields for a space */
+    useUpdateListFields: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: ({ slug, fieldNames }: { slug: string; fieldNames: string[] }) =>
+          httpClient
+            .patch(`api/v1/spaces/${slug}/list-fields`, { json: { field_names: fieldNames } as UpdateListFieldsRequest })
+            .json<Space>(),
+        onSuccess: () => {
+          // Invalidate spaces query to refresh the list fields
+          void queryClient.invalidateQueries({ queryKey: ["spaces"] })
+        },
+      })
+    },
+
+    /** Update hidden create fields for a space */
+    useUpdateHiddenCreateFields: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: ({ slug, fieldNames }: { slug: string; fieldNames: string[] }) =>
+          httpClient
+            .patch(`api/v1/spaces/${slug}/hidden-create-fields`, {
+              json: { field_names: fieldNames } as UpdateHiddenCreateFieldsRequest,
+            })
+            .json<Space>(),
+        onSuccess: () => {
+          // Invalidate spaces query to refresh the hidden create fields
           void queryClient.invalidateQueries({ queryKey: ["spaces"] })
         },
       })
