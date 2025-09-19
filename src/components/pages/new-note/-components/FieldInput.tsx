@@ -4,16 +4,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import MarkdownEditor from "@/components/shared/MarkdownEditor"
-import type { SpaceField } from "@/types"
+import { cache } from "@/hooks/useCache"
+import type { SpaceField, Space } from "@/types"
 
 interface FieldInputProps {
   field: SpaceField
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any>
   name: string
+  space: Space
 }
 
-export default function FieldInput({ field, control, name }: FieldInputProps) {
+export default function FieldInput({ field, control, name, space }: FieldInputProps) {
   switch (field.type) {
     case "string":
       return (
@@ -135,7 +137,9 @@ export default function FieldInput({ field, control, name }: FieldInputProps) {
         />
       )
 
-    case "user":
+    case "user": {
+      const users = cache.useUsers()
+      const members = users.filter((user) => space.members.includes(user.id))
       return (
         <FormField
           control={control}
@@ -146,14 +150,26 @@ export default function FieldInput({ field, control, name }: FieldInputProps) {
                 {field.name}
                 {field.required && <span className="text-destructive ml-1">*</span>}
               </FormLabel>
-              <FormControl>
-                <Input {...formField} value={formField.value as string} placeholder={`Enter username`} />
-              </FormControl>
+              <Select onValueChange={formField.onChange} value={formField.value as string}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder={`Select member`} />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {members.map((user) => (
+                    <SelectItem key={user.id} value={user.id}>
+                      {user.username}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
         />
       )
+    }
 
     case "int":
     case "float":

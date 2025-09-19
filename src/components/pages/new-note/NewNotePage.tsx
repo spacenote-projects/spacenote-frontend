@@ -36,10 +36,26 @@ export default function NewNotePage() {
 
   type FormData = z.infer<typeof formSchema>
 
+  const currentUser = cache.useCurrentUser()
+
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: visibleFields.reduce<Record<string, string | boolean>>((acc, field) => {
-      acc[field.name] = field.type === "boolean" ? false : ""
+      if (field.default !== undefined && field.default !== null) {
+        if (field.type === "user" && field.default === "$me") {
+          acc[field.name] = currentUser.id
+        } else if (field.type === "boolean") {
+          acc[field.name] = field.default === "true" || field.default === true
+        } else if (Array.isArray(field.default)) {
+          acc[field.name] = field.default.join(", ")
+        } else if (typeof field.default === "string" || typeof field.default === "number") {
+          acc[field.name] = String(field.default)
+        } else {
+          acc[field.name] = ""
+        }
+      } else {
+        acc[field.name] = field.type === "boolean" ? false : ""
+      }
       return acc
     }, {}),
   })
@@ -76,7 +92,7 @@ export default function NewNotePage() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           {visibleFields.map((field) => (
-            <FieldInput key={field.name} field={field} control={form.control} name={field.name} />
+            <FieldInput key={field.name} field={field} control={form.control} name={field.name} space={space} />
           ))}
 
           {mutation.error && <ErrorMessage error={mutation.error} />}

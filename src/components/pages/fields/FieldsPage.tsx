@@ -6,6 +6,7 @@ import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
 import { api } from "@/lib/api"
 import { toast } from "sonner"
 import { ErrorMessage } from "@/components/shared/ErrorMessage"
+import DefaultValue from "./-components/DefaultValue"
 
 export default function FieldsPage() {
   const { slug } = useParams() as { slug: string }
@@ -60,7 +61,9 @@ export default function FieldsPage() {
               <TableCell className="font-medium">{field.name}</TableCell>
               <TableCell>{field.type}</TableCell>
               <TableCell>{field.required ? "Yes" : "No"}</TableCell>
-              <TableCell>{field.default ?? "-"}</TableCell>
+              <TableCell>
+                <DefaultValue field={field} />
+              </TableCell>
               <TableCell>{field.options ? <code className="text-xs">{JSON.stringify(field.options)}</code> : "-"}</TableCell>
               <TableCell>
                 <Button
