@@ -17,26 +17,21 @@ export default function NotePage() {
     <div className="container mx-auto px-4 py-8">
       <SpacePageHeader space={space} section={`Note #${String(note.number)}`} />
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         {space.fields.map((field) => (
-          <div key={field.name} className="border rounded-lg p-4">
-            <div className="font-medium mb-2">{field.name}</div>
+          <div key={field.name} className="flex gap-4">
+            <div className="font-medium min-w-32">{field.name}</div>
             <div className="text-sm">
               <NoteFieldValue note={note} fieldKey={field.name} field={field} />
             </div>
           </div>
         ))}
 
-        <div className="border rounded-lg p-4">
-          <div className="font-medium mb-2">Created</div>
+        <div className="flex gap-4">
+          <div className="font-medium min-w-32">Created</div>
           <div className="text-sm">
             <NoteFieldValue note={note} fieldKey="created_at" />
-          </div>
-        </div>
-
-        <div className="border rounded-lg p-4">
-          <div className="font-medium mb-2">Author</div>
-          <div className="text-sm">
+            {" by "}
             <NoteFieldValue note={note} fieldKey="author" />
           </div>
         </div>
