@@ -177,6 +177,20 @@ export const api = {
       })
     },
 
+    /** Remove a field from space schema */
+    useRemoveSpaceField: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: ({ slug, fieldName }: { slug: string; fieldName: string }) =>
+          httpClient.delete(`api/v1/spaces/${slug}/fields/${fieldName}`),
+        onSuccess: () => {
+          // Invalidate spaces query to refresh the fields list
+          void queryClient.invalidateQueries({ queryKey: ["spaces"] })
+        },
+      })
+    },
+
     /** Add member to a space */
     useAddMember: () => {
       const queryClient = useQueryClient()

@@ -3,10 +3,27 @@ import { useSpace } from "@/hooks/useCache"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
+import { api } from "@/lib/api"
+import { toast } from "sonner"
+import { ErrorMessage } from "@/components/shared/ErrorMessage"
 
 export default function FieldsPage() {
   const { slug } = useParams() as { slug: string }
   const space = useSpace(slug)
+  const mutation = api.mutations.useRemoveSpaceField()
+
+  const handleRemove = (fieldName: string) => {
+    if (!window.confirm(`Remove field "${fieldName}" from this space?`)) return
+
+    mutation.mutate(
+      { slug, fieldName },
+      {
+        onSuccess: () => {
+          toast.success("Field removed successfully")
+        },
+      }
+    )
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -20,6 +37,12 @@ export default function FieldsPage() {
         }
       />
 
+      {mutation.error && (
+        <div className="mb-4">
+          <ErrorMessage error={mutation.error} />
+        </div>
+      )}
+
       <Table>
         <TableHeader>
           <TableRow>
@@ -28,6 +51,7 @@ export default function FieldsPage() {
             <TableHead>Required</TableHead>
             <TableHead>Default</TableHead>
             <TableHead>Options</TableHead>
+            <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -38,11 +62,23 @@ export default function FieldsPage() {
               <TableCell>{field.required ? "Yes" : "No"}</TableCell>
               <TableCell>{field.default ?? "-"}</TableCell>
               <TableCell>{field.options ? <code className="text-xs">{JSON.stringify(field.options)}</code> : "-"}</TableCell>
+              <TableCell>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => {
+                    handleRemove(field.name)
+                  }}
+                  disabled={mutation.isPending}
+                >
+                  {mutation.isPending ? "Removing..." : "Remove"}
+                </Button>
+              </TableCell>
             </TableRow>
           ))}
           {space.fields.length === 0 && (
             <TableRow>
-              <TableCell colSpan={5} className="text-center text-muted-foreground">
+              <TableCell colSpan={6} className="text-center text-muted-foreground">
                 No fields defined yet
               </TableCell>
             </TableRow>

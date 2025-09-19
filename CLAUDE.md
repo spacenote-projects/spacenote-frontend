@@ -22,7 +22,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Development Commands
 
-- `just agent-start` - Start the application
+- **DO NOT run the web server** unless you need to test functionality. If you need to run it, ask for permission first.
+- `just agent-start` - Start the application (only with permission)
 - `just agent-stop` - Stop the application
 - `just dev` - Never run this command. It's for humans only.
 
@@ -34,7 +35,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Code Quality
 
-- `just lint` - Run linters and formatters after making code changes
+- `just lint` - Always run this after making code changes to ensure code quality
+- Run linters instead of starting the web server for testing unless specifically needed
 
 ## Navigation
 
