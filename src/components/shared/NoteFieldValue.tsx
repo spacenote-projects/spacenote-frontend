@@ -9,10 +9,10 @@ interface NoteFieldValueProps {
   field?: SpaceField
 }
 
-function AuthorField({ authorId }: { authorId: string }) {
+function UserField({ userId }: { userId: string }) {
   try {
-    const author = cache.useUser(authorId)
-    return <>{author.username}</>
+    const user = cache.useUser(userId)
+    return <>{user.username}</>
   } catch {
     return <>Unknown</>
   }
@@ -29,7 +29,7 @@ export default function NoteFieldValue({ note, fieldKey, field }: NoteFieldValue
     case "created_at":
       return <>{formatDateTime(note.created_at)}</>
     case "author":
-      return <AuthorField authorId={note.author_id} />
+      return <UserField userId={note.author_id} />
     default: {
       // Custom field value
       const value = note.fields[fieldKey]
@@ -37,6 +37,11 @@ export default function NoteFieldValue({ note, fieldKey, field }: NoteFieldValue
       // Special handling for markdown fields
       if (field?.type === "markdown" && typeof value === "string") {
         return <MarkdownDisplay content={value} />
+      }
+
+      // Special handling for user fields
+      if (field?.type === "user" && typeof value === "string") {
+        return <UserField userId={value} />
       }
 
       return <>{formatFieldValue(value, field?.type)}</>
