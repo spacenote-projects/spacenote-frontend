@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { api } from "@/lib/api"
-import { useSpace } from "@/hooks/useCache"
+import { cache } from "@/hooks/useCache"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import { ErrorMessage } from "@/components/shared/ErrorMessage"
@@ -14,7 +14,7 @@ import FieldInput from "./-components/FieldInput"
 export default function NewNotePage() {
   const { slug } = useParams() as { slug: string }
   const navigate = useNavigate()
-  const space = useSpace(slug)
+  const space = cache.useSpace(slug)
   const mutation = api.mutations.useCreateNote()
 
   // Filter out hidden fields

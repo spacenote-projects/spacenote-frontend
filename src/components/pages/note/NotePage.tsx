@@ -2,7 +2,7 @@ import { useParams } from "react-router"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { Suspense } from "react"
 import { api } from "@/lib/api"
-import { useSpace } from "@/hooks/useCache"
+import { cache } from "@/hooks/useCache"
 import NoteFieldValue from "@/components/shared/NoteFieldValue"
 import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
 import { CommentForm } from "./-components/CommentForm"
@@ -10,7 +10,7 @@ import { CommentList } from "./-components/CommentList"
 
 export default function NotePage() {
   const { slug, number } = useParams() as { slug: string; number: string }
-  const space = useSpace(slug)
+  const space = cache.useSpace(slug)
   const { data: note } = useSuspenseQuery(api.queries.spaceNote(slug, Number(number)))
 
   return (

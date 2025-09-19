@@ -1,6 +1,6 @@
-import { useUser } from "@/hooks/useCache"
+import { cache } from "@/hooks/useCache"
 
 export function Username({ userId }: { userId: string }) {
-  const user = useUser(userId)
+  const user = cache.useUser(userId)
   return <span>{user.username}</span>
 }

@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Project Mode
+
+**This is a prototype project** - We prioritize rapid iteration and simplicity over backwards compatibility. Breaking changes are acceptable when they improve code quality or consistency.
+
 ## Critical Guidelines
 
 1. **Always communicate in English** - Regardless of the language the user speaks, always respond in English. All code, comments, and documentation must be in English.

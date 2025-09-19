@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router"
-import { useSpace } from "@/hooks/useCache"
+import { cache } from "@/hooks/useCache"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
@@ -9,7 +9,7 @@ import { ErrorMessage } from "@/components/shared/ErrorMessage"
 
 export default function FieldsPage() {
   const { slug } = useParams() as { slug: string }
-  const space = useSpace(slug)
+  const space = cache.useSpace(slug)
   const mutation = api.mutations.useRemoveSpaceField()
 
   const handleRemove = (fieldName: string) => {

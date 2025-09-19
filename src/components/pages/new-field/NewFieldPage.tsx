@@ -11,7 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Textarea } from "@/components/ui/textarea"
 import { ErrorMessage } from "@/components/shared/ErrorMessage"
 import { toast } from "sonner"
-import { useSpace } from "@/hooks/useCache"
+import { cache } from "@/hooks/useCache"
 import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
 import type { FieldType } from "@/types"
 
@@ -62,7 +62,7 @@ const formSchema = z.object({
 export default function NewFieldPage() {
   const { slug } = useParams() as { slug: string }
   const navigate = useNavigate()
-  const space = useSpace(slug)
+  const space = cache.useSpace(slug)
   const mutation = api.mutations.useAddSpaceField()
 
   const form = useForm({

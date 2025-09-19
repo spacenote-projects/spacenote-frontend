@@ -1,5 +1,5 @@
 import { useParams } from "react-router"
-import { useSpace } from "@/hooks/useCache"
+import { cache } from "@/hooks/useCache"
 import { Username } from "@/components/shared/Username"
 import { AddMemberForm } from "./-components/AddMemberForm"
 import { RemoveMemberButton } from "./-components/RemoveMemberButton"
@@ -7,7 +7,7 @@ import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
 
 export default function MembersPage() {
   const { slug } = useParams() as { slug: string }
-  const space = useSpace(slug)
+  const space = cache.useSpace(slug)
 
   return (
     <div className="container mx-auto px-4 py-8">

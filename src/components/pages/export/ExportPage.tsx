@@ -2,13 +2,13 @@ import { useParams } from "react-router"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { Copy } from "lucide-react"
 import { api } from "@/lib/api"
-import { useSpace } from "@/hooks/useCache"
+import { cache } from "@/hooks/useCache"
 import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
 import { Button } from "@/components/ui/button"
 
 export default function ExportPage() {
   const { slug } = useParams() as { slug: string }
-  const space = useSpace(slug)
+  const space = cache.useSpace(slug)
   const { data } = useSuspenseQuery(api.queries.spaceExport(slug))
 
   const handleCopy = async () => {

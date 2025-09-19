@@ -2,7 +2,7 @@ import { api } from "@/lib/api"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import { ErrorMessage } from "@/components/shared/ErrorMessage"
-import { useUsers } from "@/hooks/useCache"
+import { cache } from "@/hooks/useCache"
 
 interface RemoveMemberButtonProps {
   slug: string
@@ -11,7 +11,7 @@ interface RemoveMemberButtonProps {
 }
 
 export function RemoveMemberButton({ slug, memberId, disabled }: RemoveMemberButtonProps) {
-  const users = useUsers()
+  const users = cache.useUsers()
   const mutation = api.mutations.useRemoveMember()
 
   const getMemberUsername = (userId: string): string => {

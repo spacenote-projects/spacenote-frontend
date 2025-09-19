@@ -1,6 +1,6 @@
 import type { Note, SpaceField } from "@/types"
 import { formatDateTime, formatFieldValue } from "@/lib/formatters"
-import { useUser } from "@/hooks/useCache"
+import { cache } from "@/hooks/useCache"
 import MarkdownDisplay from "@/components/shared/MarkdownDisplay"
 
 interface NoteFieldValueProps {
@@ -11,7 +11,7 @@ interface NoteFieldValueProps {
 
 function AuthorField({ authorId }: { authorId: string }) {
   try {
-    const author = useUser(authorId)
+    const author = cache.useUser(authorId)
     return <>{author.username}</>
   } catch {
     return <>Unknown</>

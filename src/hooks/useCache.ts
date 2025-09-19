@@ -4,10 +4,19 @@ import { AppError } from "@/lib/errors"
 import type { Space, User } from "@/types"
 
 /**
+ * Hook to get the current authenticated user from cache
+ * Current user is loaded once on app start and cached indefinitely
+ */
+function useCurrentUser(): User {
+  const { data: currentUser } = useSuspenseQuery(api.queries.currentUser())
+  return currentUser
+}
+
+/**
  * Hook to get all spaces from cache
  * Spaces are loaded once on app start and cached indefinitely
  */
-export function useSpaces() {
+function useSpaces() {
   const { data: spaces } = useSuspenseQuery(api.queries.spaces())
   return spaces
 }
@@ -15,7 +24,7 @@ export function useSpaces() {
 /**
  * Hook to get a specific space by slug from cached spaces list
  */
-export function useSpace(slug: string): Space {
+function useSpace(slug: string): Space {
   const spaces = useSpaces()
   const space = spaces.find((f) => f.slug === slug)
   if (!space) {
@@ -28,7 +37,7 @@ export function useSpace(slug: string): Space {
  * Hook to get all users from cache
  * Users are loaded once on app start and cached indefinitely
  */
-export function useUsers() {
+function useUsers() {
   const { data: users } = useSuspenseQuery(api.queries.users())
   return users
 }
@@ -36,7 +45,7 @@ export function useUsers() {
 /**
  * Hook to get a specific user by ID from cached users list
  */
-export function useUser(id: string): User {
+function useUser(id: string): User {
   const users = useUsers()
   const user = users.find((u) => u.id === id)
   if (!user) {
@@ -44,3 +53,11 @@ export function useUser(id: string): User {
   }
   return user
 }
+
+export const cache = {
+  useCurrentUser,
+  useSpaces,
+  useSpace,
+  useUsers,
+  useUser,
+} as const

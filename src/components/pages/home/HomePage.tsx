@@ -1,9 +1,8 @@
-import { useSuspenseQuery } from "@tanstack/react-query"
-import { api } from "@/lib/api"
+import { cache } from "@/hooks/useCache"
 import { SpaceCard } from "./-components/SpaceCard"
 
 export default function HomePage() {
-  const { data: spaces } = useSuspenseQuery(api.queries.spaces())
+  const spaces = cache.useSpaces()
 
   if (spaces.length === 0) {
     return (

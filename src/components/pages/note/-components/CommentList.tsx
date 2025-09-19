@@ -1,11 +1,11 @@
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { api } from "@/lib/api"
-import { useUser } from "@/hooks/useCache"
+import { cache } from "@/hooks/useCache"
 import { formatRelativeTime } from "@/lib/formatters"
 import type { Comment } from "@/types"
 
 function CommentItem({ comment }: { comment: Comment }) {
-  const author = useUser(comment.author_id)
+  const author = cache.useUser(comment.author_id)
 
   return (
     <div className="border rounded-lg p-4">

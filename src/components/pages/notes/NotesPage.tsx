@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { api } from "@/lib/api"
-import { useSpace } from "@/hooks/useCache"
+import { cache } from "@/hooks/useCache"
 import { useNotePagination } from "@/hooks/useNotePagination"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
@@ -12,7 +12,7 @@ import { NotesTable } from "./-components/NotesTable"
 
 export default function NotesPage() {
   const { slug } = useParams() as { slug: string }
-  const space = useSpace(slug)
+  const space = cache.useSpace(slug)
   const { page, limit, updateParams } = useNotePagination()
 
   const { data: paginatedResult } = useSuspenseQuery(api.queries.spaceNotes(slug, page, limit))

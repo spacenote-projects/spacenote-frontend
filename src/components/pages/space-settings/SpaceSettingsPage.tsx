@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router"
-import { useSpaces } from "@/hooks/useCache"
+import { cache } from "@/hooks/useCache"
 import { DeleteSpace } from "./-components/DeleteSpace"
 import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
 import { useEffect } from "react"
@@ -7,7 +7,7 @@ import { useEffect } from "react"
 export default function SpaceSettingsPage() {
   const { slug } = useParams() as { slug: string }
   const navigate = useNavigate()
-  const spaces = useSpaces()
+  const spaces = cache.useSpaces()
 
   // Check if space exists in cache to handle deletion scenario
   // When a space is deleted, the cache is invalidated and refetched
