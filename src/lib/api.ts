@@ -20,6 +20,7 @@ import type {
   ExportData,
   UpdateListFieldsRequest,
   UpdateHiddenCreateFieldsRequest,
+  Filter,
 } from "@/types"
 import { httpClient } from "@/lib/http-client"
 
@@ -312,6 +313,34 @@ export const api = {
             if (!oldSpaces) return oldSpaces
             return oldSpaces.map((s) => (s.slug === space.slug ? space : s))
           })
+        },
+      })
+    },
+
+    /** Add filter to a space */
+    useAddFilter: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: ({ slug, filter }: { slug: string; filter: Filter }) =>
+          httpClient.post(`api/v1/spaces/${slug}/filters`, { json: filter }).json<Space>(),
+        onSuccess: () => {
+          // Invalidate spaces query to refresh the filters list
+          void queryClient.invalidateQueries({ queryKey: ["spaces"] })
+        },
+      })
+    },
+
+    /** Remove filter from a space */
+    useRemoveFilter: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: ({ slug, filterName }: { slug: string; filterName: string }) =>
+          httpClient.delete(`api/v1/spaces/${slug}/filters/${filterName}`),
+        onSuccess: () => {
+          // Invalidate spaces query to refresh the filters list
+          void queryClient.invalidateQueries({ queryKey: ["spaces"] })
         },
       })
     },

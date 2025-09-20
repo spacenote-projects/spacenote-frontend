@@ -11,7 +11,7 @@ export type Comment = components["schemas"]["Comment"]
 // Field-related types
 export type SpaceField = components["schemas"]["SpaceField"]
 export type FieldType = components["schemas"]["FieldType"]
-export type Filter = components["schemas"]["Filter-Output"]
+export type Filter = components["schemas"]["Filter"]
 export type FilterCondition = components["schemas"]["FilterCondition"]
 export type FilterOperator = components["schemas"]["FilterOperator"]
 

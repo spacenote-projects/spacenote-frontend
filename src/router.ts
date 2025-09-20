@@ -11,6 +11,7 @@ import SpaceTemplatesPage from "@/components/pages/space-templates/SpaceTemplate
 import SpaceSettingsPage from "@/components/pages/space-settings/SpaceSettingsPage"
 import ExportPage from "@/components/pages/export/ExportPage"
 import NewFieldPage from "@/components/pages/new-field/NewFieldPage"
+import NewFilterPage from "@/components/pages/new-filter/NewFilterPage"
 import NewNotePage from "@/components/pages/new-note/NewNotePage"
 import NewSpacePage from "@/components/pages/new-space/NewSpacePage"
 import ImportSpacePage from "@/components/pages/import-space/ImportSpacePage"
@@ -70,6 +71,10 @@ export const createRouter = () =>
         {
           path: "s/:slug/filters",
           Component: FiltersPage,
+        },
+        {
+          path: "s/:slug/filters/new",
+          Component: NewFilterPage,
         },
         {
           path: "s/:slug/templates",
