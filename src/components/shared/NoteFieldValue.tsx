@@ -28,6 +28,8 @@ export default function NoteFieldValue({ note, fieldKey, field }: NoteFieldValue
       return <>{note.number}</>
     case "created_at":
       return <>{formatDateTime(note.created_at)}</>
+    case "edited_at":
+      return <>{note.edited_at ? formatDateTime(note.edited_at) : "Never"}</>
     case "author":
       return <UserField userId={note.author_id} />
     default: {

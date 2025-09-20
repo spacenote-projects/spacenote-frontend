@@ -11,6 +11,7 @@ import type {
   AddMemberRequest,
   Note,
   CreateNoteRequest,
+  UpdateNoteFieldsRequest,
   Comment,
   CreateCommentRequest,
   CreateSpaceRequest,
@@ -289,6 +290,22 @@ export const api = {
         onSuccess: () => {
           // Clear all queries after deleting a space
           void queryClient.invalidateQueries({ queryKey: ["spaces"] })
+        },
+      })
+    },
+
+    /** Update note fields */
+    useUpdateNoteFields: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: ({ slug, number, data }: { slug: string; number: number; data: UpdateNoteFieldsRequest }) =>
+          httpClient.patch(`api/v1/spaces/${slug}/notes/${String(number)}`, { json: data }).json<Note>(),
+        onSuccess: (_data, variables) => {
+          // Invalidate the specific note query to refresh the data
+          void queryClient.invalidateQueries({
+            queryKey: ["spaces", variables.slug, "notes", variables.number],
+          })
         },
       })
     },

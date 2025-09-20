@@ -366,7 +366,11 @@ export type paths = {
     delete?: never
     options?: never
     head?: never
-    patch?: never
+    /**
+     * Update note fields
+     * @description Partially update fields of an existing note. Only the fields provided will be updated, all other fields remain unchanged. Only space members can update notes.
+     */
+    patch: operations["updateNoteFields"]
     trace?: never
   }
   "/api/v1/spaces/{space_slug}/notes/{number}/comments": {
@@ -823,6 +827,13 @@ export type components = {
       created_at: string
       /** Edited At */
       edited_at: string | null
+      /** Commented At */
+      commented_at: string | null
+      /**
+       * Activity At
+       * Format: date-time
+       */
+      activity_at: string
       /** Fields */
       fields: {
         [key: string]: string | boolean | string[] | number | null
@@ -989,6 +1000,25 @@ export type components = {
        * @description List of field names to show in list view
        */
       field_names: string[]
+    }
+    /**
+     * UpdateNoteFieldsRequest
+     * @description Request to update note fields (partial update).
+     * @example {
+     *       "raw_fields": {
+     *         "status": "completed",
+     *         "title": "Updated title"
+     *       }
+     *     }
+     */
+    UpdateNoteFieldsRequest: {
+      /**
+       * Raw Fields
+       * @description Field values to update as raw strings. Only provided fields will be updated (partial update).
+       */
+      raw_fields: {
+        [key: string]: string
+      }
     }
     /**
      * UpdateSpaceTemplateRequest
@@ -2119,6 +2149,78 @@ export interface operations {
         }
         content: {
           "application/json": components["schemas"]["Note"]
+        }
+      }
+      /** @description Not authenticated */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Not a member of this space */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Space or note not found */
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"]
+        }
+      }
+    }
+  }
+  updateNoteFields: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        space_slug: string
+        number: number
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateNoteFieldsRequest"]
+      }
+    }
+    responses: {
+      /** @description Note updated successfully */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["Note"]
+        }
+      }
+      /** @description Invalid field data or validation failed */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
         }
       }
       /** @description Not authenticated */
