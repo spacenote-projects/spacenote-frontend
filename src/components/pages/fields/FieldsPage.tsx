@@ -50,6 +50,7 @@ export default function FieldsPage() {
             <TableHead>Name</TableHead>
             <TableHead>Type</TableHead>
             <TableHead>Required</TableHead>
+            <TableHead>Hidden in Create</TableHead>
             <TableHead>Default</TableHead>
             <TableHead>Options</TableHead>
             <TableHead>Actions</TableHead>
@@ -61,6 +62,7 @@ export default function FieldsPage() {
               <TableCell className="font-medium">{field.name}</TableCell>
               <TableCell>{field.type}</TableCell>
               <TableCell>{field.required ? "Yes" : "No"}</TableCell>
+              <TableCell>{space.hidden_create_fields.includes(field.name) ? "Yes" : "No"}</TableCell>
               <TableCell>
                 <DefaultValue field={field} />
               </TableCell>
@@ -81,7 +83,7 @@ export default function FieldsPage() {
           ))}
           {space.fields.length === 0 && (
             <TableRow>
-              <TableCell colSpan={6} className="text-center text-muted-foreground">
+              <TableCell colSpan={7} className="text-center text-muted-foreground">
                 No fields defined yet
               </TableCell>
             </TableRow>
