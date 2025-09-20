@@ -21,6 +21,8 @@ import type {
   UpdateListFieldsRequest,
   UpdateHiddenCreateFieldsRequest,
   Filter,
+  FieldType,
+  FilterOperator,
 } from "@/types"
 import { httpClient } from "@/lib/http-client"
 
@@ -95,6 +97,14 @@ export const api = {
       queryOptions({
         queryKey: ["spaces", slug, "export"],
         queryFn: () => httpClient.get(`api/v1/spaces/${slug}/export`).json<ExportData>(),
+      }),
+    /** Get field operators metadata */
+    fieldOperators: () =>
+      queryOptions({
+        queryKey: ["fieldOperators"],
+        queryFn: () => httpClient.get("api/v1/metadata/field-operators").json<Record<FieldType, FilterOperator[]>>(),
+        staleTime: Infinity,
+        gcTime: Infinity,
       }),
   },
   mutations: {

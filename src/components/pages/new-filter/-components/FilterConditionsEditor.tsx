@@ -1,23 +1,9 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { cache } from "@/hooks/useCache"
 import type { FilterCondition, FilterOperator, SpaceField } from "@/types"
 import { Plus, X } from "lucide-react"
-
-const operators: FilterOperator[] = [
-  "eq",
-  "ne",
-  "contains",
-  "startswith",
-  "endswith",
-  "in",
-  "nin",
-  "all",
-  "gt",
-  "gte",
-  "lt",
-  "lte",
-]
 
 interface FilterConditionsEditorProps {
   conditions: FilterCondition[]
@@ -26,6 +12,8 @@ interface FilterConditionsEditorProps {
 }
 
 export function FilterConditionsEditor({ conditions, onChange, fields }: FilterConditionsEditorProps) {
+  const fieldOperators = cache.useFieldOperators()
+
   const addCondition = () => {
     onChange([...conditions, { field: "", operator: "eq", value: null }])
   }
@@ -37,6 +25,20 @@ export function FilterConditionsEditor({ conditions, onChange, fields }: FilterC
   const updateCondition = (index: number, updates: Partial<FilterCondition>) => {
     const newConditions = [...conditions]
     newConditions[index] = { ...newConditions[index], ...updates }
+
+    // If field changed, check if current operator is still valid
+    if (updates.field) {
+      const condition = newConditions[index]
+      const field = fields.find((f) => f.name === condition.field)
+      if (field) {
+        const validOperators = fieldOperators[field.type]
+        if (!validOperators.includes(condition.operator)) {
+          // Reset to first valid operator if current is invalid
+          newConditions[index].operator = validOperators[0] ?? "eq"
+        }
+      }
+    }
+
     onChange(newConditions)
   }
 
@@ -95,6 +97,9 @@ export function FilterConditionsEditor({ conditions, onChange, fields }: FilterC
 
       {conditions.map((condition, index) => {
         const conditionKey = `condition-${String(index)}`
+        const selectedField = fields.find((f) => f.name === condition.field)
+        const availableOperators = selectedField ? fieldOperators[selectedField.type] : []
+
         return (
           <div key={conditionKey} className="flex gap-2 items-start">
             <Select
@@ -120,12 +125,13 @@ export function FilterConditionsEditor({ conditions, onChange, fields }: FilterC
               onValueChange={(operator) => {
                 updateCondition(index, { operator: operator as FilterOperator })
               }}
+              disabled={!selectedField}
             >
               <SelectTrigger className="flex-1">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {operators.map((op) => (
+                {availableOperators.map((op) => (
                   <SelectItem key={op} value={op}>
                     {op}
                   </SelectItem>

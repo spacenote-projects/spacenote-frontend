@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { api } from "@/lib/api"
 import { AppError } from "@/lib/errors"
-import type { Space, User } from "@/types"
+import type { Space, User, FieldType, FilterOperator } from "@/types"
 
 /**
  * Hook to get the current authenticated user from cache
@@ -54,10 +54,20 @@ function useUser(id: string): User {
   return user
 }
 
+/**
+ * Hook to get field operators metadata from cache
+ * Field operators are loaded once on app start and cached indefinitely
+ */
+function useFieldOperators(): Record<FieldType, FilterOperator[]> {
+  const { data: fieldOperators } = useSuspenseQuery(api.queries.fieldOperators())
+  return fieldOperators
+}
+
 export const cache = {
   useCurrentUser,
   useSpaces,
   useSpace,
   useUsers,
   useUser,
+  useFieldOperators,
 } as const
