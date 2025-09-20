@@ -59,7 +59,17 @@ export default function FiltersPage() {
               <TableCell className="font-medium">{filter.name}</TableCell>
               <TableCell>{filter.title}</TableCell>
               <TableCell>{filter.description || "-"}</TableCell>
-              <TableCell>{filter.conditions?.length ?? 0}</TableCell>
+              <TableCell>
+                {filter.conditions?.map((condition) => {
+                  const value = condition.value != null ? JSON.stringify(condition.value) : ""
+                  const conditionKey = `${condition.field}-${condition.operator}-${value}`
+                  return (
+                    <div key={conditionKey}>
+                      {condition.field} {condition.operator} {value}
+                    </div>
+                  )
+                })}
+              </TableCell>
               <TableCell>
                 <Button
                   variant="destructive"
