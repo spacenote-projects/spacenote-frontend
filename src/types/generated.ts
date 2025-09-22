@@ -406,7 +406,7 @@ export type paths = {
     }
     /**
      * Export space configuration
-     * @description Export a space configuration as portable JSON. Only space members can export.
+     * @description Export a space configuration as portable JSON. Only space members can export. Optionally include all notes and comments data.
      */
     get: operations["exportSpace"]
     put?: never
@@ -654,11 +654,51 @@ export type components = {
       type: string
     }
     /**
+     * ExportComment
+     * @description Comment representation for export without system-specific IDs.
+     */
+    ExportComment: {
+      /**
+       * Note Number
+       * @description Number of the note this comment belongs to
+       */
+      note_number: number
+      /**
+       * Number
+       * @description Comment number within the note
+       */
+      number: number
+      /**
+       * Username
+       * @description Username of comment author (not UUID)
+       */
+      username: string
+      /** Content */
+      content: string
+      /**
+       * Created At
+       * Format: date-time
+       */
+      created_at: string
+      /** Edited At */
+      edited_at?: string | null
+    }
+    /**
      * ExportData
      * @description Complete export package with metadata.
      */
     ExportData: {
       space: components["schemas"]["ExportSpace"]
+      /**
+       * Notes
+       * @description Notes data (when include_data=true)
+       */
+      notes?: components["schemas"]["ExportNote"][] | null
+      /**
+       * Comments
+       * @description Comments data (when include_data=true)
+       */
+      comments?: components["schemas"]["ExportComment"][] | null
       /**
        * Exported At
        * Format: date-time
@@ -666,6 +706,43 @@ export type components = {
       exported_at: string
       /** Spacenote Version */
       spacenote_version: string
+    }
+    /**
+     * ExportNote
+     * @description Note representation for export without system-specific IDs.
+     */
+    ExportNote: {
+      /**
+       * Number
+       * @description Note number within the space
+       */
+      number: number
+      /**
+       * Username
+       * @description Username of note creator (not UUID)
+       */
+      username: string
+      /**
+       * Created At
+       * Format: date-time
+       */
+      created_at: string
+      /** Edited At */
+      edited_at?: string | null
+      /** Commented At */
+      commented_at?: string | null
+      /**
+       * Activity At
+       * Format: date-time
+       */
+      activity_at: string
+      /**
+       * Fields
+       * @description Field values
+       */
+      fields: {
+        [key: string]: string | boolean | string[] | number | null
+      }
     }
     /**
      * ExportSpace
@@ -2392,7 +2469,10 @@ export interface operations {
   }
   exportSpace: {
     parameters: {
-      query?: never
+      query?: {
+        /** @description Include notes and comments data in export */
+        include_data?: boolean
+      }
       header?: never
       path: {
         space_slug: string

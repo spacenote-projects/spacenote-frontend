@@ -98,10 +98,17 @@ export const api = {
         gcTime: 2 * 60 * 1000, // 2 minutes
       }),
     /** Export all space data */
-    spaceExport: (slug: string) =>
+    spaceExport: (slug: string, includeData = false) =>
       queryOptions({
-        queryKey: ["spaces", slug, "export"],
-        queryFn: () => httpClient.get(`api/v1/spaces/${slug}/export`).json<ExportData>(),
+        queryKey: ["spaces", slug, "export", includeData],
+        queryFn: () => {
+          const searchParams = new URLSearchParams()
+          if (includeData) {
+            searchParams.set("include_data", "true")
+          }
+          const url = searchParams.toString() ? `api/v1/spaces/${slug}/export?${searchParams}` : `api/v1/spaces/${slug}/export`
+          return httpClient.get(url).json<ExportData>()
+        },
       }),
     /** Get field operators metadata */
     fieldOperators: () =>
