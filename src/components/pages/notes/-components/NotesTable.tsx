@@ -26,7 +26,7 @@ export function NotesTable({ notes, columns, space, slug }: { notes: Note[]; col
           >
             {columns.map((column) => (
               <TableCell key={column}>
-                <NoteFieldValue note={note} fieldKey={column} field={space.fields.find((f) => f.name === column)} />
+                <NoteFieldValue note={note} fieldKey={column} field={space.fields.find((f) => f.id === column)} />
               </TableCell>
             ))}
           </TableRow>

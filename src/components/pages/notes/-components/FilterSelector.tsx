@@ -17,7 +17,7 @@ interface FilterSelectorProps {
 }
 
 export function FilterSelector({ space, currentFilter, onFilterChange }: FilterSelectorProps) {
-  const activeFilter = space.filters.find((f) => f.name === currentFilter)
+  const activeFilter = space.filters.find((f) => f.id === currentFilter)
 
   return (
     <DropdownMenu>
@@ -43,11 +43,11 @@ export function FilterSelector({ space, currentFilter, onFilterChange }: FilterS
         </DropdownMenuItem>
         {space.filters.map((filter) => (
           <DropdownMenuItem
-            key={filter.name}
+            key={filter.id}
             onClick={() => {
-              onFilterChange(filter.name)
+              onFilterChange(filter.id)
             }}
-            className={currentFilter === filter.name ? "bg-accent" : ""}
+            className={currentFilter === filter.id ? "bg-accent" : ""}
           >
             <div className="flex flex-col">
               <span>{filter.title}</span>

@@ -19,7 +19,7 @@ export default function NewNotePage() {
   const currentUser = cache.useCurrentUser()
 
   // Filter out hidden fields
-  const visibleFields = space.fields.filter((field) => !space.hidden_create_fields.includes(field.name))
+  const visibleFields = space.fields.filter((field) => !space.hidden_create_fields.includes(field.id))
 
   // Create dynamic schema based on space fields
   const formSchema = createFieldSchema(visibleFields)
@@ -51,7 +51,7 @@ export default function NewNotePage() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           {visibleFields.map((field) => (
-            <FieldInput key={field.name} field={field} control={form.control} name={field.name} space={space} />
+            <FieldInput key={field.id} field={field} control={form.control} name={field.id} space={space} />
           ))}
 
           {mutation.error && <ErrorMessage error={mutation.error} />}

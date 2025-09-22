@@ -25,10 +25,10 @@ export default function NotePage() {
 
       <div className="space-y-3">
         {space.fields.map((field) => (
-          <div key={field.name} className="flex gap-4">
-            <div className="font-medium min-w-32">{field.name}</div>
+          <div key={field.id} className="flex gap-4">
+            <div className="font-medium min-w-32">{field.id}</div>
             <div className="text-sm">
-              <NoteFieldValue note={note} fieldKey={field.name} field={field} />
+              <NoteFieldValue note={note} fieldKey={field.id} field={field} />
             </div>
           </div>
         ))}
@@ -38,7 +38,7 @@ export default function NotePage() {
           <div className="text-sm">
             <NoteFieldValue note={note} fieldKey="created_at" />
             {" by "}
-            <NoteFieldValue note={note} fieldKey="author" />
+            <NoteFieldValue note={note} fieldKey="user_id" />
           </div>
         </div>
 

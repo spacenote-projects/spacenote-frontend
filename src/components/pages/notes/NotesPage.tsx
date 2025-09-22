@@ -26,13 +26,13 @@ const DEFAULT_LIMIT = 50
  * 3. If neither exist, fall back to default columns: number, created_at, author
  */
 function getFilterColumns(space: Space, filterName?: string): string[] {
-  const activeFilter = filterName ? space.filters.find((f) => f.name === filterName) : undefined
+  const activeFilter = filterName ? space.filters.find((f) => f.id === filterName) : undefined
 
   return activeFilter?.list_fields && activeFilter.list_fields.length > 0
     ? activeFilter.list_fields
     : space.list_fields.length > 0
       ? space.list_fields
-      : ["number", "created_at", "author"]
+      : ["number", "created_at", "user_id"]
 }
 
 export default function NotesPage() {

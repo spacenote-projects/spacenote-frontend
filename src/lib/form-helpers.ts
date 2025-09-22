@@ -8,11 +8,11 @@ export function createFieldSchema(fields: SpaceField[]) {
   return z.object(
     fields.reduce<Record<string, z.ZodType>>((acc, field) => {
       if (field.type === "boolean") {
-        acc[field.name] = z.boolean().default(false)
+        acc[field.id] = z.boolean().default(false)
       } else if (field.required) {
-        acc[field.name] = z.string().min(1, `${field.name} is required`)
+        acc[field.id] = z.string().min(1, `${field.id} is required`)
       } else {
-        acc[field.name] = z.string().optional()
+        acc[field.id] = z.string().optional()
       }
       return acc
     }, {})
@@ -24,16 +24,16 @@ export function createFieldSchema(fields: SpaceField[]) {
  */
 export function noteToFormValues(fields: SpaceField[], noteFields: Record<string, unknown>) {
   return fields.reduce<Record<string, string | boolean>>((acc, field) => {
-    const value = noteFields[field.name]
+    const value = noteFields[field.id]
 
     if (field.type === "boolean") {
-      acc[field.name] = value === true || value === "true"
+      acc[field.id] = value === true || value === "true"
     } else if (field.type === "tags" && Array.isArray(value)) {
-      acc[field.name] = value.join(", ")
+      acc[field.id] = value.join(", ")
     } else if (typeof value === "string" || typeof value === "number") {
-      acc[field.name] = String(value)
+      acc[field.id] = String(value)
     } else {
-      acc[field.name] = ""
+      acc[field.id] = ""
     }
     return acc
   }, {})
@@ -46,18 +46,18 @@ export function fieldsToDefaultValues(fields: SpaceField[], currentUser?: User) 
   return fields.reduce<Record<string, string | boolean>>((acc, field) => {
     if (field.default !== undefined && field.default !== null) {
       if (field.type === "user" && field.default === "$me" && currentUser) {
-        acc[field.name] = currentUser.id
+        acc[field.id] = currentUser.id
       } else if (field.type === "boolean") {
-        acc[field.name] = field.default === "true" || field.default === true
+        acc[field.id] = field.default === "true" || field.default === true
       } else if (Array.isArray(field.default)) {
-        acc[field.name] = field.default.join(", ")
+        acc[field.id] = field.default.join(", ")
       } else if (typeof field.default === "string" || typeof field.default === "number") {
-        acc[field.name] = String(field.default)
+        acc[field.id] = String(field.default)
       } else {
-        acc[field.name] = ""
+        acc[field.id] = ""
       }
     } else {
-      acc[field.name] = field.type === "boolean" ? false : ""
+      acc[field.id] = field.type === "boolean" ? false : ""
     }
     return acc
   }, {})

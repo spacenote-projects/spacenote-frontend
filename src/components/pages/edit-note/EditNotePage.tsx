@@ -50,7 +50,7 @@ export default function EditNotePage() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           {space.fields.map((field) => (
-            <FieldInput key={field.name} field={field} control={form.control} name={field.name} space={space} />
+            <FieldInput key={field.id} field={field} control={form.control} name={field.id} space={space} />
           ))}
 
           {mutation.error && <ErrorMessage error={mutation.error} />}

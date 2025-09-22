@@ -52,14 +52,14 @@ export default function FieldInput({ field, control, name, space, onChange }: Fi
           render={({ field: formField }) => (
             <FormItem>
               <FormLabel>
-                {field.name}
+                {field.id}
                 {field.required && <span className="text-destructive ml-1">*</span>}
               </FormLabel>
               <FormControl>
                 <Input
                   {...formField}
                   value={formField.value as string}
-                  placeholder={`Enter ${field.name}`}
+                  placeholder={`Enter ${field.id}`}
                   onChange={(e) => {
                     formField.onChange(e)
                     onChange?.(name)
@@ -80,7 +80,7 @@ export default function FieldInput({ field, control, name, space, onChange }: Fi
           render={({ field: formField }) => (
             <FormItem>
               <FormLabel>
-                {field.name}
+                {field.id}
                 {field.required && <span className="text-destructive ml-1">*</span>}
               </FormLabel>
               <FormControl>
@@ -90,7 +90,7 @@ export default function FieldInput({ field, control, name, space, onChange }: Fi
                     formField.onChange(value)
                     onChange?.(name)
                   }}
-                  placeholder={`Enter ${field.name} (Markdown supported)`}
+                  placeholder={`Enter ${field.id} (Markdown supported)`}
                 />
               </FormControl>
               <FormMessage />
@@ -117,7 +117,7 @@ export default function FieldInput({ field, control, name, space, onChange }: Fi
               </FormControl>
               <div className="space-y-1 leading-none">
                 <FormLabel>
-                  {field.name}
+                  {field.id}
                   {field.required && <span className="text-destructive ml-1">*</span>}
                 </FormLabel>
               </div>
@@ -137,7 +137,7 @@ export default function FieldInput({ field, control, name, space, onChange }: Fi
           render={({ field: formField }) => (
             <FormItem>
               <FormLabel>
-                {field.name}
+                {field.id}
                 {field.required && <span className="text-destructive ml-1">*</span>}
               </FormLabel>
               <Select
@@ -149,7 +149,7 @@ export default function FieldInput({ field, control, name, space, onChange }: Fi
               >
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder={`Select ${field.name}`} />
+                    <SelectValue placeholder={`Select ${field.id}`} />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -175,14 +175,14 @@ export default function FieldInput({ field, control, name, space, onChange }: Fi
           render={({ field: formField }) => (
             <FormItem>
               <FormLabel>
-                {field.name}
+                {field.id}
                 {field.required && <span className="text-destructive ml-1">*</span>}
               </FormLabel>
               <FormControl>
                 <Input
                   {...formField}
                   value={formField.value as string}
-                  placeholder={`Enter ${field.name} (comma-separated)`}
+                  placeholder={`Enter ${field.id} (comma-separated)`}
                   onChange={(e) => {
                     formField.onChange(e)
                     onChange?.(name)
@@ -205,7 +205,7 @@ export default function FieldInput({ field, control, name, space, onChange }: Fi
           render={({ field: formField }) => (
             <FormItem>
               <FormLabel>
-                {field.name}
+                {field.id}
                 {field.required && <span className="text-destructive ml-1">*</span>}
               </FormLabel>
               <Select
@@ -244,7 +244,7 @@ export default function FieldInput({ field, control, name, space, onChange }: Fi
           render={({ field: formField }) => (
             <FormItem>
               <FormLabel>
-                {field.name}
+                {field.id}
                 {field.required && <span className="text-destructive ml-1">*</span>}
               </FormLabel>
               <FormControl>
@@ -253,7 +253,7 @@ export default function FieldInput({ field, control, name, space, onChange }: Fi
                   value={formField.value as string}
                   type="number"
                   step={field.type === "float" ? "0.01" : "1"}
-                  placeholder={`Enter ${field.name}`}
+                  placeholder={`Enter ${field.id}`}
                   onChange={(e) => {
                     formField.onChange(e)
                     onChange?.(name)
@@ -274,7 +274,7 @@ export default function FieldInput({ field, control, name, space, onChange }: Fi
           render={({ field: formField }) => (
             <FormItem>
               <FormLabel>
-                {field.name}
+                {field.id}
                 {field.required && <span className="text-destructive ml-1">*</span>}
               </FormLabel>
               <FormControl>
@@ -303,14 +303,14 @@ export default function FieldInput({ field, control, name, space, onChange }: Fi
           render={({ field: formField }) => (
             <FormItem>
               <FormLabel>
-                {field.name}
+                {field.id}
                 {field.required && <span className="text-destructive ml-1">*</span>}
               </FormLabel>
               <FormControl>
                 <Input
                   {...formField}
                   value={formField.value as string}
-                  placeholder={`Enter ${field.name}`}
+                  placeholder={`Enter ${field.id}`}
                   onChange={(e) => {
                     formField.onChange(e)
                     onChange?.(name)

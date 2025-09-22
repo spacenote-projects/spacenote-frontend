@@ -5,7 +5,7 @@ import { formatRelativeTime } from "@/lib/formatters"
 import type { Comment } from "@/types"
 
 function CommentItem({ comment }: { comment: Comment }) {
-  const author = cache.useUser(comment.author_id)
+  const author = cache.useUser(comment.user_id)
 
   return (
     <div className="border rounded-lg p-4">

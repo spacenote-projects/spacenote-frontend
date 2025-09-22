@@ -243,7 +243,7 @@ export const api = {
       return useMutation({
         mutationFn: ({ slug, fieldNames }: { slug: string; fieldNames: string[] }) =>
           httpClient
-            .patch(`api/v1/spaces/${slug}/list-fields`, { json: { field_names: fieldNames } as UpdateListFieldsRequest })
+            .patch(`api/v1/spaces/${slug}/list-fields`, { json: { field_ids: fieldNames } as UpdateListFieldsRequest })
             .json<Space>(),
         onSuccess: () => {
           // Invalidate spaces query to refresh the list fields
@@ -260,7 +260,7 @@ export const api = {
         mutationFn: ({ slug, fieldNames }: { slug: string; fieldNames: string[] }) =>
           httpClient
             .patch(`api/v1/spaces/${slug}/hidden-create-fields`, {
-              json: { field_names: fieldNames } as UpdateHiddenCreateFieldsRequest,
+              json: { field_ids: fieldNames } as UpdateHiddenCreateFieldsRequest,
             })
             .json<Space>(),
         onSuccess: () => {

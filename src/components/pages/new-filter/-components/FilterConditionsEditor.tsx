@@ -29,7 +29,7 @@ export function FilterConditionsEditor({ conditions, onChange, fields }: FilterC
     // If field changed, check if current operator is still valid
     if (updates.field) {
       const condition = newConditions[index]
-      const field = fields.find((f) => f.name === condition.field)
+      const field = fields.find((f) => f.id === condition.field)
       if (field) {
         const validOperators = fieldOperators[field.type]
         if (!validOperators.includes(condition.operator)) {
@@ -97,7 +97,7 @@ export function FilterConditionsEditor({ conditions, onChange, fields }: FilterC
 
       {conditions.map((condition, index) => {
         const conditionKey = `condition-${String(index)}`
-        const selectedField = fields.find((f) => f.name === condition.field)
+        const selectedField = fields.find((f) => f.id === condition.field)
         const availableOperators = selectedField ? fieldOperators[selectedField.type] : []
 
         return (
@@ -113,8 +113,8 @@ export function FilterConditionsEditor({ conditions, onChange, fields }: FilterC
               </SelectTrigger>
               <SelectContent>
                 {fields.map((field) => (
-                  <SelectItem key={field.name} value={field.name}>
-                    {field.name}
+                  <SelectItem key={field.id} value={field.id}>
+                    {field.id}
                   </SelectItem>
                 ))}
               </SelectContent>

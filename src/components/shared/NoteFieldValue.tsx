@@ -30,8 +30,8 @@ export default function NoteFieldValue({ note, fieldKey, field }: NoteFieldValue
       return <>{formatDateTime(note.created_at)}</>
     case "edited_at":
       return <>{note.edited_at ? formatDateTime(note.edited_at) : "Never"}</>
-    case "author":
-      return <UserField userId={note.author_id} />
+    case "user_id":
+      return <UserField userId={note.user_id} />
     default: {
       // Custom field value
       const value = note.fields[fieldKey]

@@ -12,11 +12,11 @@ export default function FiltersPage() {
   const space = cache.useSpace(slug)
   const mutation = api.mutations.useRemoveFilter()
 
-  const handleRemove = (filterName: string) => {
-    if (!window.confirm(`Remove filter "${filterName}" from this space?`)) return
+  const handleRemove = (filterId: string) => {
+    if (!window.confirm(`Remove filter "${filterId}" from this space?`)) return
 
     mutation.mutate(
-      { slug, filterName },
+      { slug, filterName: filterId },
       {
         onSuccess: () => {
           toast.success("Filter removed successfully")
@@ -55,8 +55,8 @@ export default function FiltersPage() {
         </TableHeader>
         <TableBody>
           {space.filters.map((filter) => (
-            <TableRow key={filter.name}>
-              <TableCell className="font-medium">{filter.name}</TableCell>
+            <TableRow key={filter.id}>
+              <TableCell className="font-medium">{filter.id}</TableCell>
               <TableCell>{filter.title}</TableCell>
               <TableCell>{filter.description || "-"}</TableCell>
               <TableCell>
@@ -75,7 +75,7 @@ export default function FiltersPage() {
                   variant="destructive"
                   size="sm"
                   onClick={() => {
-                    handleRemove(filter.name)
+                    handleRemove(filter.id)
                   }}
                   disabled={mutation.isPending}
                 >

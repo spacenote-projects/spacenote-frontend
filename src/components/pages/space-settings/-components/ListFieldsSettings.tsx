@@ -41,7 +41,7 @@ export function ListFieldsSettings({ space }: { space: Space }) {
     )
   }
 
-  const availableFields = space.fields.map((f) => f.name).join(", ")
+  const availableFields = space.fields.map((f) => f.id).join(", ")
 
   return (
     <section>

@@ -18,12 +18,12 @@ import type { FieldType } from "@/types"
 const fieldTypes: FieldType[] = ["string", "markdown", "boolean", "string_choice", "tags", "user", "datetime", "int", "float"]
 
 const formSchema = z.object({
-  name: z
+  id: z
     .string()
-    .min(1, "Field name is required")
+    .min(1, "Field ID is required")
     .regex(
       /^[a-z_][a-z0-9_]*$/,
-      "Field name must start with lowercase letter or underscore, and contain only lowercase letters, numbers, and underscores"
+      "Field ID must start with lowercase letter or underscore, and contain only lowercase letters, numbers, and underscores"
     ),
   type: z.enum(fieldTypes as [FieldType, ...FieldType[]]),
   required: z.boolean().default(false),
@@ -68,7 +68,7 @@ export default function NewFieldPage() {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      id: "",
       type: "string" as FieldType,
       required: false,
       default: "",
@@ -86,7 +86,7 @@ export default function NewFieldPage() {
       {
         slug,
         field: {
-          name: data.name,
+          id: data.id,
           type: data.type,
           required: data.required,
           default: defaultValue,
@@ -110,12 +110,12 @@ export default function NewFieldPage() {
         <form onSubmit={onSubmit} className="space-y-6">
           <FormField
             control={form.control}
-            name="name"
+            name="id"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Field Name</FormLabel>
+                <FormLabel>Field ID</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="field_name" />
+                  <Input {...field} placeholder="field_id" />
                 </FormControl>
                 <FormDescription>Must start with lowercase letter or underscore</FormDescription>
                 <FormMessage />

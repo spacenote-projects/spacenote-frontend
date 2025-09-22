@@ -13,11 +13,11 @@ export default function FieldsPage() {
   const space = cache.useSpace(slug)
   const mutation = api.mutations.useRemoveSpaceField()
 
-  const handleRemove = (fieldName: string) => {
-    if (!window.confirm(`Remove field "${fieldName}" from this space?`)) return
+  const handleRemove = (fieldId: string) => {
+    if (!window.confirm(`Remove field "${fieldId}" from this space?`)) return
 
     mutation.mutate(
-      { slug, fieldName },
+      { slug, fieldName: fieldId },
       {
         onSuccess: () => {
           toast.success("Field removed successfully")
@@ -58,11 +58,11 @@ export default function FieldsPage() {
         </TableHeader>
         <TableBody>
           {space.fields.map((field) => (
-            <TableRow key={field.name}>
-              <TableCell className="font-medium">{field.name}</TableCell>
+            <TableRow key={field.id}>
+              <TableCell className="font-medium">{field.id}</TableCell>
               <TableCell>{field.type}</TableCell>
               <TableCell>{field.required ? "Yes" : "No"}</TableCell>
-              <TableCell>{space.hidden_create_fields.includes(field.name) ? "Yes" : "No"}</TableCell>
+              <TableCell>{space.hidden_create_fields.includes(field.id) ? "Yes" : "No"}</TableCell>
               <TableCell>
                 <DefaultValue field={field} />
               </TableCell>
@@ -72,7 +72,7 @@ export default function FieldsPage() {
                   variant="destructive"
                   size="sm"
                   onClick={() => {
-                    handleRemove(field.name)
+                    handleRemove(field.id)
                   }}
                   disabled={mutation.isPending}
                 >

@@ -15,12 +15,12 @@ import { FilterConditionsEditor } from "./-components/FilterConditionsEditor"
 import type { FilterCondition } from "@/types"
 
 const formSchema = z.object({
-  name: z
+  id: z
     .string()
-    .min(1, "Filter name is required")
+    .min(1, "Filter ID is required")
     .regex(
       /^[a-z_][a-z0-9_]*$/,
-      "Filter name must start with lowercase letter or underscore, and contain only lowercase letters, numbers, and underscores"
+      "Filter ID must start with lowercase letter or underscore, and contain only lowercase letters, numbers, and underscores"
     ),
   title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
@@ -46,7 +46,7 @@ export default function NewFilterPage() {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      id: "",
       title: "",
       description: "",
       conditions: [] as FilterCondition[],
@@ -71,7 +71,7 @@ export default function NewFilterPage() {
       {
         slug,
         filter: {
-          name: data.name,
+          id: data.id,
           title: data.title,
           description: data.description ?? "",
           conditions: conditions?.length ? conditions : undefined,
@@ -96,10 +96,10 @@ export default function NewFilterPage() {
         <form onSubmit={onSubmit} className="space-y-6">
           <FormField
             control={form.control}
-            name="name"
+            name="id"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Filter Name</FormLabel>
+                <FormLabel>Filter ID</FormLabel>
                 <FormControl>
                   <Input {...field} placeholder="active_tasks" />
                 </FormControl>
