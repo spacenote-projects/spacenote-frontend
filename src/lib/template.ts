@@ -84,23 +84,7 @@ export async function renderNoteDetailTemplate(
   context: NoteDetailTemplateContext
 ): Promise<{ html: string; error?: string }> {
   try {
-    const noteFields: Record<string, unknown> = {}
-    for (const field of context.space.fields) {
-      noteFields[field.id] = context.note.fields[field.id] ?? null
-    }
-
-    const templateContext = {
-      note: {
-        ...context.note,
-        ...noteFields,
-        fields: context.note.fields,
-      },
-      space: context.space,
-      users: context.users,
-      fields: context.space.fields,
-    }
-
-    const html = (await engine.parseAndRender(template, templateContext)) as string
+    const html = (await engine.parseAndRender(template, context)) as string
     return { html }
   } catch (error) {
     console.error("Template rendering error:", error)
@@ -116,26 +100,7 @@ export async function renderNoteListTemplate(
   context: NoteListTemplateContext
 ): Promise<{ html: string; error?: string }> {
   try {
-    const notesWithFields = context.notes.map((note) => {
-      const noteFields: Record<string, unknown> = {}
-      for (const field of context.space.fields) {
-        noteFields[field.id] = note.fields[field.id] ?? null
-      }
-      return {
-        ...note,
-        ...noteFields,
-        fields: note.fields,
-      }
-    })
-
-    const templateContext = {
-      notes: notesWithFields,
-      space: context.space,
-      users: context.users,
-      fields: context.space.fields,
-    }
-
-    const html = (await engine.parseAndRender(template, templateContext)) as string
+    const html = (await engine.parseAndRender(template, context)) as string
     return { html }
   } catch (error) {
     console.error("Template rendering error:", error)
