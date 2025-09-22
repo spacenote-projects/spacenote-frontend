@@ -1,20 +1,17 @@
 import { cache } from "@/hooks/useCache"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Button } from "@/components/ui/button"
+import { useNavigate } from "react-router"
+import { AppError } from "@/lib/errors"
 
 export default function UsersPage() {
   const currentUser = cache.useCurrentUser()
   const users = cache.useUsers()
   const spaces = cache.useSpaces()
+  const navigate = useNavigate()
 
-  const isAdmin = currentUser.username === "admin"
-
-  if (!isAdmin) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold mb-6">Access Denied</h1>
-        <p className="text-muted-foreground">This page is only accessible to administrators.</p>
-      </div>
-    )
+  if (currentUser.username !== "admin") {
+    throw new AppError("forbidden", "This page is only accessible to administrators")
   }
 
   const getUserSpaces = (userId: string): string[] => {
@@ -23,7 +20,10 @@ export default function UsersPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">Users</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">Users</h1>
+        <Button onClick={() => navigate("/users/new")}>New User</Button>
+      </div>
 
       {users.length === 0 ? (
         <p className="text-muted-foreground">No users found</p>

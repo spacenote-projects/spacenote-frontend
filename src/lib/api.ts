@@ -15,6 +15,7 @@ import type {
   Comment,
   CreateCommentRequest,
   CreateSpaceRequest,
+  CreateUserRequest,
   NotePaginationResult,
   CommentPaginationResult,
   UpdateSpaceTemplateRequest,
@@ -371,6 +372,19 @@ export const api = {
         onSuccess: () => {
           // Invalidate spaces query to refresh the filters list
           void queryClient.invalidateQueries({ queryKey: ["spaces"] })
+        },
+      })
+    },
+
+    /** Create a new user (admin only) */
+    useCreateUser: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: (data: CreateUserRequest) => httpClient.post("api/v1/users", { json: data }).json<User>(),
+        onSuccess: () => {
+          // Invalidate users query to refresh the users list
+          void queryClient.invalidateQueries({ queryKey: ["users"] })
         },
       })
     },

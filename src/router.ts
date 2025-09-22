@@ -17,6 +17,7 @@ import NewNotePage from "@/components/pages/new-note/NewNotePage"
 import NewSpacePage from "@/components/pages/new-space/NewSpacePage"
 import ImportSpacePage from "@/components/pages/import-space/ImportSpacePage"
 import UsersPage from "@/components/pages/users/UsersPage"
+import NewUserPage from "@/components/pages/new-user/NewUserPage"
 
 export const createRouter = () =>
   createBrowserRouter([
@@ -44,6 +45,10 @@ export const createRouter = () =>
         {
           path: "users",
           Component: UsersPage,
+        },
+        {
+          path: "users/new",
+          Component: NewUserPage,
         },
         {
           path: "s/:slug",
