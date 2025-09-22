@@ -46,6 +46,9 @@ importers:
       ky:
         specifier: ^1.10.0
         version: 1.10.0
+      liquidjs:
+        specifier: ^10.21.1
+        version: 10.21.1
       lucide-react:
         specifier: ^0.544.0
         version: 0.544.0(react@19.1.1)
@@ -1318,6 +1321,10 @@ packages:
   comma-separated-tokens@2.0.3:
     resolution: { integrity: sha512-Fu4hJdvzeylCfQPp9SGWidpzrMs7tTrlu6Vb8XGaRGck8QSNZJJp538Wrb60Lax4fPwR64ViY468OIUTbRlGZg== }
 
+  commander@10.0.1:
+    resolution: { integrity: sha512-y4Mg2tXshplEbSGzx7amzPwKKOCGuoSRP/CjEdwwk0FOGlUbq6lKuoyDZTNZkmxHdJtp54hdfY/JUrdL7Xfdug== }
+    engines: { node: ">=14" }
+
   compare-versions@6.1.1:
     resolution: { integrity: sha512-4hm4VPpIecmlg59CHXnRDnqGplJFrbLG4aFEl5vl6cK1u76ws3LLvX7ikFnTDl5vo39sjWD6AaDPYodJp/NNHg== }
 
@@ -1746,6 +1753,11 @@ packages:
   lightningcss@1.30.1:
     resolution: { integrity: sha512-xi6IyHML+c9+Q3W0S4fCQJOym42pyurFiJUHEcEyHS0CeKzia4yZDEsLlqOFykxOdHpNy0NmvVO31vcSqAxJCg== }
     engines: { node: ">= 12.0.0" }
+
+  liquidjs@10.21.1:
+    resolution: { integrity: sha512-NZXmCwv3RG5nire3fmIn9HsOyJX3vo+ptp0yaXUHAMzSNBhx74Hm+dAGJvscUA6lNqbLuYfXgNavRQ9UbUJhQQ== }
+    engines: { node: ">=14" }
+    hasBin: true
 
   locate-path@6.0.0:
     resolution: { integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw== }
@@ -3540,6 +3552,8 @@ snapshots:
 
   comma-separated-tokens@2.0.3: {}
 
+  commander@10.0.1: {}
+
   compare-versions@6.1.1: {}
 
   concat-map@0.0.1: {}
@@ -3973,6 +3987,10 @@ snapshots:
       lightningcss-linux-x64-musl: 1.30.1
       lightningcss-win32-arm64-msvc: 1.30.1
       lightningcss-win32-x64-msvc: 1.30.1
+
+  liquidjs@10.21.1:
+    dependencies:
+      commander: 10.0.1
 
   locate-path@6.0.0:
     dependencies:

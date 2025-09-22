@@ -3,17 +3,21 @@ import { useSuspenseQuery } from "@tanstack/react-query"
 import { Suspense } from "react"
 import { api } from "@/lib/api"
 import { cache } from "@/hooks/useCache"
-import NoteFieldValue from "@/components/shared/NoteFieldValue"
 import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
 import { Button } from "@/components/ui/button"
 import { CommentForm } from "./-components/CommentForm"
 import { CommentList } from "./-components/CommentList"
+import { DefaultNoteView } from "./-components/DefaultNoteView"
+import { TemplateNoteView } from "./-components/TemplateNoteView"
 
 export default function NotePage() {
   const { slug, number } = useParams() as { slug: string; number: string }
   const navigate = useNavigate()
   const space = cache.useSpace(slug)
   const { data: note } = useSuspenseQuery(api.queries.spaceNote(slug, Number(number)))
+
+  const hasTemplate = Boolean(space.templates.note_detail)
+  const NoteView = hasTemplate ? TemplateNoteView : DefaultNoteView
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -23,34 +27,7 @@ export default function NotePage() {
         actions={<Button onClick={() => navigate(`/s/${slug}/${number}/edit`)}>Edit</Button>}
       />
 
-      <div className="space-y-3">
-        {space.fields.map((field) => (
-          <div key={field.id} className="flex gap-4">
-            <div className="font-medium min-w-32">{field.id}</div>
-            <div className="text-sm">
-              <NoteFieldValue note={note} fieldKey={field.id} field={field} />
-            </div>
-          </div>
-        ))}
-
-        <div className="flex gap-4">
-          <div className="font-medium min-w-32">Created</div>
-          <div className="text-sm">
-            <NoteFieldValue note={note} fieldKey="created_at" />
-            {" by "}
-            <NoteFieldValue note={note} fieldKey="user_id" />
-          </div>
-        </div>
-
-        {note.edited_at && (
-          <div className="flex gap-4">
-            <div className="font-medium min-w-32">Edited</div>
-            <div className="text-sm">
-              <NoteFieldValue note={note} fieldKey="edited_at" />
-            </div>
-          </div>
-        )}
-      </div>
+      <NoteView note={note} space={space} />
 
       <div className="mt-8 space-y-6">
         <h2 className="text-xl font-semibold">Comments</h2>
