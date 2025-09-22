@@ -1,61 +1,36 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router"
 import type { Note, Space } from "@/types"
-import { renderNoteDetailTemplate } from "@/lib/template"
-import { DefaultNoteView } from "./DefaultNoteView"
+import { renderNoteListTemplate } from "@/lib/template"
 import { cache } from "@/hooks/useCache"
-import { Alert, AlertDescription } from "@/components/ui/alert"
 
-interface TemplateNoteViewProps {
-  note: Note
-  space: Space
-}
-
-export function TemplateNoteView({ note, space }: TemplateNoteViewProps) {
+export function TemplateNotesView({ notes, space }: { notes: Note[]; space: Space }) {
   const [renderedHtml, setRenderedHtml] = useState<string>("")
-  const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate()
   const users = cache.useUsers()
 
   useEffect(() => {
     async function render() {
-      if (!space.templates.note_detail) {
-        setError("No template defined")
+      if (!space.templates.note_list) {
         setIsLoading(false)
         return
       }
 
       setIsLoading(true)
-      setError(null)
 
-      const result = await renderNoteDetailTemplate(space.templates.note_detail, {
-        note,
+      const result = await renderNoteListTemplate(space.templates.note_list, {
+        notes,
         space,
         users,
       })
 
-      if (result.error) {
-        setError(result.error)
-      } else {
-        setRenderedHtml(result.html)
-      }
+      setRenderedHtml(result.html)
       setIsLoading(false)
     }
 
     void render()
-  }, [note, space, users])
-
-  if (error) {
-    return (
-      <>
-        <Alert className="mb-4">
-          <AlertDescription>Template rendering error: {error}</AlertDescription>
-        </Alert>
-        <DefaultNoteView note={note} space={space} />
-      </>
-    )
-  }
+  }, [notes, space, users])
 
   if (isLoading) {
     return <div>Loading template...</div>

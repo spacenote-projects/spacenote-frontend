@@ -7,33 +7,10 @@ import { Plus } from "lucide-react"
 import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
 import { SpaceActionsDropdown } from "@/components/shared/SpaceActionsDropdown"
 import { NotePaginator } from "./-components/NotePaginator"
-import { NotesTable } from "./-components/NotesTable"
+import { DefaultNotesView } from "./-components/DefaultNotesView"
+import { TemplateNotesView } from "./-components/TemplateNotesView"
 import { FilterSelector } from "./-components/FilterSelector"
-import type { Space } from "@/types"
-
 const DEFAULT_LIMIT = 50
-
-/**
- * Determines which columns should be displayed in the notes table based on the active filter.
- *
- * @param space - The current space containing filter definitions and default list fields
- * @param filterName - Optional name of the active filter
- * @returns Array of field names to display as columns
- *
- * Priority order:
- * 1. If a filter is active and has list_fields defined, use those
- * 2. Otherwise use the space's default list_fields
- * 3. If neither exist, fall back to default columns: number, created_at, author
- */
-function getFilterColumns(space: Space, filterName?: string): string[] {
-  const activeFilter = filterName ? space.filters.find((f) => f.id === filterName) : undefined
-
-  return activeFilter?.list_fields && activeFilter.list_fields.length > 0
-    ? activeFilter.list_fields
-    : space.list_fields.length > 0
-      ? space.list_fields
-      : ["number", "created_at", "user_id"]
-}
 
 export default function NotesPage() {
   const { slug } = useParams() as { slug: string }
@@ -94,7 +71,7 @@ export default function NotesPage() {
     updateParams({ page: validPage })
   }
 
-  const columns = getFilterColumns(space, filter)
+  const hasTemplate = !!space.templates.note_list
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -126,7 +103,11 @@ export default function NotesPage() {
         <div className="text-center py-8 text-muted-foreground">No notes yet in this space</div>
       ) : (
         <>
-          <NotesTable notes={paginatedResult.items} columns={columns} space={space} slug={slug} />
+          {hasTemplate ? (
+            <TemplateNotesView notes={paginatedResult.items} space={space} />
+          ) : (
+            <DefaultNotesView notes={paginatedResult.items} space={space} filter={filter} />
+          )}
 
           {totalPages > 1 && (
             <NotePaginator

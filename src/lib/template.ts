@@ -67,13 +67,22 @@ engine.registerFilter("markdown", (value: string) => {
   return markdownToHtmlSafeSync(value)
 })
 
-interface TemplateContext {
+interface NoteDetailTemplateContext {
   note: Note
   space: Space
   users: User[]
 }
 
-export async function renderTemplate(template: string, context: TemplateContext): Promise<{ html: string; error?: string }> {
+interface NoteListTemplateContext {
+  notes: Note[]
+  space: Space
+  users: User[]
+}
+
+export async function renderNoteDetailTemplate(
+  template: string,
+  context: NoteDetailTemplateContext
+): Promise<{ html: string; error?: string }> {
   try {
     const noteFields: Record<string, unknown> = {}
     for (const field of context.space.fields) {
@@ -86,6 +95,41 @@ export async function renderTemplate(template: string, context: TemplateContext)
         ...noteFields,
         fields: context.note.fields,
       },
+      space: context.space,
+      users: context.users,
+      fields: context.space.fields,
+    }
+
+    const html = (await engine.parseAndRender(template, templateContext)) as string
+    return { html }
+  } catch (error) {
+    console.error("Template rendering error:", error)
+    return {
+      html: "",
+      error: error instanceof Error ? error.message : "Template rendering failed",
+    }
+  }
+}
+
+export async function renderNoteListTemplate(
+  template: string,
+  context: NoteListTemplateContext
+): Promise<{ html: string; error?: string }> {
+  try {
+    const notesWithFields = context.notes.map((note) => {
+      const noteFields: Record<string, unknown> = {}
+      for (const field of context.space.fields) {
+        noteFields[field.id] = note.fields[field.id] ?? null
+      }
+      return {
+        ...note,
+        ...noteFields,
+        fields: note.fields,
+      }
+    })
+
+    const templateContext = {
+      notes: notesWithFields,
       space: context.space,
       users: context.users,
       fields: context.space.fields,
