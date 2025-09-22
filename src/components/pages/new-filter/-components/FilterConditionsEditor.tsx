@@ -42,10 +42,10 @@ export function FilterConditionsEditor({ conditions, onChange, fields }: FilterC
     onChange(newConditions)
   }
 
-  const parseValue = (value: string, operator: FilterOperator) => {
+  const parseValue = (value: string, operator: FilterOperator, shouldParse = true) => {
     if (!value.trim()) return null
 
-    if (operator === "in" || operator === "nin" || operator === "all") {
+    if ((operator === "in" || operator === "nin" || operator === "all") && shouldParse) {
       return value
         .split(",")
         .map((v) => v.trim())
@@ -146,9 +146,26 @@ export function FilterConditionsEditor({ conditions, onChange, fields }: FilterC
                   ? "value1, value2"
                   : "Value"
               }
-              value={formatValue(condition.value)}
+              value={
+                condition.operator === "in" || condition.operator === "nin" || condition.operator === "all"
+                  ? typeof condition.value === "string"
+                    ? condition.value
+                    : formatValue(condition.value)
+                  : formatValue(condition.value)
+              }
               onChange={(e) => {
-                updateCondition(index, { value: parseValue(e.target.value, condition.operator) })
+                const isArrayOperator =
+                  condition.operator === "in" || condition.operator === "nin" || condition.operator === "all"
+                updateCondition(index, {
+                  value: isArrayOperator ? e.target.value : parseValue(e.target.value, condition.operator),
+                })
+              }}
+              onBlur={(e) => {
+                const isArrayOperator =
+                  condition.operator === "in" || condition.operator === "nin" || condition.operator === "all"
+                if (isArrayOperator) {
+                  updateCondition(index, { value: parseValue(e.target.value, condition.operator, true) })
+                }
               }}
             />
 
