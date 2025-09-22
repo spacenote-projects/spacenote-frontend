@@ -1,5 +1,6 @@
 import { Liquid } from "liquidjs"
 import { formatDate, formatDateTime, formatRelativeTime, formatFieldValue } from "@/lib/formatters"
+import { markdownToHtmlSafeSync } from "@/lib/markdown"
 import type { Note, Space, User, SpaceField } from "@/types"
 
 const engine = new Liquid({
@@ -59,6 +60,11 @@ engine.registerFilter("json", (value: unknown) => {
 
 engine.registerFilter("default", (value: unknown, defaultValue: string) => {
   return value ?? defaultValue
+})
+
+engine.registerFilter("markdown", (value: string) => {
+  if (!value) return ""
+  return markdownToHtmlSafeSync(value)
 })
 
 interface TemplateContext {
