@@ -17,11 +17,21 @@ src/
 │   │   │   ├── NotesPage.tsx
 │   │   │   └── -components/   # Internal components (- prefix)
 │   │   ├── note/
+│   │   ├── edit-note/
 │   │   ├── new-note/
 │   │   ├── new-space/
+│   │   ├── import-space/
+│   │   ├── export/
 │   │   ├── fields/
+│   │   ├── new-field/
+│   │   ├── filters/
+│   │   ├── new-filter/
 │   │   ├── members/
 │   │   ├── space-settings/
+│   │   ├── space-templates/
+│   │   ├── users/
+│   │   ├── new-user/
+│   │   ├── home/
 │   │   └── login/
 │   ├── layouts/               # Layout components
 │   │   ├── Layout.tsx
@@ -34,7 +44,11 @@ src/
 │   ├── http-client.ts        # HTTP client configuration
 │   ├── errors.ts             # Error handling system
 │   ├── auth-storage.ts       # Authentication management
-│   └── formatters.ts         # Data formatting utilities
+│   ├── formatters.ts         # Data formatting utilities
+│   ├── form-helpers.ts       # Form utility functions
+│   ├── markdown.ts           # Markdown rendering utilities
+│   ├── template.ts           # Template-related functionality
+│   └── utils.ts              # General utility functions
 ├── hooks/                     # Custom React hooks
 │   └── useCache.ts           # Cache access hooks
 ├── types/                     # TypeScript type system
@@ -89,11 +103,21 @@ Routes use `/s/:slug` pattern for spaces:
 - `/` - Home page
 - `/login` - Login page
 - `/spaces/new` - Create space
+- `/spaces/import` - Import space from file
+- `/users` - User management
+- `/users/new` - Create new user
 - `/s/:slug` - Space notes list
 - `/s/:slug/new` - Create note
 - `/s/:slug/:number` - View note
+- `/s/:slug/:number/edit` - Edit note
 - `/s/:slug/members` - Manage members
 - `/s/:slug/fields` - Manage fields
+- `/s/:slug/fields/new` - Create new field
+- `/s/:slug/filters` - Manage filters
+- `/s/:slug/filters/new` - Create new filter
+- `/s/:slug/templates` - Space templates
+- `/s/:slug/export` - Export space data
+- `/s/:slug/settings` - Space settings
 
 ## Form Handling
 
