@@ -54,15 +54,18 @@ export const api = {
         gcTime: Infinity,
       }),
     /** Get paginated notes for a space */
-    spaceNotes: (slug: string, page = 1, limit = 50) =>
+    spaceNotes: (slug: string, page = 1, limit = 50, filter?: string) =>
       queryOptions({
-        queryKey: ["spaces", slug, "notes", page, limit],
+        queryKey: ["spaces", slug, "notes", page, limit, filter],
         queryFn: () => {
           const offset = (page - 1) * limit
           const searchParams = new URLSearchParams({
             limit: String(limit),
             offset: String(offset),
           })
+          if (filter) {
+            searchParams.set("filter", filter)
+          }
           return httpClient.get(`api/v1/spaces/${slug}/notes?${searchParams}`).json<NotePaginationResult>()
         },
         staleTime: 60 * 1000, // 1 minute

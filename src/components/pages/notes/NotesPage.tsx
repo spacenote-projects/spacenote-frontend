@@ -1,21 +1,90 @@
-import { useParams, Link } from "react-router"
+import { useParams, Link, useSearchParams } from "react-router"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { api } from "@/lib/api"
 import { cache } from "@/hooks/useCache"
-import { useNotePagination } from "@/hooks/useNotePagination"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
 import { SpaceActionsDropdown } from "@/components/shared/SpaceActionsDropdown"
 import { NotePaginator } from "./-components/NotePaginator"
 import { NotesTable } from "./-components/NotesTable"
+import { FilterSelector } from "./-components/FilterSelector"
+import type { Space } from "@/types"
+
+const DEFAULT_LIMIT = 50
+
+/**
+ * Determines which columns should be displayed in the notes table based on the active filter.
+ *
+ * @param space - The current space containing filter definitions and default list fields
+ * @param filterName - Optional name of the active filter
+ * @returns Array of field names to display as columns
+ *
+ * Priority order:
+ * 1. If a filter is active and has list_fields defined, use those
+ * 2. Otherwise use the space's default list_fields
+ * 3. If neither exist, fall back to default columns: number, created_at, author
+ */
+function getFilterColumns(space: Space, filterName?: string): string[] {
+  const activeFilter = filterName ? space.filters.find((f) => f.name === filterName) : undefined
+
+  return activeFilter?.list_fields && activeFilter.list_fields.length > 0
+    ? activeFilter.list_fields
+    : space.list_fields.length > 0
+      ? space.list_fields
+      : ["number", "created_at", "author"]
+}
 
 export default function NotesPage() {
   const { slug } = useParams() as { slug: string }
   const space = cache.useSpace(slug)
-  const { page, limit, updateParams } = useNotePagination()
 
-  const { data: paginatedResult } = useSuspenseQuery(api.queries.spaceNotes(slug, page, limit))
+  // URL state management (formerly useNotePagination)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const page = Math.max(1, Number(searchParams.get("page")) || 1)
+  const limit = Math.max(1, Number(searchParams.get("limit")) || DEFAULT_LIMIT)
+  const filter = searchParams.get("filter") ?? undefined
+
+  const updateParams = (updates: { page?: number; limit?: number; filter?: string | null }) => {
+    const newParams = new URLSearchParams(searchParams)
+
+    // Handle page update
+    if (updates.page !== undefined) {
+      if (updates.page === 1) {
+        newParams.delete("page")
+      } else {
+        newParams.set("page", String(updates.page))
+      }
+    }
+
+    // Handle limit update
+    if (updates.limit !== undefined) {
+      // Reset to page 1 when changing limit
+      newParams.delete("page")
+
+      if (updates.limit === DEFAULT_LIMIT) {
+        newParams.delete("limit")
+      } else {
+        newParams.set("limit", String(updates.limit))
+      }
+    }
+
+    // Handle filter update
+    if (updates.filter !== undefined) {
+      // Reset to page 1 when changing filter
+      newParams.delete("page")
+
+      if (updates.filter === null) {
+        newParams.delete("filter")
+      } else {
+        newParams.set("filter", updates.filter)
+      }
+    }
+
+    setSearchParams(newParams)
+  }
+
+  const { data: paginatedResult } = useSuspenseQuery(api.queries.spaceNotes(slug, page, limit, filter))
 
   const totalPages = Math.ceil(paginatedResult.total / limit)
   const validPage = Math.min(page, Math.max(1, totalPages))
@@ -25,7 +94,7 @@ export default function NotesPage() {
     updateParams({ page: validPage })
   }
 
-  const columns = space.list_fields.length > 0 ? space.list_fields : ["number", "created_at", "author"]
+  const columns = getFilterColumns(space, filter)
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -33,6 +102,15 @@ export default function NotesPage() {
         space={space}
         actions={
           <div className="flex items-center gap-2">
+            {space.filters.length > 0 && (
+              <FilterSelector
+                space={space}
+                currentFilter={filter}
+                onFilterChange={(newFilter) => {
+                  updateParams({ filter: newFilter })
+                }}
+              />
+            )}
             <Button variant="outline" size="sm" asChild>
               <Link to={`/s/${slug}/new`}>
                 <Plus className="mr-2 h-4 w-4" />
