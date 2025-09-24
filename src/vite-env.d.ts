@@ -6,7 +6,7 @@ interface ImportMetaEnv {
 }
 
 interface SpacenoteRuntimeConfig {
-  API_URL?: string
+  API_URL: string
 }
 
 declare global {

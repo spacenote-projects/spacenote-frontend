@@ -15,6 +15,9 @@ dist-ssr
 /tmp
 /.claude
 
+# Generated runtime config (created by Docker entrypoint)
+/public/runtime-config.js
+
 # Environment variables
 .env.local
 .env.*.local

@@ -2,29 +2,27 @@ import ky from "ky"
 import { AppError } from "@/lib/errors"
 import { authStorage } from "@/lib/auth-storage"
 
-const getRuntimeApiUrl = (): string | undefined => {
-  if (typeof window === "undefined") {
-    return undefined
-  }
-
-  const config = window.__SPACENOTE_CONFIG__
-  if (config && typeof config.API_URL === "string") {
-    return config.API_URL
-  }
-
-  return undefined
-}
-
 const resolveApiUrl = (): string => {
-  const envUrl = import.meta.env.VITE_API_URL
-
+  // Development: use VITE_API_URL from .env
   if (import.meta.env.DEV) {
+    const envUrl = import.meta.env.VITE_API_URL
+    if (!envUrl) {
+      throw new Error("VITE_API_URL is not defined in .env file")
+    }
     return envUrl
   }
 
-  const runtimeUrl = getRuntimeApiUrl()
+  // Production: use runtime config from window.__SPACENOTE_CONFIG__
+  if (typeof window === "undefined") {
+    throw new Error("Cannot resolve API URL: window is undefined")
+  }
 
-  return runtimeUrl ?? envUrl
+  const config = window.__SPACENOTE_CONFIG__
+  if (!config?.API_URL) {
+    throw new Error("API_URL is not configured. Please check runtime-config.js")
+  }
+
+  return config.API_URL
 }
 
 const apiUrl = resolveApiUrl()
