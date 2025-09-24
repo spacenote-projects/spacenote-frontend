@@ -1,5 +1,6 @@
 set dotenv-load
 
+docker_image_name := "spacenote-frontend"
 
 dev:
     pnpm run dev
@@ -18,3 +19,13 @@ agent-start: agent-stop # For AI agents
 agent-stop: # For AI agents
     -pkill -F agent.pid 2>/dev/null || true
     -rm -f agent.pid agent.log
+
+docker-build tag="latest":
+    docker build -t {{docker_image_name}}:{{tag}} .
+
+docker-push tag="latest":
+    docker push {{docker_image_name}}:{{tag}}
+
+docker-run-local tag="latest":
+    docker build -t {{docker_image_name}}:{{tag}} .
+    docker run --rm -p 4173:4173 -e API_URL=${API_URL:-http://localhost:3100} {{docker_image_name}}:{{tag}}

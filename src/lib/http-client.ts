@@ -2,7 +2,32 @@ import ky from "ky"
 import { AppError } from "@/lib/errors"
 import { authStorage } from "@/lib/auth-storage"
 
-const apiUrl = import.meta.env.VITE_API_URL || ""
+const getRuntimeApiUrl = (): string | undefined => {
+  if (typeof window === "undefined") {
+    return undefined
+  }
+
+  const config = window.__SPACENOTE_CONFIG__
+  if (config && typeof config.API_URL === "string") {
+    return config.API_URL
+  }
+
+  return undefined
+}
+
+const resolveApiUrl = (): string => {
+  const envUrl = import.meta.env.VITE_API_URL
+
+  if (import.meta.env.DEV) {
+    return envUrl
+  }
+
+  const runtimeUrl = getRuntimeApiUrl()
+
+  return runtimeUrl ?? envUrl
+}
+
+const apiUrl = resolveApiUrl()
 
 export const httpClient = ky.create({
   prefixUrl: apiUrl,

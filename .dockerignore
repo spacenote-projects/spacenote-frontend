@@ -1,0 +1,14 @@
+node_modules
+.tmp
+.tmp-*
+.DS_Store
+dist
+tmp
+*.log
+agent.log
+agent.pid
+.env*
+.git
+.gitignore
+.vscode
+.idea
