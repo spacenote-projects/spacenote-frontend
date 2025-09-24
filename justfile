@@ -24,7 +24,10 @@ docker-build tag="latest":
     docker build -t {{docker_image_name}}:{{tag}} .
 
 docker-push tag="latest":
-    docker push {{docker_image_name}}:{{tag}}
+    docker build -t spacenote-frontend:{{tag}} .
+    docker tag spacenote-frontend:{{tag}} ghcr.io/spacenote-projects/spacenote-frontend:{{tag}}
+    docker push ghcr.io/spacenote-projects/spacenote-frontend:{{tag}}
+
 
 docker-run-local tag="latest":
     docker build -t {{docker_image_name}}:{{tag}} .
