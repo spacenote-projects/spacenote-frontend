@@ -64,7 +64,7 @@ export default function NotePage() {
                     handleViewChange("default")
                   }}
                 >
-                  Show As Default {isShowingDefault && "✓"}
+                  View as Default {isShowingDefault && "✓"}
                 </DropdownMenuItem>
                 {hasTemplate && (
                   <DropdownMenuItem
@@ -72,7 +72,7 @@ export default function NotePage() {
                       handleViewChange("template")
                     }}
                   >
-                    Show As Template {isShowingTemplate && "✓"}
+                    View as Template {isShowingTemplate && "✓"}
                   </DropdownMenuItem>
                 )}
                 <DropdownMenuItem
@@ -80,7 +80,7 @@ export default function NotePage() {
                     handleViewChange("json")
                   }}
                 >
-                  Show As JSON {isShowingJSON && "✓"}
+                  View as JSON {isShowingJSON && "✓"}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
