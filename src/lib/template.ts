@@ -1,5 +1,5 @@
 import { Liquid } from "liquidjs"
-import { formatDate, formatDateTime, formatRelativeTime, formatFieldValue } from "@/lib/formatters"
+import { formatDate, formatDateTime, formatFieldValue } from "@/lib/formatters"
 import { markdownToHtmlSafeSync } from "@/lib/markdown"
 import type { Note, Space, User, SpaceField } from "@/types"
 
@@ -18,11 +18,6 @@ engine.registerFilter("date", (value: string | Date) => {
 engine.registerFilter("datetime", (value: string | Date) => {
   if (!value) return ""
   return formatDateTime(value)
-})
-
-engine.registerFilter("relative_time", (value: string | Date) => {
-  if (!value) return ""
-  return formatRelativeTime(value)
 })
 
 engine.registerFilter("user", (userId: string, users: User[]) => {

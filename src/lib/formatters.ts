@@ -3,13 +3,22 @@
  */
 export function formatDateTime(date: Date | string): string {
   const dateObj = typeof date === "string" ? new Date(date) : date
-  return dateObj.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-  })
+
+  const year = dateObj.getFullYear()
+  const month = String(dateObj.getMonth() + 1).padStart(2, "0")
+  const day = String(dateObj.getDate()).padStart(2, "0")
+  const hours = String(dateObj.getHours()).padStart(2, "0")
+  const minutes = String(dateObj.getMinutes()).padStart(2, "0")
+
+  const timezone =
+    dateObj
+      .toLocaleDateString("en-US", {
+        timeZoneName: "short",
+      })
+      .split(" ")
+      .pop() ?? ""
+
+  return `${String(year)}-${month}-${day} ${hours}:${minutes} ${timezone}`
 }
 
 /**
@@ -17,11 +26,12 @@ export function formatDateTime(date: Date | string): string {
  */
 export function formatDate(date: Date | string): string {
   const dateObj = typeof date === "string" ? new Date(date) : date
-  return dateObj.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  })
+
+  const year = dateObj.getFullYear()
+  const month = String(dateObj.getMonth() + 1).padStart(2, "0")
+  const day = String(dateObj.getDate()).padStart(2, "0")
+
+  return `${String(year)}-${month}-${day}`
 }
 
 /**
@@ -56,34 +66,4 @@ export function formatFieldValue(value: string | boolean | string[] | number | n
     default:
       return String(value)
   }
-}
-
-/**
- * Format a date to relative time (e.g., "2 hours ago")
- */
-export function formatRelativeTime(date: Date | string): string {
-  const dateObj = typeof date === "string" ? new Date(date) : date
-  const now = new Date()
-  const diffInSeconds = Math.floor((now.getTime() - dateObj.getTime()) / 1000)
-
-  if (diffInSeconds < 60) {
-    return "just now"
-  }
-
-  const diffInMinutes = Math.floor(diffInSeconds / 60)
-  if (diffInMinutes < 60) {
-    return `${String(diffInMinutes)} minute${diffInMinutes !== 1 ? "s" : ""} ago`
-  }
-
-  const diffInHours = Math.floor(diffInMinutes / 60)
-  if (diffInHours < 24) {
-    return `${String(diffInHours)} hour${diffInHours !== 1 ? "s" : ""} ago`
-  }
-
-  const diffInDays = Math.floor(diffInHours / 24)
-  if (diffInDays < 30) {
-    return `${String(diffInDays)} day${diffInDays !== 1 ? "s" : ""} ago`
-  }
-
-  return formatDate(dateObj)
 }

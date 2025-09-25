@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { api } from "@/lib/api"
 import { cache } from "@/hooks/useCache"
-import { formatRelativeTime } from "@/lib/formatters"
+import { formatDateTime } from "@/lib/formatters"
 import type { Comment } from "@/types"
 
 function CommentItem({ comment }: { comment: Comment }) {
@@ -12,7 +12,7 @@ function CommentItem({ comment }: { comment: Comment }) {
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <span className="font-medium">{author.username}</span>
-          <span className="text-sm text-muted-foreground">{formatRelativeTime(comment.created_at)}</span>
+          <span className="text-sm text-muted-foreground">{formatDateTime(comment.created_at)}</span>
         </div>
       </div>
 
