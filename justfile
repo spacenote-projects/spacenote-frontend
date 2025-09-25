@@ -20,13 +20,11 @@ agent-stop: # For AI agents
     -pkill -F agent.pid 2>/dev/null || true
     -rm -f agent.pid agent.log
 
-docker-build tag="latest":
-    docker build -t {{docker_image_name}}:{{tag}} .
+docker-build:
+    docker buildx build --platform linux/amd64,linux/arm64 -t spacenote-frontend:latest .
 
 docker-push tag="latest":
-    docker build -t spacenote-frontend:{{tag}} .
-    docker tag spacenote-frontend:{{tag}} ghcr.io/spacenote-projects/spacenote-frontend:{{tag}}
-    docker push ghcr.io/spacenote-projects/spacenote-frontend:{{tag}}
+    docker buildx build --platform linux/amd64,linux/arm64 -t ghcr.io/spacenote-projects/spacenote-frontend:{{tag}} --push .
 
 
 docker-run-local tag="latest":
