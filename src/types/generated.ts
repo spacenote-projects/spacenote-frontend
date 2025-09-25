@@ -225,6 +225,66 @@ export type paths = {
     patch: operations["updateSpaceHiddenCreateFields"]
     trace?: never
   }
+  "/api/v1/spaces/{space_slug}/title": {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    /**
+     * Update space title
+     * @description Update the title of a space. Only space members can update the title.
+     */
+    patch: operations["updateSpaceTitle"]
+    trace?: never
+  }
+  "/api/v1/spaces/{space_slug}/description": {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    /**
+     * Update space description
+     * @description Update the description of a space. Only space members can update the description.
+     */
+    patch: operations["updateSpaceDescription"]
+    trace?: never
+  }
+  "/api/v1/spaces/{space_slug}/slug": {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    /**
+     * Update space slug
+     * @description Update the slug of a space. Only space members can update the slug. The slug must be unique across all spaces.
+     */
+    patch: operations["updateSpaceSlug"]
+    trace?: never
+  }
   "/api/v1/spaces/{space_slug}": {
     parameters: {
       query?: never
@@ -1098,6 +1158,34 @@ export type components = {
       }
     }
     /**
+     * UpdateSpaceDescriptionRequest
+     * @description Request to update space description.
+     * @example {
+     *       "description": "Track personal and work tasks with deadlines"
+     *     }
+     */
+    UpdateSpaceDescriptionRequest: {
+      /**
+       * Description
+       * @description New description for the space
+       */
+      description: string
+    }
+    /**
+     * UpdateSpaceSlugRequest
+     * @description Request to update space slug.
+     * @example {
+     *       "new_slug": "updated-tasks"
+     *     }
+     */
+    UpdateSpaceSlugRequest: {
+      /**
+       * New Slug
+       * @description New URL-friendly unique identifier (lowercase, numbers, hyphens; no leading/trailing/double hyphens)
+       */
+      new_slug: string
+    }
+    /**
      * UpdateSpaceTemplateRequest
      * @description Request to update a space template.
      * @example {
@@ -1117,6 +1205,20 @@ export type components = {
        * @description Template content (Liquid template) or null to clear
        */
       content: string | null
+    }
+    /**
+     * UpdateSpaceTitleRequest
+     * @description Request to update space title.
+     * @example {
+     *       "title": "My Updated Task Tracker"
+     *     }
+     */
+    UpdateSpaceTitleRequest: {
+      /**
+       * Title
+       * @description New title for the space
+       */
+      title: string
     }
     /**
      * UserView
@@ -1706,6 +1808,210 @@ export interface operations {
         }
       }
       /** @description Invalid field ids */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Not authenticated */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Not a member of this space */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Space not found */
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"]
+        }
+      }
+    }
+  }
+  updateSpaceTitle: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        space_slug: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateSpaceTitleRequest"]
+      }
+    }
+    responses: {
+      /** @description Space title updated successfully */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["Space"]
+        }
+      }
+      /** @description Invalid title */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Not authenticated */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Not a member of this space */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Space not found */
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"]
+        }
+      }
+    }
+  }
+  updateSpaceDescription: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        space_slug: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateSpaceDescriptionRequest"]
+      }
+    }
+    responses: {
+      /** @description Space description updated successfully */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["Space"]
+        }
+      }
+      /** @description Not authenticated */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Not a member of this space */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Space not found */
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"]
+        }
+      }
+    }
+  }
+  updateSpaceSlug: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        space_slug: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateSpaceSlugRequest"]
+      }
+    }
+    responses: {
+      /** @description Space slug updated successfully */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["Space"]
+        }
+      }
+      /** @description Invalid slug format or slug already exists */
       400: {
         headers: {
           [name: string]: unknown

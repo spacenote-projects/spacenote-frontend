@@ -31,6 +31,9 @@ export type CreateUserRequest = components["schemas"]["CreateUserRequest"]
 export type AddMemberRequest = components["schemas"]["AddMemberRequest"]
 export type UpdateListFieldsRequest = components["schemas"]["UpdateListFieldsRequest"]
 export type UpdateHiddenCreateFieldsRequest = components["schemas"]["UpdateHiddenCreateFieldsRequest"]
+export type UpdateSpaceTitleRequest = components["schemas"]["UpdateSpaceTitleRequest"]
+export type UpdateSpaceSlugRequest = components["schemas"]["UpdateSpaceSlugRequest"]
+export type UpdateSpaceDescriptionRequest = components["schemas"]["UpdateSpaceDescriptionRequest"]
 
 // Pagination types
 export interface PaginationResult<T> {

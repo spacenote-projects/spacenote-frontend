@@ -3,6 +3,9 @@ import { cache } from "@/hooks/useCache"
 import { DeleteSpace } from "./-components/DeleteSpace"
 import { ListFieldsSettings } from "./-components/ListFieldsSettings"
 import { HiddenCreateFieldsSettings } from "./-components/HiddenCreateFieldsSettings"
+import { UpdateSpaceTitle } from "./-components/UpdateSpaceTitle"
+import { UpdateSpaceSlug } from "./-components/UpdateSpaceSlug"
+import { UpdateSpaceDescription } from "./-components/UpdateSpaceDescription"
 import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
 import { useEffect } from "react"
 
@@ -34,6 +37,9 @@ export default function SpaceSettingsPage() {
       <SpacePageHeader space={space} section="Settings" />
 
       <div className="space-y-8">
+        <UpdateSpaceTitle space={space} />
+        <UpdateSpaceSlug space={space} />
+        <UpdateSpaceDescription space={space} />
         <ListFieldsSettings space={space} />
         <HiddenCreateFieldsSettings space={space} />
         <DeleteSpace slug={slug} title={space.title} />

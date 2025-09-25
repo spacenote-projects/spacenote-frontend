@@ -383,6 +383,48 @@ export const api = {
       })
     },
 
+    /** Update space title */
+    useUpdateSpaceTitle: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: ({ slug, title }: { slug: string; title: string }) =>
+          httpClient.patch(`api/v1/spaces/${slug}/title`, { json: { title } }).json<Space>(),
+        onSuccess: () => {
+          // Invalidate spaces query to refresh the space data
+          void queryClient.invalidateQueries({ queryKey: ["spaces"] })
+        },
+      })
+    },
+
+    /** Update space slug */
+    useUpdateSpaceSlug: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: ({ slug, newSlug }: { slug: string; newSlug: string }) =>
+          httpClient.patch(`api/v1/spaces/${slug}/slug`, { json: { new_slug: newSlug } }).json<Space>(),
+        onSuccess: () => {
+          // Invalidate spaces query to refresh the space data
+          void queryClient.invalidateQueries({ queryKey: ["spaces"] })
+        },
+      })
+    },
+
+    /** Update space description */
+    useUpdateSpaceDescription: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: ({ slug, description }: { slug: string; description: string }) =>
+          httpClient.patch(`api/v1/spaces/${slug}/description`, { json: { description } }).json<Space>(),
+        onSuccess: () => {
+          // Invalidate spaces query to refresh the space data
+          void queryClient.invalidateQueries({ queryKey: ["spaces"] })
+        },
+      })
+    },
+
     /** Create a new user (admin only) */
     useCreateUser: () => {
       const queryClient = useQueryClient()
