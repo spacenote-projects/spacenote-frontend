@@ -5,7 +5,7 @@ import { api } from "@/lib/api"
 import { cache } from "@/hooks/useCache"
 import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
 import { Button } from "@/components/ui/button"
-import { Settings } from "lucide-react"
+import { Eye } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { CommentForm } from "./-components/CommentForm"
 import { CommentList } from "./-components/CommentList"
@@ -54,8 +54,8 @@ export default function NotePage() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon">
-                  <Settings className="size-4" />
-                  <span className="sr-only">Note settings</span>
+                  <Eye className="size-4" />
+                  <span className="sr-only">View settings</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">

@@ -9,7 +9,9 @@ import { SpaceActionsDropdown } from "@/components/shared/SpaceActionsDropdown"
 import { NotePaginator } from "./-components/NotePaginator"
 import { DefaultNotesView } from "./-components/DefaultNotesView"
 import { TemplateNotesView } from "./-components/TemplateNotesView"
+import { JSONNotesView } from "./-components/JSONNotesView"
 import { FilterSelector } from "./-components/FilterSelector"
+import { ViewModeDropdown } from "./-components/ViewModeDropdown"
 const DEFAULT_LIMIT = 50
 
 export default function NotesPage() {
@@ -21,8 +23,14 @@ export default function NotesPage() {
   const page = Math.max(1, Number(searchParams.get("page")) || 1)
   const limit = Math.max(1, Number(searchParams.get("limit")) || DEFAULT_LIMIT)
   const filter = searchParams.get("filter") ?? undefined
+  const viewMode = searchParams.get("view") as "default" | "template" | "json" | null
 
-  const updateParams = (updates: { page?: number; limit?: number; filter?: string | null }) => {
+  const updateParams = (updates: {
+    page?: number
+    limit?: number
+    filter?: string | null
+    view?: "default" | "template" | "json"
+  }) => {
     const newParams = new URLSearchParams(searchParams)
 
     // Handle page update
@@ -58,6 +66,11 @@ export default function NotesPage() {
       }
     }
 
+    // Handle view mode update
+    if (updates.view !== undefined) {
+      newParams.set("view", updates.view)
+    }
+
     setSearchParams(newParams)
   }
 
@@ -72,6 +85,22 @@ export default function NotesPage() {
   }
 
   const hasTemplate = !!space.templates.note_list
+
+  // Determine which view to use
+  const NotesView =
+    viewMode === "json"
+      ? JSONNotesView
+      : viewMode === "template"
+        ? TemplateNotesView
+        : viewMode === "default"
+          ? DefaultNotesView
+          : hasTemplate
+            ? TemplateNotesView
+            : DefaultNotesView
+
+  // Check which view is actually being shown
+  const currentView: "default" | "template" | "json" =
+    NotesView === JSONNotesView ? "json" : NotesView === TemplateNotesView ? "template" : "default"
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -94,6 +123,13 @@ export default function NotesPage() {
                 New Note
               </Link>
             </Button>
+            <ViewModeDropdown
+              hasTemplate={hasTemplate}
+              currentView={currentView}
+              onViewChange={(view) => {
+                updateParams({ view })
+              }}
+            />
             <SpaceActionsDropdown space={space} />
           </div>
         }
@@ -103,11 +139,7 @@ export default function NotesPage() {
         <div className="text-center py-8 text-muted-foreground">No notes yet in this space</div>
       ) : (
         <>
-          {hasTemplate ? (
-            <TemplateNotesView notes={paginatedResult.items} space={space} />
-          ) : (
-            <DefaultNotesView notes={paginatedResult.items} space={space} filter={filter} />
-          )}
+          <NotesView notes={paginatedResult.items} space={space} filter={filter} />
 
           {totalPages > 1 && (
             <NotePaginator
