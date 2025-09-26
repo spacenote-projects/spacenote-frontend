@@ -9,6 +9,11 @@ import { authStorage } from "@/lib/auth-storage"
 import { toast } from "sonner"
 import { AppError } from "@/lib/errors"
 import { Toaster } from "@/components/ui/sonner"
+import { z } from "zod"
+import { en } from "zod/locales"
+
+// Configure Zod to use English error messages in production
+z.config(en())
 
 async function startApp() {
   const router = createRouter()

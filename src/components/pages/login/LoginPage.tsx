@@ -10,7 +10,7 @@ import { toast } from "sonner"
 import { ErrorMessage } from "@/components/shared/ErrorMessage"
 
 const formSchema = z.object({
-  username: z.string().min(2).max(100),
+  username: z.string().min(1).max(100),
   password: z.string().min(2).max(100),
 })
 

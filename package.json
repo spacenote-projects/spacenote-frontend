@@ -11,6 +11,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "preview": "vite preview",
+    "preview:local": "node scripts/preview-local.js",
     "generate-types": "openapi-typescript $VITE_API_URL/openapi.json -o src/types/generated.ts --export-type"
   },
   "dependencies": {
