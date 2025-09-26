@@ -181,9 +181,13 @@ export const api = {
           const url = searchParams.toString() ? `api/v1/spaces/import?${searchParams}` : "api/v1/spaces/import"
           return httpClient.post(url, { json: params.data }).json<Space>()
         },
-        onSuccess: async () => {
+        onSuccess: async (_data, variables) => {
           // Refetch spaces to ensure cache is updated before navigation
           await queryClient.refetchQueries({ queryKey: ["spaces"] })
+          // If users were created, invalidate users cache
+          if (variables.createMissingUsers) {
+            void queryClient.invalidateQueries({ queryKey: ["users"] })
+          }
         },
       })
     },
