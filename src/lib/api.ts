@@ -437,5 +437,18 @@ export const api = {
         },
       })
     },
+
+    /** Delete a user */
+    useDeleteUser: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: (username: string) => httpClient.delete(`api/v1/users/${username}`),
+        onSuccess: () => {
+          // Invalidate users query to refresh the users list
+          void queryClient.invalidateQueries({ queryKey: ["users"] })
+        },
+      })
+    },
   },
 }

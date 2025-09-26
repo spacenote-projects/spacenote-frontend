@@ -3,6 +3,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button"
 import { useNavigate } from "react-router"
 import { AppError } from "@/lib/errors"
+import { DeleteUserButton } from "./-components/DeleteUserButton"
 
 export default function UsersPage() {
   const currentUser = cache.useCurrentUser()
@@ -14,9 +15,7 @@ export default function UsersPage() {
     throw new AppError("forbidden", "This page is only accessible to administrators")
   }
 
-  const getUserSpaces = (userId: string): string[] => {
-    return spaces.filter((space) => space.members.includes(userId)).map((space) => space.slug)
-  }
+  const getUserSpaces = (userId: string) => spaces.filter((space) => space.members.includes(userId)).map((space) => space.slug)
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -31,15 +30,20 @@ export default function UsersPage() {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>ID</TableHead>
               <TableHead>Username</TableHead>
               <TableHead>Spaces</TableHead>
+              <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {users.map((user) => {
               const userSpaces = getUserSpaces(user.id)
+              const canDelete = userSpaces.length === 0 && user.id !== currentUser.id
+
               return (
                 <TableRow key={user.id}>
+                  <TableCell className="font-medium">{user.id}</TableCell>
                   <TableCell className="font-medium">{user.username}</TableCell>
                   <TableCell>
                     {userSpaces.length === 0 ? (
@@ -53,6 +57,9 @@ export default function UsersPage() {
                         ))}
                       </div>
                     )}
+                  </TableCell>
+                  <TableCell>
+                    <DeleteUserButton username={user.username} disabled={!canDelete} />
                   </TableCell>
                 </TableRow>
               )
