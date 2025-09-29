@@ -25,6 +25,9 @@ import type {
   Filter,
   FieldType,
   FilterOperator,
+  TelegramIntegration,
+  CreateTelegramIntegrationRequest,
+  UpdateTelegramIntegrationRequest,
 } from "@/types"
 import { httpClient } from "@/lib/http-client"
 
@@ -117,6 +120,14 @@ export const api = {
         queryFn: () => httpClient.get("api/v1/metadata/field-operators").json<Record<FieldType, FilterOperator[]>>(),
         staleTime: Infinity,
         gcTime: Infinity,
+      }),
+    /** Get Telegram integration for a space */
+    telegramIntegration: (slug: string) =>
+      queryOptions({
+        queryKey: ["spaces", slug, "telegram"],
+        queryFn: () => httpClient.get(`api/v1/spaces/${slug}/telegram`).json<TelegramIntegration | null>(),
+        staleTime: 60 * 1000, // 1 minute
+        gcTime: 5 * 60 * 1000, // 5 minutes
       }),
   },
   mutations: {
@@ -425,6 +436,34 @@ export const api = {
         onSuccess: () => {
           // Invalidate spaces query to refresh the space data
           void queryClient.invalidateQueries({ queryKey: ["spaces"] })
+        },
+      })
+    },
+
+    /** Create Telegram integration for a space */
+    useCreateTelegramIntegration: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: ({ slug, data }: { slug: string; data: CreateTelegramIntegrationRequest }) =>
+          httpClient.post(`api/v1/spaces/${slug}/telegram`, { json: data }).json<TelegramIntegration>(),
+        onSuccess: (_, { slug }) => {
+          // Invalidate the telegram integration query for this space
+          void queryClient.invalidateQueries({ queryKey: ["spaces", slug, "telegram"] })
+        },
+      })
+    },
+
+    /** Update Telegram integration for a space */
+    useUpdateTelegramIntegration: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: ({ slug, data }: { slug: string; data: UpdateTelegramIntegrationRequest }) =>
+          httpClient.put(`api/v1/spaces/${slug}/telegram`, { json: data }).json<TelegramIntegration>(),
+        onSuccess: (_, { slug }) => {
+          // Invalidate the telegram integration query for this space
+          void queryClient.invalidateQueries({ queryKey: ["spaces", slug, "telegram"] })
         },
       })
     },

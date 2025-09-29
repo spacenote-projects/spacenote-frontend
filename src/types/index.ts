@@ -51,3 +51,8 @@ export type ValidationError = components["schemas"]["ValidationError"]
 
 // Export types
 export type ExportData = components["schemas"]["ExportData"]
+
+// Telegram integration types
+export type TelegramIntegration = components["schemas"]["TelegramIntegration"]
+export type CreateTelegramIntegrationRequest = components["schemas"]["CreateTelegramIntegrationRequest"]
+export type UpdateTelegramIntegrationRequest = components["schemas"]["UpdateTelegramIntegrationRequest"]

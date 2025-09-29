@@ -30,6 +30,9 @@ export function SpaceActionsDropdown({ space }: { space: Space }) {
           <Link to={`/s/${space.slug}/export`}>Export</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
+          <Link to={`/s/${space.slug}/telegram`}>Telegram</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
           <Link to={`/s/${space.slug}/settings`}>Settings</Link>
         </DropdownMenuItem>
       </DropdownMenuContent>

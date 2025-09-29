@@ -18,6 +18,7 @@ import NewSpacePage from "@/components/pages/new-space/NewSpacePage"
 import ImportSpacePage from "@/components/pages/import-space/ImportSpacePage"
 import UsersPage from "@/components/pages/users/UsersPage"
 import NewUserPage from "@/components/pages/new-user/NewUserPage"
+import TelegramPage from "@/components/pages/telegram/TelegramPage"
 
 export const createRouter = () =>
   createBrowserRouter([
@@ -93,6 +94,10 @@ export const createRouter = () =>
         {
           path: "s/:slug/export",
           Component: ExportPage,
+        },
+        {
+          path: "s/:slug/telegram",
+          Component: TelegramPage,
         },
         {
           path: "s/:slug/settings",
