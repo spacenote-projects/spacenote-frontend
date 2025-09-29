@@ -29,6 +29,9 @@ import type {
   CreateTelegramIntegrationRequest,
   UpdateTelegramIntegrationRequest,
   TestTelegramResponse,
+  TelegramEventType,
+  UpdateNotificationRequest,
+  TelegramNotificationConfig,
 } from "@/types"
 import { httpClient } from "@/lib/http-client"
 
@@ -473,6 +476,39 @@ export const api = {
     useTestTelegramIntegration: () => {
       return useMutation({
         mutationFn: (slug: string) => httpClient.post(`api/v1/spaces/${slug}/telegram/test`).json<TestTelegramResponse>(),
+      })
+    },
+    /** Update Telegram notification for a specific event type */
+    useUpdateTelegramNotification: () => {
+      const queryClient = useQueryClient()
+      return useMutation({
+        mutationFn: ({
+          slug,
+          eventType,
+          data,
+        }: {
+          slug: string
+          eventType: TelegramEventType
+          data: UpdateNotificationRequest
+        }) =>
+          httpClient
+            .put(`api/v1/spaces/${slug}/telegram/notifications/${eventType}`, { json: data })
+            .json<TelegramNotificationConfig>(),
+        onSuccess: (_, { slug }) => {
+          // Invalidate the telegram integration query for this space
+          void queryClient.invalidateQueries({ queryKey: ["spaces", slug, "telegram"] })
+        },
+      })
+    },
+    /** Delete Telegram integration for a space */
+    useDeleteTelegramIntegration: () => {
+      const queryClient = useQueryClient()
+      return useMutation({
+        mutationFn: (slug: string) => httpClient.delete(`api/v1/spaces/${slug}/telegram`),
+        onSuccess: (_, slug) => {
+          // Invalidate the telegram integration query for this space
+          void queryClient.invalidateQueries({ queryKey: ["spaces", slug, "telegram"] })
+        },
       })
     },
 
