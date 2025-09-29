@@ -28,6 +28,7 @@ import type {
   TelegramIntegration,
   CreateTelegramIntegrationRequest,
   UpdateTelegramIntegrationRequest,
+  TestTelegramResponse,
 } from "@/types"
 import { httpClient } from "@/lib/http-client"
 
@@ -465,6 +466,13 @@ export const api = {
           // Invalidate the telegram integration query for this space
           void queryClient.invalidateQueries({ queryKey: ["spaces", slug, "telegram"] })
         },
+      })
+    },
+
+    /** Test Telegram integration for a space */
+    useTestTelegramIntegration: () => {
+      return useMutation({
+        mutationFn: (slug: string) => httpClient.post(`api/v1/spaces/${slug}/telegram/test`).json<TestTelegramResponse>(),
       })
     },
 

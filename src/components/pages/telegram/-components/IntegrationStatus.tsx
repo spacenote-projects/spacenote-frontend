@@ -1,7 +1,31 @@
+import { useState } from "react"
 import type { TelegramIntegration } from "@/types"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { api } from "@/lib/api"
 
-export function IntegrationStatus({ integration }: { integration: TelegramIntegration }) {
+export function IntegrationStatus({ slug, integration }: { slug: string; integration: TelegramIntegration }) {
+  const [testResult, setTestResult] = useState<{ success: boolean; message: string } | null>(null)
+  const testMutation = api.mutations.useTestTelegramIntegration()
+
+  const handleTest = () => {
+    setTestResult(null)
+    testMutation.mutate(slug, {
+      onSuccess: (data) => {
+        setTestResult({
+          success: data.success,
+          message: data.success ? "Test message sent successfully!" : (data.error ?? "Test failed"),
+        })
+      },
+      onError: (error) => {
+        setTestResult({
+          success: false,
+          message: error instanceof Error ? error.message : "Failed to test integration",
+        })
+      },
+    })
+  }
   return (
     <Card>
       <CardHeader>
@@ -20,6 +44,18 @@ export function IntegrationStatus({ integration }: { integration: TelegramIntegr
           </p>
           <p className="text-sm text-muted-foreground">Bot token is configured (hidden for security)</p>
         </div>
+        <div className="mt-4">
+          <Button onClick={handleTest} disabled={testMutation.isPending || !integration.is_enabled} variant="outline">
+            {testMutation.isPending ? "Testing..." : "Test Integration"}
+          </Button>
+        </div>
+        {testResult && (
+          <Alert className={`mt-4 ${testResult.success ? "" : "border-red-500"}`}>
+            <AlertDescription className={testResult.success ? "text-green-600" : "text-red-600"}>
+              {testResult.message}
+            </AlertDescription>
+          </Alert>
+        )}
       </CardContent>
     </Card>
   )
