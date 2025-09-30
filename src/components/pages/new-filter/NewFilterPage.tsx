@@ -19,8 +19,8 @@ const formSchema = z.object({
     .string()
     .min(1, "Filter ID is required")
     .regex(
-      /^[a-z_][a-z0-9_]*$/,
-      "Filter ID must start with lowercase letter or underscore, and contain only lowercase letters, numbers, and underscores"
+      /^[a-z_][a-z0-9_-]*$/,
+      "Filter ID must start with lowercase letter or underscore, and contain only lowercase letters, numbers, underscores, and hyphens"
     ),
   title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
@@ -103,7 +103,7 @@ export default function NewFilterPage() {
                 <FormControl>
                   <Input {...field} placeholder="active_tasks" />
                 </FormControl>
-                <FormDescription>Internal identifier (lowercase, underscores only)</FormDescription>
+                <FormDescription>Internal identifier (lowercase, underscores, and hyphens only)</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
