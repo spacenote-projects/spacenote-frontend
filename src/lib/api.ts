@@ -28,7 +28,6 @@ import type {
   TelegramIntegration,
   CreateTelegramIntegrationRequest,
   UpdateTelegramIntegrationRequest,
-  TestTelegramResponse,
   TelegramEventType,
   UpdateNotificationRequest,
   TelegramNotificationConfig,
@@ -475,7 +474,8 @@ export const api = {
     /** Test Telegram integration for a space */
     useTestTelegramIntegration: () => {
       return useMutation({
-        mutationFn: (slug: string) => httpClient.post(`api/v1/spaces/${slug}/telegram/test`).json<TestTelegramResponse>(),
+        mutationFn: (slug: string) =>
+          httpClient.post(`api/v1/spaces/${slug}/telegram/test`).json<Record<string, string | null>>(),
       })
     },
     /** Update Telegram notification for a specific event type */

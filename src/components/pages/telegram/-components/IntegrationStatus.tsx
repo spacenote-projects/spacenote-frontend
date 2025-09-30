@@ -13,10 +13,21 @@ export function IntegrationStatus({ slug, integration }: { slug: string; integra
     setTestResult(null)
     testMutation.mutate(slug, {
       onSuccess: (data) => {
-        setTestResult({
-          success: data.success,
-          message: data.success ? "Test message sent successfully!" : (data.error ?? "Test failed"),
-        })
+        const errors = Object.entries(data).filter(([, error]) => error !== null)
+        const allSuccessful = errors.length === 0
+
+        if (allSuccessful) {
+          setTestResult({
+            success: true,
+            message: "All test messages sent successfully!",
+          })
+        } else {
+          const errorMessages = errors.map(([event, error]) => `${event}: ${error ?? ""}`).join(", ")
+          setTestResult({
+            success: false,
+            message: errorMessages,
+          })
+        }
       },
       onError: (error) => {
         setTestResult({
