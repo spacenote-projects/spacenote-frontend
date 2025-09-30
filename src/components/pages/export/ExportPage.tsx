@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useParams } from "react-router"
 import { useQuery } from "@tanstack/react-query"
 import { Copy } from "lucide-react"
+import { toast } from "sonner"
 import { api } from "@/lib/api"
 import { cache } from "@/hooks/useCache"
 import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
@@ -19,6 +20,7 @@ export default function ExportPage() {
     if (!data) return
     const jsonString = JSON.stringify(data, null, 2)
     await navigator.clipboard.writeText(jsonString)
+    toast.success("Copied to clipboard")
   }
 
   return (

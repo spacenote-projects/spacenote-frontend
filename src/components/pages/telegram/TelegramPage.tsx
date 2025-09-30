@@ -12,7 +12,7 @@ export default function TelegramPage() {
   const { data: integration } = useSuspenseQuery(api.queries.telegramIntegration(slug))
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-2xl">
+    <div className="container mx-auto px-4 py-8">
       <SpacePageHeader space={space} section={integration ? "Telegram Integration" : "Create Telegram Integration"} />
 
       {integration ? <TelegramSettings slug={slug} integration={integration} /> : <CreateTelegramIntegration slug={slug} />}
