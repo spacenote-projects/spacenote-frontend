@@ -7,6 +7,7 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "incremental": true,
+    "resolveJsonModule": true,
 
     /* Bundler mode */
     "moduleResolution": "bundler",

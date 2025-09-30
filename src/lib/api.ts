@@ -31,6 +31,7 @@ import type {
   TelegramEventType,
   UpdateNotificationRequest,
   TelegramNotificationConfig,
+  VersionInfo,
 } from "@/types"
 import { httpClient } from "@/lib/http-client"
 
@@ -131,6 +132,14 @@ export const api = {
         queryFn: () => httpClient.get(`api/v1/spaces/${slug}/telegram`).json<TelegramIntegration | null>(),
         staleTime: 60 * 1000, // 1 minute
         gcTime: 5 * 60 * 1000, // 5 minutes
+      }),
+    /** Get backend version information */
+    version: () =>
+      queryOptions({
+        queryKey: ["version"],
+        queryFn: () => httpClient.get("api/v1/metadata/version").json<VersionInfo>(),
+        staleTime: Infinity,
+        gcTime: Infinity,
       }),
   },
   mutations: {

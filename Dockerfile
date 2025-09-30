@@ -14,7 +14,14 @@ RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-RUN pnpm build
+ARG GIT_COMMIT_HASH=unknown
+ARG GIT_COMMIT_DATE=unknown
+ARG BUILD_TIME=unknown
+
+RUN VITE_GIT_COMMIT_HASH=${GIT_COMMIT_HASH} \
+    VITE_GIT_COMMIT_DATE=${GIT_COMMIT_DATE} \
+    VITE_BUILD_TIME=${BUILD_TIME} \
+    pnpm build
 
 FROM node:24.8-alpine AS runner
 

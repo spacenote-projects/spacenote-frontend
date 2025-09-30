@@ -59,3 +59,6 @@ export type UpdateTelegramIntegrationRequest = components["schemas"]["UpdateTele
 export type TelegramEventType = components["schemas"]["TelegramEventType"]
 export type UpdateNotificationRequest = components["schemas"]["UpdateNotificationRequest"]
 export type TelegramNotificationConfig = components["schemas"]["TelegramNotificationConfig"]
+
+// Version information type
+export type VersionInfo = Record<string, string | undefined>
