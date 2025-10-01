@@ -38,7 +38,7 @@ export default function Header() {
 
       <DropdownMenu>
         <DropdownMenuTrigger className="flex items-center space-x-2 font-medium border-0 bg-transparent shadow-none focus:outline-none">
-          {currentUser.username}
+          👤{currentUser.username}
           <ChevronDownIcon className="w-4 h-4" />
         </DropdownMenuTrigger>
 

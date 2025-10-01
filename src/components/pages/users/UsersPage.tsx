@@ -44,7 +44,7 @@ export default function UsersPage() {
               return (
                 <TableRow key={user.id}>
                   <TableCell className="font-medium">{user.id}</TableCell>
-                  <TableCell className="font-medium">{user.username}</TableCell>
+                  <TableCell className="font-medium">👤{user.username}</TableCell>
                   <TableCell>
                     {userSpaces.length === 0 ? (
                       <span className="text-muted-foreground">No spaces</span>

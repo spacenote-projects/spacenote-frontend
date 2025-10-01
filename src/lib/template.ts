@@ -23,7 +23,7 @@ engine.registerFilter("datetime", (value: string | Date) => {
 engine.registerFilter("user", (userId: string, users: User[]) => {
   if (!userId) return ""
   const user = users.find((u) => u.id === userId)
-  return user?.username ?? userId
+  return "👤" + (user?.username ?? userId)
 })
 
 engine.registerFilter("field_value", (value: unknown, fieldType?: string) => {

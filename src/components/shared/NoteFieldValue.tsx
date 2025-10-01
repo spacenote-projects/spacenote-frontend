@@ -12,7 +12,7 @@ interface NoteFieldValueProps {
 function UserField({ userId }: { userId: string }) {
   try {
     const user = cache.useUser(userId)
-    return <>{user.username}</>
+    return <>👤{user.username}</>
   } catch {
     return <>Unknown</>
   }
