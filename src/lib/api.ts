@@ -344,6 +344,8 @@ export const api = {
           void queryClient.invalidateQueries({
             queryKey: ["spaces", variables.slug, "notes", variables.number],
           })
+          // Invalidate all pages of notes query to refresh the notes list
+          void queryClient.invalidateQueries({ queryKey: ["spaces", variables.slug, "notes"], exact: false })
         },
       })
     },
