@@ -11,7 +11,11 @@ export default function MembersPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <SpacePageHeader space={space} section="Members" />
+      <SpacePageHeader
+        space={space}
+        section="Members"
+        subtitle={`${String(space.members.length)} ${space.members.length === 1 ? "member" : "members"}`}
+      />
 
       <div className="mb-6">
         <AddMemberForm slug={slug} />

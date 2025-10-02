@@ -30,6 +30,7 @@ export default function FiltersPage() {
       <SpacePageHeader
         space={space}
         section="Filters"
+        subtitle={`${String(space.filters.length)} ${space.filters.length === 1 ? "filter" : "filters"}`}
         actions={
           <Button variant="outline" size="sm" asChild>
             <Link to={`/s/${slug}/filters/new`}>New Filter</Link>

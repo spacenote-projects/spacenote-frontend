@@ -102,10 +102,16 @@ export default function NotesPage() {
   const currentView: "default" | "template" | "json" =
     NotesView === JSONNotesView ? "json" : NotesView === TemplateNotesView ? "template" : "default"
 
+  const notesSubtitle =
+    paginatedResult.items.length > 0
+      ? `Showing ${String((validPage - 1) * limit + 1)}-${String((validPage - 1) * limit + paginatedResult.items.length)} of ${String(paginatedResult.total)}`
+      : undefined
+
   return (
     <div className="container mx-auto px-4 py-8">
       <SpacePageHeader
         space={space}
+        subtitle={notesSubtitle}
         actions={
           <div className="flex items-center gap-2">
             {space.filters.length > 0 && (
@@ -141,19 +147,17 @@ export default function NotesPage() {
         <>
           <NotesView notes={paginatedResult.items} space={space} filter={filter} />
 
-          {totalPages > 1 && (
-            <NotePaginator
-              currentPage={validPage}
-              totalPages={totalPages}
-              limit={limit}
-              onPageChange={(newPage) => {
-                updateParams({ page: newPage })
-              }}
-              onLimitChange={(newLimit) => {
-                updateParams({ limit: newLimit })
-              }}
-            />
-          )}
+          <NotePaginator
+            currentPage={validPage}
+            limit={limit}
+            totalCount={paginatedResult.total}
+            onPageChange={(newPage) => {
+              updateParams({ page: newPage })
+            }}
+            onLimitChange={(newLimit) => {
+              updateParams({ limit: newLimit })
+            }}
+          />
         </>
       )}
     </div>

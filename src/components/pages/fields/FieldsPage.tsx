@@ -31,6 +31,7 @@ export default function FieldsPage() {
       <SpacePageHeader
         space={space}
         section="Fields"
+        subtitle={`${String(space.fields.length)} ${space.fields.length === 1 ? "field" : "fields"}`}
         actions={
           <Button variant="outline" size="sm" asChild>
             <Link to={`/s/${slug}/fields/new`}>New Field</Link>
