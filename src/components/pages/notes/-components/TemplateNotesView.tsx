@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router"
+import { useNavigate, useSearchParams } from "react-router"
 import type { Note, Space } from "@/types"
 import { renderNoteListTemplate } from "@/lib/template"
 import { cache } from "@/hooks/useCache"
@@ -8,6 +8,7 @@ export function TemplateNotesView({ notes, space }: { notes: Note[]; space: Spac
   const [renderedHtml, setRenderedHtml] = useState<string>("")
   const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const users = cache.useUsers()
 
   useEffect(() => {
@@ -37,6 +38,28 @@ export function TemplateNotesView({ notes, space }: { notes: Note[]; space: Spac
   }
 
   const handleClick = (e: React.MouseEvent) => {
+    // Check if clicked on a tag element
+    const tagElement = (e.target as HTMLElement).closest("[data-tag]")
+    if (tagElement) {
+      e.preventDefault()
+      e.stopPropagation()
+      const tag = tagElement.getAttribute("data-tag")
+      if (tag) {
+        const query = `tags:in:${encodeURIComponent(JSON.stringify([tag]))}`
+        const params = new URLSearchParams()
+        params.set("q", query)
+
+        // Preserve current filter if exists
+        const currentFilter = searchParams.get("filter")
+        if (currentFilter) {
+          params.set("filter", currentFilter)
+        }
+
+        void navigate(`/s/${space.slug}?${params}`)
+      }
+      return
+    }
+
     // Check if clicked on a link
     const link = (e.target as HTMLElement).closest("a")
     if (!link) return

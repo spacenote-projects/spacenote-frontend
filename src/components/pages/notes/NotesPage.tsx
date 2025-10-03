@@ -23,12 +23,14 @@ export default function NotesPage() {
   const page = Math.max(1, Number(searchParams.get("page")) || 1)
   const limit = Math.max(1, Number(searchParams.get("limit")) || DEFAULT_LIMIT)
   const filter = searchParams.get("filter") ?? undefined
+  const q = searchParams.get("q") ?? undefined
   const viewMode = searchParams.get("view") as "default" | "template" | "json" | null
 
   const updateParams = (updates: {
     page?: number
     limit?: number
     filter?: string | null
+    q?: string | null
     view?: "default" | "template" | "json"
   }) => {
     const newParams = new URLSearchParams(searchParams)
@@ -66,6 +68,18 @@ export default function NotesPage() {
       }
     }
 
+    // Handle q parameter update
+    if (updates.q !== undefined) {
+      // Reset to page 1 when changing q
+      newParams.delete("page")
+
+      if (updates.q === null) {
+        newParams.delete("q")
+      } else {
+        newParams.set("q", updates.q)
+      }
+    }
+
     // Handle view mode update
     if (updates.view !== undefined) {
       newParams.set("view", updates.view)
@@ -74,7 +88,7 @@ export default function NotesPage() {
     setSearchParams(newParams)
   }
 
-  const { data: paginatedResult } = useSuspenseQuery(api.queries.spaceNotes(slug, page, limit, filter))
+  const { data: paginatedResult } = useSuspenseQuery(api.queries.spaceNotes(slug, page, limit, filter, q))
 
   const totalPages = Math.ceil(paginatedResult.total / limit)
   const validPage = Math.min(page, Math.max(1, totalPages))

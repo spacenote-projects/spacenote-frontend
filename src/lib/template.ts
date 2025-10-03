@@ -29,7 +29,13 @@ engine.registerFilter("user", (userId: string, users: User[]) => {
 engine.registerFilter("field_value", (value: unknown, fieldType?: string) => {
   if (value === null || value === undefined) return ""
 
-  if (fieldType === "tags" || fieldType === "string_choice") {
+  if (fieldType === "tags") {
+    if (Array.isArray(value)) {
+      return value.map((tag: string) => `<span data-tag="${tag}">${tag}</span>`).join(", ")
+    }
+  }
+
+  if (fieldType === "string_choice") {
     if (Array.isArray(value)) {
       return value.join(", ")
     }
@@ -60,6 +66,21 @@ engine.registerFilter("default", (value: unknown, defaultValue: string) => {
 engine.registerFilter("markdown", (value: string) => {
   if (!value) return ""
   return markdownToHtmlSafeSync(value)
+})
+
+engine.registerFilter("tag_link", (tag: string) => {
+  if (!tag) return ""
+  return `<span class="inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 cursor-pointer hover:bg-gray-200 transition-colors" data-tag="${tag}">${tag}</span>`
+})
+
+engine.registerFilter("tags_links", (tags: string[]) => {
+  if (!Array.isArray(tags) || tags.length === 0) return ""
+  return tags
+    .map(
+      (tag) =>
+        `<span class="inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 cursor-pointer hover:bg-gray-200 transition-colors" data-tag="${tag}">${tag}</span>`
+    )
+    .join(" ")
 })
 
 interface NoteDetailTemplateContext {

@@ -49,7 +49,12 @@ export function DefaultNotesView({ notes, space, filter }: { notes: Note[]; spac
           >
             {columns.map((column) => (
               <TableCell key={column}>
-                <NoteFieldValue note={note} fieldKey={column} field={space.fields.find((f) => f.id === column)} />
+                <NoteFieldValue
+                  note={note}
+                  fieldKey={column}
+                  field={space.fields.find((f) => f.id === column)}
+                  spaceSlug={space.slug}
+                />
               </TableCell>
             ))}
           </TableRow>
