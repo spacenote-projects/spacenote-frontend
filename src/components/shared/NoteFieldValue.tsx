@@ -38,16 +38,15 @@ function UserField({ userId, fieldKey, spaceSlug }: { userId: string; fieldKey?:
 
     if (fieldKey && spaceSlug) {
       return (
-        <Badge
-          variant="secondary"
-          className="cursor-pointer hover:bg-secondary/80"
+        <span
+          className="cursor-pointer hover:underline"
           onClick={(e) => {
             e.stopPropagation()
             handleClick()
           }}
         >
           👤{user.username}
-        </Badge>
+        </span>
       )
     }
     return <>👤{user.username}</>
