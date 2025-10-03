@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router"
+import { useNavigate, useSearchParams } from "react-router"
 import type { Note, Space } from "@/types"
 import { renderNoteDetailTemplate } from "@/lib/template"
+import { buildFieldFilterQuery } from "@/lib/field-filters"
 import { DefaultNoteView } from "./DefaultNoteView"
 import { cache } from "@/hooks/useCache"
 import { Alert, AlertDescription } from "@/components/ui/alert"
@@ -16,6 +17,7 @@ export function TemplateNoteView({ note, space }: TemplateNoteViewProps) {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const users = cache.useUsers()
 
   useEffect(() => {
@@ -62,6 +64,33 @@ export function TemplateNoteView({ note, space }: TemplateNoteViewProps) {
   }
 
   const handleClick = (e: React.MouseEvent) => {
+    // Check if clicked on a field filter element (user, string_choice, etc.)
+    const fieldElement = (e.target as HTMLElement).closest("[data-field-id]")
+    if (fieldElement) {
+      e.preventDefault()
+      e.stopPropagation()
+      const fieldId = fieldElement.getAttribute("data-field-id")
+      const fieldType = fieldElement.getAttribute("data-field-type")
+      const fieldValue = fieldElement.getAttribute("data-field-value")
+
+      if (fieldId && fieldType && fieldValue) {
+        const query = buildFieldFilterQuery(fieldId, fieldType, fieldValue)
+        if (!query) return
+
+        const params = new URLSearchParams()
+        params.set("q", query)
+
+        // Preserve current filter if exists
+        const currentFilter = searchParams.get("filter")
+        if (currentFilter) {
+          params.set("filter", currentFilter)
+        }
+
+        void navigate(`/s/${space.slug}?${params}`)
+      }
+      return
+    }
+
     // Check if clicked on a link
     const link = (e.target as HTMLElement).closest("a")
     if (!link) return

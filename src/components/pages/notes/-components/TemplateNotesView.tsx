@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { useNavigate, useSearchParams } from "react-router"
 import type { Note, Space } from "@/types"
 import { renderNoteListTemplate } from "@/lib/template"
+import { buildFieldFilterQuery } from "@/lib/field-filters"
 import { cache } from "@/hooks/useCache"
 
 export function TemplateNotesView({ notes, space }: { notes: Note[]; space: Space }) {
@@ -38,14 +39,19 @@ export function TemplateNotesView({ notes, space }: { notes: Note[]; space: Spac
   }
 
   const handleClick = (e: React.MouseEvent) => {
-    // Check if clicked on a tag element
-    const tagElement = (e.target as HTMLElement).closest("[data-tag]")
-    if (tagElement) {
+    // Check if clicked on a field filter element (user, string_choice, etc.)
+    const fieldElement = (e.target as HTMLElement).closest("[data-field-id]")
+    if (fieldElement) {
       e.preventDefault()
       e.stopPropagation()
-      const tag = tagElement.getAttribute("data-tag")
-      if (tag) {
-        const query = `tags:in:${encodeURIComponent(JSON.stringify([tag]))}`
+      const fieldId = fieldElement.getAttribute("data-field-id")
+      const fieldType = fieldElement.getAttribute("data-field-type")
+      const fieldValue = fieldElement.getAttribute("data-field-value")
+
+      if (fieldId && fieldType && fieldValue) {
+        const query = buildFieldFilterQuery(fieldId, fieldType, fieldValue)
+        if (!query) return
+
         const params = new URLSearchParams()
         params.set("q", query)
 

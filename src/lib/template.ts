@@ -26,6 +26,18 @@ engine.registerFilter("user", (userId: string, users: User[]) => {
   return "👤" + (user?.username ?? userId)
 })
 
+engine.registerFilter("user_link", (userId: string, fieldId: string, users: User[]) => {
+  if (!userId || !fieldId) return ""
+  const user = users.find((u) => u.id === userId)
+  if (!user) return "👤Unknown"
+  return `<span class="inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 cursor-pointer hover:bg-gray-200 transition-colors" data-field-id="${fieldId}" data-field-type="user" data-field-value="${user.username}">👤${user.username}</span>`
+})
+
+engine.registerFilter("choice_link", (value: string, fieldId: string) => {
+  if (!value || !fieldId) return ""
+  return `<span class="inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 cursor-pointer hover:bg-gray-200 transition-colors" data-field-id="${fieldId}" data-field-type="string_choice" data-field-value="${value}">${value}</span>`
+})
+
 engine.registerFilter("field_value", (value: unknown, fieldType?: string) => {
   if (value === null || value === undefined) return ""
 
