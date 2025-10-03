@@ -53,7 +53,7 @@ export function IntegrationStatus({ slug, integration }: { slug: string; integra
           <p className="text-sm">
             <span className="font-medium">Chat ID:</span> {integration.chat_id}
           </p>
-          <p className="text-sm text-muted-foreground">Bot token is configured (hidden for security)</p>
+          <p className="text-sm text-muted-foreground">Bot token is configured at the project level</p>
         </div>
         <div className="mt-4">
           <Button onClick={handleTest} disabled={testMutation.isPending || !integration.is_enabled} variant="outline">

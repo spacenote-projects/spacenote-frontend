@@ -828,16 +828,10 @@ export type components = {
      * CreateTelegramIntegrationRequest
      * @description Request to create a new Telegram integration.
      * @example {
-     *       "bot_token": "1234567890:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghi",
      *       "chat_id": "-1001234567890"
      *     }
      */
     CreateTelegramIntegrationRequest: {
-      /**
-       * Bot Token
-       * @description Telegram Bot API token (keep secure!)
-       */
-      bot_token: string
       /**
        * Chat Id
        * @description Telegram chat ID (can be numeric ID or @username for public channels)
@@ -1351,11 +1345,6 @@ export type components = {
        */
       space_id: string
       /**
-       * Bot Token
-       * @description Telegram Bot API token (keep secure!)
-       */
-      bot_token: string
-      /**
        * Chat Id
        * @description Telegram chat ID (can be numeric ID or @username for public channels)
        */
@@ -1544,11 +1533,6 @@ export type components = {
      *     }
      */
     UpdateTelegramIntegrationRequest: {
-      /**
-       * Bot Token
-       * @description New Telegram Bot API token (keep secure!). Optional - only provide to update.
-       */
-      bot_token?: string | null
       /**
        * Chat Id
        * @description New Telegram chat ID. Optional - only provide to update.

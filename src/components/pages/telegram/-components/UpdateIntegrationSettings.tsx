@@ -12,7 +12,6 @@ import type { TelegramIntegration, UpdateTelegramIntegrationRequest } from "@/ty
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 const formSchema = z.object({
-  bot_token: z.string().optional(),
   chat_id: z.string().optional(),
   is_enabled: z.boolean(),
 })
@@ -25,7 +24,6 @@ export function UpdateIntegrationSettings({ slug, integration }: { slug: string;
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      bot_token: "",
       chat_id: "",
       is_enabled: integration.is_enabled,
     },
@@ -40,9 +38,6 @@ export function UpdateIntegrationSettings({ slug, integration }: { slug: string;
     const updateData: UpdateTelegramIntegrationRequest = {}
 
     // Only include fields that were actually changed
-    if (dirtyFields.bot_token) {
-      updateData.bot_token = data.bot_token ?? null
-    }
     if (dirtyFields.chat_id) {
       updateData.chat_id = data.chat_id ?? null
     }
@@ -91,21 +86,6 @@ export function UpdateIntegrationSettings({ slug, integration }: { slug: string;
                     <FormLabel>Enable Notifications</FormLabel>
                     <FormDescription>Toggle to enable or disable all Telegram notifications</FormDescription>
                   </div>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="bot_token"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>New Bot Token (Optional)</FormLabel>
-                  <FormControl>
-                    <Input {...field} type="password" placeholder="Leave empty to keep current token" />
-                  </FormControl>
-                  <FormDescription>Only fill this if you need to update the bot token</FormDescription>
-                  <FormMessage />
                 </FormItem>
               )}
             />
