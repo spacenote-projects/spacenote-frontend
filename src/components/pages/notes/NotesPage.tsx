@@ -12,6 +12,7 @@ import { TemplateNotesView } from "./-components/TemplateNotesView"
 import { JSONNotesView } from "./-components/JSONNotesView"
 import { FilterSelector } from "./-components/FilterSelector"
 import { ViewModeDropdown } from "./-components/ViewModeDropdown"
+import { ActiveQueryFilters } from "./-components/ActiveQueryFilters"
 const DEFAULT_LIMIT = 50
 
 export default function NotesPage() {
@@ -153,6 +154,13 @@ export default function NotesPage() {
             <SpaceActionsDropdown space={space} />
           </div>
         }
+      />
+
+      <ActiveQueryFilters
+        q={q}
+        onQueryChange={(newQ) => {
+          updateParams({ q: newQ })
+        }}
       />
 
       {paginatedResult.items.length === 0 ? (
