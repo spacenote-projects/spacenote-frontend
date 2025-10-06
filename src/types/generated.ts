@@ -225,6 +225,26 @@ export type paths = {
     patch: operations["updateSpaceHiddenCreateFields"]
     trace?: never
   }
+  "/api/v1/spaces/{space_slug}/comment-editable-fields": {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    /**
+     * Update comment editable fields
+     * @description Update the fields that can be edited when commenting for a space. Only space members can update comment editable fields.
+     */
+    patch: operations["updateSpaceCommentEditableFields"]
+    trace?: never
+  }
   "/api/v1/spaces/{space_slug}/title": {
     parameters: {
       query?: never
@@ -491,7 +511,7 @@ export type paths = {
     put?: never
     /**
      * Create comment
-     * @description Add a new comment to a note. Only space members can create comments.
+     * @description Add a new comment to a note. Optionally update note fields if configured in space.comment_editable_fields. Only space members can create comments.
      */
     post: operations["createComment"]
     delete?: never
@@ -776,6 +796,13 @@ export type components = {
        * @description The comment text
        */
       content: string
+      /**
+       * Raw Fields
+       * @description Optional field updates (must be in space.comment_editable_fields)
+       */
+      raw_fields?: {
+        [key: string]: string
+      } | null
     }
     /**
      * CreateNoteRequest
@@ -1238,6 +1265,8 @@ export type components = {
       list_fields: string[]
       /** Hidden Create Fields */
       hidden_create_fields: string[]
+      /** Comment Editable Fields */
+      comment_editable_fields: string[]
       /** Filters */
       filters: components["schemas"]["Filter"][]
       /** @default {} */
@@ -1382,6 +1411,23 @@ export type components = {
        * @description Liquid template for formatting the notification message
        */
       template: string
+    }
+    /**
+     * UpdateCommentEditableFieldsRequest
+     * @description Request to update comment_editable_fields for a space.
+     * @example {
+     *       "field_ids": [
+     *         "status",
+     *         "priority"
+     *       ]
+     *     }
+     */
+    UpdateCommentEditableFieldsRequest: {
+      /**
+       * Field Ids
+       * @description List of field ids that can be edited when commenting
+       */
+      field_ids: string[]
     }
     /**
      * UpdateHiddenCreateFieldsRequest
@@ -2123,6 +2169,77 @@ export interface operations {
     }
     responses: {
       /** @description Hidden create fields updated successfully */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["Space"]
+        }
+      }
+      /** @description Invalid field ids */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Not authenticated */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Not a member of this space */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Space not found */
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"]
+        }
+      }
+    }
+  }
+  updateSpaceCommentEditableFields: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        space_slug: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateCommentEditableFieldsRequest"]
+      }
+    }
+    responses: {
+      /** @description Comment editable fields updated successfully */
       200: {
         headers: {
           [name: string]: unknown
@@ -3068,6 +3185,15 @@ export interface operations {
         }
         content: {
           "application/json": components["schemas"]["Comment"]
+        }
+      }
+      /** @description Invalid field data or field not in comment_editable_fields */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
         }
       }
       /** @description Not authenticated */

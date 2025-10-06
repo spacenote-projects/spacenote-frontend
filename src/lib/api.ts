@@ -22,6 +22,7 @@ import type {
   ExportData,
   UpdateListFieldsRequest,
   UpdateHiddenCreateFieldsRequest,
+  UpdateCommentEditableFieldsRequest,
   Filter,
   FieldType,
   FilterOperator,
@@ -303,6 +304,24 @@ export const api = {
             .json<Space>(),
         onSuccess: () => {
           // Invalidate spaces query to refresh the hidden create fields
+          void queryClient.invalidateQueries({ queryKey: ["spaces"] })
+        },
+      })
+    },
+
+    /** Update comment editable fields for a space */
+    useUpdateCommentEditableFields: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: ({ slug, fieldNames }: { slug: string; fieldNames: string[] }) =>
+          httpClient
+            .patch(`api/v1/spaces/${slug}/comment-editable-fields`, {
+              json: { field_ids: fieldNames } as UpdateCommentEditableFieldsRequest,
+            })
+            .json<Space>(),
+        onSuccess: () => {
+          // Invalidate spaces query to refresh the comment editable fields
           void queryClient.invalidateQueries({ queryKey: ["spaces"] })
         },
       })

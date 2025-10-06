@@ -3,6 +3,7 @@ import { cache } from "@/hooks/useCache"
 import { DeleteSpace } from "./-components/DeleteSpace"
 import { ListFieldsSettings } from "./-components/ListFieldsSettings"
 import { HiddenCreateFieldsSettings } from "./-components/HiddenCreateFieldsSettings"
+import { CommentEditableFieldsSettings } from "./-components/CommentEditableFieldsSettings"
 import { UpdateSpaceTitle } from "./-components/UpdateSpaceTitle"
 import { UpdateSpaceSlug } from "./-components/UpdateSpaceSlug"
 import { UpdateSpaceDescription } from "./-components/UpdateSpaceDescription"
@@ -42,6 +43,7 @@ export default function SpaceSettingsPage() {
         <UpdateSpaceDescription space={space} />
         <ListFieldsSettings space={space} />
         <HiddenCreateFieldsSettings space={space} />
+        <CommentEditableFieldsSettings space={space} />
         <DeleteSpace slug={slug} title={space.title} />
       </div>
     </div>
