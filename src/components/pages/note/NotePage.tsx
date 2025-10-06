@@ -94,7 +94,7 @@ export default function NotePage() {
         <h2 className="text-xl font-semibold">Comments</h2>
 
         <div className="border rounded-lg p-4">
-          <CommentForm slug={slug} noteNumber={Number(number)} />
+          <CommentForm slug={slug} noteNumber={Number(number)} space={space} note={note} />
         </div>
 
         <Suspense fallback={<div>Loading comments...</div>}>

@@ -385,6 +385,12 @@ export const api = {
             queryKey: ["spaces", variables.slug, "notes", variables.number, "comments"],
             exact: false,
           })
+          // Invalidate the specific note query to refresh field updates (when raw_fields are included)
+          void queryClient.invalidateQueries({
+            queryKey: ["spaces", variables.slug, "notes", variables.number],
+          })
+          // Invalidate all pages of notes query to refresh the notes list
+          void queryClient.invalidateQueries({ queryKey: ["spaces", variables.slug, "notes"], exact: false })
         },
       })
     },
