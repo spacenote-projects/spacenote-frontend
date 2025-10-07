@@ -245,6 +245,26 @@ export type paths = {
     patch: operations["updateSpaceCommentEditableFields"]
     trace?: never
   }
+  "/api/v1/spaces/{space_slug}/default-filter": {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    /**
+     * Update default filter
+     * @description Update the default filter for a space. Set to null to clear. Only space members can update the default filter.
+     */
+    patch: operations["updateSpaceDefaultFilter"]
+    trace?: never
+  }
   "/api/v1/spaces/{space_slug}/title": {
     parameters: {
       query?: never
@@ -1269,6 +1289,8 @@ export type components = {
       comment_editable_fields: string[]
       /** Filters */
       filters: components["schemas"]["Filter"][]
+      /** Default Filter */
+      default_filter: string | null
       /** @default {} */
       templates: components["schemas"]["SpaceTemplates"]
     }
@@ -1428,6 +1450,21 @@ export type components = {
        * @description List of field ids that can be edited when commenting
        */
       field_ids: string[]
+    }
+    /**
+     * UpdateDefaultFilterRequest
+     * @description Request to update default filter for a space.
+     * @example {
+     *       "filter_id": "my-tasks"
+     *     }
+     * @example {}
+     */
+    UpdateDefaultFilterRequest: {
+      /**
+       * Filter Id
+       * @description Filter ID to use as default (null to clear)
+       */
+      filter_id: string | null
     }
     /**
      * UpdateHiddenCreateFieldsRequest
@@ -2249,6 +2286,77 @@ export interface operations {
         }
       }
       /** @description Invalid field ids */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Not authenticated */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Not a member of this space */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Space not found */
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"]
+        }
+      }
+    }
+  }
+  updateSpaceDefaultFilter: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        space_slug: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateDefaultFilterRequest"]
+      }
+    }
+    responses: {
+      /** @description Default filter updated successfully */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["Space"]
+        }
+      }
+      /** @description Invalid filter ID */
       400: {
         headers: {
           [name: string]: unknown

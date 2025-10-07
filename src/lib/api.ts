@@ -482,6 +482,20 @@ export const api = {
       })
     },
 
+    /** Update space default filter */
+    useUpdateDefaultFilter: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: ({ slug, defaultFilter }: { slug: string; defaultFilter: string | null }) =>
+          httpClient.patch(`api/v1/spaces/${slug}/default-filter`, { json: { filter_id: defaultFilter } }).json<Space>(),
+        onSuccess: () => {
+          // Invalidate spaces query to refresh the space data
+          void queryClient.invalidateQueries({ queryKey: ["spaces"] })
+        },
+      })
+    },
+
     /** Create Telegram integration for a space */
     useCreateTelegramIntegration: () => {
       const queryClient = useQueryClient()

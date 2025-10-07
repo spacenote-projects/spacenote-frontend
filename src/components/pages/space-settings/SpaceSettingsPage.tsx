@@ -7,6 +7,7 @@ import { CommentEditableFieldsSettings } from "./-components/CommentEditableFiel
 import { UpdateSpaceTitle } from "./-components/UpdateSpaceTitle"
 import { UpdateSpaceSlug } from "./-components/UpdateSpaceSlug"
 import { UpdateSpaceDescription } from "./-components/UpdateSpaceDescription"
+import { UpdateDefaultFilter } from "./-components/UpdateDefaultFilter"
 import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
 import { useEffect } from "react"
 
@@ -41,6 +42,7 @@ export default function SpaceSettingsPage() {
         <UpdateSpaceTitle space={space} />
         <UpdateSpaceSlug space={space} />
         <UpdateSpaceDescription space={space} />
+        <UpdateDefaultFilter space={space} />
         <ListFieldsSettings space={space} />
         <HiddenCreateFieldsSettings space={space} />
         <CommentEditableFieldsSettings space={space} />

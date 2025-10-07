@@ -8,7 +8,10 @@ export function SpaceCard({ space }: { space: Space }) {
     <Card>
       <CardHeader>
         <CardTitle>
-          <Link to={`/s/${space.slug}`} className="hover:underline">
+          <Link
+            to={`/s/${space.slug}${space.default_filter ? `?filter=${space.default_filter}` : ""}`}
+            className="hover:underline"
+          >
             {space.title}
           </Link>
         </CardTitle>
