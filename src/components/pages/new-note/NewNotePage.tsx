@@ -8,6 +8,7 @@ import { Form } from "@/components/ui/form"
 import { ErrorMessage } from "@/components/shared/ErrorMessage"
 import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
 import { createFieldSchema, fieldsToDefaultValues, formToRawFields } from "@/lib/form-helpers"
+import { getNotesListParams } from "@/lib/navigation"
 import type { CreateNoteRequest } from "@/types"
 import FieldInput from "@/components/shared/FieldInput"
 
@@ -38,7 +39,9 @@ export default function NewNotePage() {
       { slug, data: noteData },
       {
         onSuccess: () => {
-          void navigate(`/s/${slug}`)
+          const savedParams = getNotesListParams(slug)
+          const returnUrl = savedParams ? `/s/${slug}?${savedParams}` : `/s/${slug}`
+          void navigate(returnUrl)
         },
       }
     )

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react"
 import { Link } from "react-router"
 import type { Space } from "@/types"
+import { getNotesListParams } from "@/lib/navigation"
 
 interface SpacePageHeaderProps {
   space: Space
@@ -10,6 +11,9 @@ interface SpacePageHeaderProps {
 }
 
 export function SpacePageHeader({ space, section, actions, subtitle }: SpacePageHeaderProps) {
+  const savedParams = getNotesListParams(space.slug)
+  const spaceUrl = savedParams ? `/s/${space.slug}?${savedParams}` : `/s/${space.slug}`
+
   return (
     <div className="mb-6">
       <div className="flex items-center justify-between">
@@ -17,13 +21,13 @@ export function SpacePageHeader({ space, section, actions, subtitle }: SpacePage
           <h1 className="text-xl font-medium">
             {section ? (
               <>
-                <Link to={`/s/${space.slug}`} className="hover:underline">
+                <Link to={spaceUrl} className="hover:underline">
                   {space.title}
                 </Link>{" "}
                 <span className="text-muted-foreground">/</span> {section}
               </>
             ) : (
-              <Link to={`/s/${space.slug}`} className="hover:underline">
+              <Link to={spaceUrl} className="hover:underline">
                 {space.title}
               </Link>
             )}

@@ -1,5 +1,6 @@
 import { useParams, Link, useSearchParams } from "react-router"
 import { useSuspenseQuery } from "@tanstack/react-query"
+import { useEffect } from "react"
 import { api } from "@/lib/api"
 import { cache } from "@/hooks/useCache"
 import { Button } from "@/components/ui/button"
@@ -13,14 +14,20 @@ import { JSONNotesView } from "./-components/JSONNotesView"
 import { FilterSelector } from "./-components/FilterSelector"
 import { ViewModeDropdown } from "./-components/ViewModeDropdown"
 import { ActiveQueryFilters } from "./-components/ActiveQueryFilters"
+import { saveNotesListParams } from "@/lib/navigation"
 const DEFAULT_LIMIT = 50
 
 export default function NotesPage() {
   const { slug } = useParams() as { slug: string }
   const space = cache.useSpace(slug)
 
-  // URL state management (formerly useNotePagination)
+  // URL state management
   const [searchParams, setSearchParams] = useSearchParams()
+
+  // Save search params to sessionStorage for navigation
+  useEffect(() => {
+    saveNotesListParams(slug, searchParams)
+  }, [slug, searchParams])
   const page = Math.max(1, Number(searchParams.get("page")) || 1)
   const limit = Math.max(1, Number(searchParams.get("limit")) || DEFAULT_LIMIT)
   const filter = searchParams.get("filter") ?? undefined
