@@ -8,23 +8,28 @@ import reactDom from "eslint-plugin-react-dom"
 import prettier from "eslint-config-prettier"
 import pluginQuery from "@tanstack/eslint-plugin-query"
 
-import { defineConfig, globalIgnores } from "eslint/config"
-
-export default defineConfig([
-  globalIgnores(["dist", "public/mockServiceWorker.js"]),
+export default [
+  {
+    ignores: ["dist", "public/mockServiceWorker.js"],
+  },
+  js.configs.recommended,
+  ...tseslint.configs.strictTypeChecked.map((config) => ({
+    ...config,
+    files: ["**/*.{ts,tsx}"],
+  })),
+  ...tseslint.configs.stylisticTypeChecked.map((config) => ({
+    ...config,
+    files: ["**/*.{ts,tsx}"],
+  })),
+  ...pluginQuery.configs["flat/recommended"],
+  reactX.configs["recommended-typescript"],
+  reactDom.configs.recommended,
   {
     files: ["**/*.{ts,tsx}"],
-    extends: [
-      js.configs.recommended,
-      ...tseslint.configs.strictTypeChecked,
-      ...tseslint.configs.stylisticTypeChecked,
-      ...pluginQuery.configs["flat/recommended"],
-      reactX.configs["recommended-typescript"],
-      reactDom.configs.recommended,
-      reactHooks.configs["recommended-latest"],
-      reactRefresh.configs.vite,
-      prettier,
-    ],
+    plugins: {
+      "react-hooks": reactHooks,
+      "react-refresh": reactRefresh,
+    },
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
@@ -34,6 +39,8 @@ export default defineConfig([
       },
     },
     rules: {
+      ...reactHooks.configs.recommended.rules,
+      "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
       "@typescript-eslint/no-misused-promises": [
         "error",
         {
@@ -44,6 +51,13 @@ export default defineConfig([
       ],
     },
   },
+  {
+    files: ["scripts/**/*.js"],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
+  prettier,
   {
     files: ["**/components/ui/**/*.{ts,tsx}"],
     rules: {
@@ -64,4 +78,4 @@ export default defineConfig([
       "@typescript-eslint/consistent-indexed-object-style": "off",
     },
   },
-])
+]
