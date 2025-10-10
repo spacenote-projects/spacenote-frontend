@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form"
+import { useForm, useWatch } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { api } from "@/lib/api"
@@ -24,6 +24,8 @@ export function UpdateDefaultFilter({ space }: { space: Space }) {
     },
   })
 
+  const defaultFilter = useWatch({ control: form.control, name: "defaultFilter" })
+
   const onSubmit = (data: FormData) => {
     const filterValue = data.defaultFilter === "none" ? null : data.defaultFilter
     mutation.mutate(
@@ -43,7 +45,7 @@ export function UpdateDefaultFilter({ space }: { space: Space }) {
         <div>
           <Label htmlFor="defaultFilter">Default Filter</Label>
           <Select
-            value={form.watch("defaultFilter")}
+            value={defaultFilter}
             onValueChange={(value) => {
               form.setValue("defaultFilter", value)
             }}

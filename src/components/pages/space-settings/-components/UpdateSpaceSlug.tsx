@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form"
+import { useForm, useWatch } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { useNavigate } from "react-router"
@@ -32,6 +32,8 @@ export function UpdateSpaceSlug({ space }: { space: Space }) {
     },
   })
 
+  const watchedSlug = useWatch({ control: form.control, name: "slug" })
+
   const onSubmit = (data: FormData) => {
     mutation.mutate(
       { slug: space.slug, newSlug: data.slug },
@@ -53,7 +55,7 @@ export function UpdateSpaceSlug({ space }: { space: Space }) {
           <Input id="slug" {...form.register("slug")} placeholder="Enter URL-friendly identifier" className="mt-1" />
           {form.formState.errors.slug && <p className="text-sm text-destructive mt-1">{form.formState.errors.slug.message}</p>}
           <p className="text-sm text-muted-foreground mt-1">
-            The slug is used in the URL: /s/<strong>{form.watch("slug") || "your-slug"}</strong>
+            The slug is used in the URL: /s/<strong>{watchedSlug || "your-slug"}</strong>
           </p>
         </div>
         <Button type="submit" disabled={mutation.isPending}>
