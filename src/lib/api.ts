@@ -33,6 +33,7 @@ import type {
   UpdateNotificationRequest,
   TelegramNotificationConfig,
   VersionInfo,
+  LLMLogPaginationResult,
 } from "@/types"
 import { httpClient } from "@/lib/http-client"
 
@@ -144,6 +145,19 @@ export const api = {
         queryFn: () => httpClient.get("api/v1/metadata/version").json<VersionInfo>(),
         staleTime: Infinity,
         gcTime: Infinity,
+      }),
+    /** Get paginated LLM logs (admin only) */
+    llmLogs: (page = 1, limit = 50) =>
+      queryOptions({
+        queryKey: ["llmLogs", page, limit],
+        queryFn: () => {
+          const offset = (page - 1) * limit
+          const searchParams = new URLSearchParams({
+            limit: String(limit),
+            offset: String(offset),
+          })
+          return httpClient.get(`api/v1/llm/logs?${searchParams}`).json<LLMLogPaginationResult>()
+        },
       }),
   },
   mutations: {

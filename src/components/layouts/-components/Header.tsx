@@ -45,6 +45,9 @@ export default function Header() {
         <DropdownMenuContent>
           <DropdownMenuItem onClick={() => void navigate("/spaces/new")}>Create Space</DropdownMenuItem>
           {currentUser.username === "admin" && <DropdownMenuItem onClick={() => void navigate("/users")}>Users</DropdownMenuItem>}
+          {currentUser.username === "admin" && (
+            <DropdownMenuItem onClick={() => void navigate("/llm-logs")}>LLM Logs</DropdownMenuItem>
+          )}
           <DropdownMenuItem onClick={handleChangePassword}>Change Password</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>

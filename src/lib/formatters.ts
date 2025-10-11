@@ -2,23 +2,24 @@
  * Format a date to a readable string with full date and time
  */
 export function formatDateTime(date: Date | string): string {
-  const dateObj = typeof date === "string" ? new Date(date) : date
+  let dateObj: Date
+  if (typeof date === "string") {
+    // If the string doesn't end with 'Z' or timezone offset, append 'Z' to treat it as UTC
+    const dateString = date.endsWith("Z") || /[+-]\d{2}:\d{2}$/.test(date) ? date : date + "Z"
+    dateObj = new Date(dateString)
+  } else {
+    dateObj = date
+  }
 
-  const year = dateObj.getFullYear()
-  const month = String(dateObj.getMonth() + 1).padStart(2, "0")
-  const day = String(dateObj.getDate()).padStart(2, "0")
-  const hours = String(dateObj.getHours()).padStart(2, "0")
-  const minutes = String(dateObj.getMinutes()).padStart(2, "0")
-
-  const timezone =
-    dateObj
-      .toLocaleDateString("en-US", {
-        timeZoneName: "short",
-      })
-      .split(" ")
-      .pop() ?? ""
-
-  return `${String(year)}-${month}-${day} ${hours}:${minutes} ${timezone}`
+  return dateObj.toLocaleString("en-US", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZoneName: "short",
+  })
 }
 
 /**

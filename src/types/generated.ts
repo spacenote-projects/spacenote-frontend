@@ -652,6 +652,46 @@ export type paths = {
     patch?: never
     trace?: never
   }
+  "/api/v1/llm/parse": {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * Parse Intent
+     * @description Parse natural language into ready API call
+     */
+    post: operations["parse_intent_api_v1_llm_parse_post"]
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  "/api/v1/llm/logs": {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * List LLM logs
+     * @description Get paginated LLM logs. Admin only.
+     */
+    get: operations["listLLMLogs"]
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   "/api/v1/users": {
     parameters: {
       query?: never
@@ -1145,6 +1185,62 @@ export type components = {
       detail?: components["schemas"]["ValidationError"][]
     }
     /**
+     * LLMLog
+     * @description Log of LLM API interaction.
+     */
+    LLMLog: {
+      /**
+       * Id
+       * Format: uuid
+       */
+      id: string
+      /**
+       * User Id
+       * Format: uuid
+       */
+      user_id: string
+      /** User Input */
+      user_input: string
+      /** System Prompt */
+      system_prompt: string
+      /** Model */
+      model: string
+      /** Context Data */
+      context_data: {
+        [key: string]: unknown
+      } | null
+      /** Llm Response */
+      llm_response: string | null
+      /** Parsed Response */
+      parsed_response: {
+        [key: string]: unknown
+      } | null
+      operation_type: components["schemas"]["LLMOperationType"] | null
+      /** Space Id */
+      space_id: string | null
+      /** Prompt Tokens */
+      prompt_tokens: number | null
+      /** Completion Tokens */
+      completion_tokens: number | null
+      /** Total Tokens */
+      total_tokens: number | null
+      /** Error Message */
+      error_message: string | null
+      /** Duration Ms */
+      duration_ms: number
+      /**
+       * Created At
+       * Format: date-time
+       */
+      created_at: string
+    }
+    /**
+     * LLMOperationType
+     * @description LLM operation types.
+     * @enum {string}
+     */
+    LLMOperationType: "create_note" | "update_note" | "create_comment"
+    /**
      * LoginRequest
      * @description Authentication request.
      */
@@ -1235,6 +1331,29 @@ export type components = {
        */
       offset: number
     }
+    /** PaginationResult[LLMLog] */
+    PaginationResult_LLMLog_: {
+      /**
+       * Items
+       * @description List of items in current page
+       */
+      items: components["schemas"]["LLMLog"][]
+      /**
+       * Total
+       * @description Total number of items across all pages
+       */
+      total: number
+      /**
+       * Limit
+       * @description Maximum items per page
+       */
+      limit: number
+      /**
+       * Offset
+       * @description Number of items skipped
+       */
+      offset: number
+    }
     /** PaginationResult[Note] */
     PaginationResult_Note_: {
       /**
@@ -1257,6 +1376,43 @@ export type components = {
        * @description Number of items skipped
        */
       offset: number
+    }
+    /** ParseRequest */
+    ParseRequest: {
+      /** Text */
+      text: string
+    }
+    /**
+     * ParsedApiCall
+     * @description Parsed API call from natural language input.
+     * @example {
+     *       "body": {
+     *         "raw_fields": {
+     *           "title": "Meeting tomorrow"
+     *         }
+     *       },
+     *       "method": "POST",
+     *       "path": "/api/v1/spaces/workspace/notes"
+     *     }
+     */
+    ParsedApiCall: {
+      /**
+       * Method
+       * @description HTTP method (POST, PATCH, GET)
+       */
+      method: string
+      /**
+       * Path
+       * @description API endpoint path
+       */
+      path: string
+      /**
+       * Body
+       * @description Request body
+       */
+      body?: {
+        [key: string]: unknown
+      } | null
     }
     /**
      * Space
@@ -3829,6 +3985,91 @@ export interface operations {
       }
       /** @description Space or integration not found */
       404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"]
+        }
+      }
+    }
+  }
+  parse_intent_api_v1_llm_parse_post: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ParseRequest"]
+      }
+    }
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ParsedApiCall"]
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"]
+        }
+      }
+    }
+  }
+  listLLMLogs: {
+    parameters: {
+      query?: {
+        /** @description Number of items per page */
+        limit?: number
+        /** @description Number of items to skip */
+        offset?: number
+      }
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Paginated list of LLM logs */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["PaginationResult_LLMLog_"]
+        }
+      }
+      /** @description Not authenticated */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
+        }
+      }
+      /** @description Admin privileges required */
+      403: {
         headers: {
           [name: string]: unknown
         }

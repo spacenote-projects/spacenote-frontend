@@ -18,6 +18,7 @@ import NewSpacePage from "@/components/pages/new-space/NewSpacePage"
 import ImportSpacePage from "@/components/pages/import-space/ImportSpacePage"
 import UsersPage from "@/components/pages/users/UsersPage"
 import NewUserPage from "@/components/pages/new-user/NewUserPage"
+import LLMLogsPage from "@/components/pages/llm-logs/LLMLogsPage"
 import TelegramPage from "@/components/pages/telegram/TelegramPage"
 
 export const createRouter = () =>
@@ -50,6 +51,10 @@ export const createRouter = () =>
         {
           path: "users/new",
           Component: NewUserPage,
+        },
+        {
+          path: "llm-logs",
+          Component: LLMLogsPage,
         },
         {
           path: "s/:slug",

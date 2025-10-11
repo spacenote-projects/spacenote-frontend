@@ -45,6 +45,7 @@ export interface PaginationResult<T> {
 }
 export type NotePaginationResult = components["schemas"]["PaginationResult_Note_"]
 export type CommentPaginationResult = components["schemas"]["PaginationResult_Comment_"]
+export type LLMLogPaginationResult = components["schemas"]["PaginationResult_LLMLog_"]
 
 // Error types
 export type ErrorResponse = components["schemas"]["ErrorResponse"]
@@ -63,3 +64,7 @@ export type TelegramNotificationConfig = components["schemas"]["TelegramNotifica
 
 // Version information type
 export type VersionInfo = Record<string, string | undefined>
+
+// LLM Log types
+export type LLMLog = components["schemas"]["LLMLog"]
+export type LLMOperationType = components["schemas"]["LLMOperationType"]
