@@ -5,6 +5,7 @@ import HomePage from "@/components/pages/home/HomePage"
 import NotesPage from "@/components/pages/notes/NotesPage"
 import NotePage from "@/components/pages/note/NotePage"
 import EditNotePage from "@/components/pages/edit-note/EditNotePage"
+import AttachmentsPage from "@/components/pages/attachments/AttachmentsPage"
 import MembersPage from "@/components/pages/members/MembersPage"
 import FieldsPage from "@/components/pages/fields/FieldsPage"
 import FiltersPage from "@/components/pages/filters/FiltersPage"
@@ -71,6 +72,10 @@ export const createRouter = () =>
         {
           path: "s/:slug/:number/edit",
           Component: EditNotePage,
+        },
+        {
+          path: "s/:slug/:number/attachments",
+          Component: AttachmentsPage,
         },
         {
           path: "s/:slug/members",

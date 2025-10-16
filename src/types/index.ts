@@ -7,6 +7,7 @@ export type User = components["schemas"]["UserView"]
 export type Space = components["schemas"]["Space"]
 export type Note = components["schemas"]["Note"]
 export type Comment = components["schemas"]["Comment"]
+export type Attachment = components["schemas"]["Attachment"]
 
 // Field-related types
 export type SpaceField = components["schemas"]["SpaceField"]

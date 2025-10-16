@@ -51,6 +51,7 @@ export default function NotePage() {
         actions={
           <div className="flex items-center gap-2">
             <Button onClick={() => navigate(`/s/${slug}/${number}/edit`)}>Edit</Button>
+            <Button onClick={() => navigate(`/s/${slug}/${number}/attachments`)}>Attachments</Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon">

@@ -14,6 +14,7 @@ import type {
   UpdateNoteFieldsRequest,
   Comment,
   CreateCommentRequest,
+  Attachment,
   CreateSpaceRequest,
   CreateUserRequest,
   NotePaginationResult,
@@ -158,6 +159,14 @@ export const api = {
           })
           return httpClient.get(`api/v1/llm/logs?${searchParams}`).json<LLMLogPaginationResult>()
         },
+      }),
+    /** Get attachments for a note */
+    noteAttachments: (slug: string, number: number) =>
+      queryOptions({
+        queryKey: ["spaces", slug, "notes", number, "attachments"],
+        queryFn: () => httpClient.get(`api/v1/spaces/${slug}/notes/${String(number)}/attachments`).json<Attachment[]>(),
+        staleTime: 30 * 1000, // 30 seconds
+        gcTime: 2 * 60 * 1000, // 2 minutes
       }),
   },
   mutations: {
@@ -601,6 +610,26 @@ export const api = {
         onSuccess: () => {
           // Invalidate users query to refresh the users list
           void queryClient.invalidateQueries({ queryKey: ["users"] })
+        },
+      })
+    },
+
+    /** Upload attachment to a note */
+    useUploadAttachment: () => {
+      const queryClient = useQueryClient()
+
+      return useMutation({
+        mutationFn: ({ slug, noteNumber, file }: { slug: string; noteNumber: number; file: File }) => {
+          const formData = new FormData()
+          formData.append("file", file)
+          const searchParams = new URLSearchParams({ note_number: String(noteNumber) })
+          return httpClient.post(`api/v1/spaces/${slug}/attachments?${searchParams}`, { body: formData }).json<Attachment>()
+        },
+        onSuccess: (_data, variables) => {
+          // Invalidate attachments query to refresh the list
+          void queryClient.invalidateQueries({
+            queryKey: ["spaces", variables.slug, "notes", variables.noteNumber, "attachments"],
+          })
         },
       })
     },
