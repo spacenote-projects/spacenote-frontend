@@ -14,6 +14,7 @@ export const CLICKABLE_FIELD_CONFIG: Record<FieldType, string | null> = {
   datetime: null,
   int: null,
   float: null,
+  image: null,
 }
 
 /**

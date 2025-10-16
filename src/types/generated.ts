@@ -551,7 +551,7 @@ export type paths = {
         put?: never;
         /**
          * Upload attachment
-         * @description Upload a file attachment to a space. Returns attachment metadata with ID that can be used in IMAGE fields.
+         * @description Upload a file attachment to a space. Optionally attach directly to a note. Returns attachment metadata with ID that can be used in IMAGE fields.
          */
         post: operations["uploadAttachment"];
         delete?: never;
@@ -560,7 +560,27 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/spaces/{space_slug}/attachments/{attachment_id}": {
+    "/api/v1/spaces/{space_slug}/notes/{note_number}/attachments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List note attachments
+         * @description Get all attachments for a specific note.
+         */
+        get: operations["listNoteAttachments"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/spaces/{space_slug}/attachments/{attachment_number}": {
         parameters: {
             query?: never;
             header?: never;
@@ -569,7 +589,7 @@ export type paths = {
         };
         /**
          * Download attachment
-         * @description Download the original attachment file.
+         * @description Download the original attachment file by number.
          */
         get: operations["downloadAttachment"];
         put?: never;
@@ -3655,7 +3675,9 @@ export interface operations {
     };
     uploadAttachment: {
         parameters: {
-            query?: never;
+            query?: {
+                note_number?: number | null;
+            };
             header?: never;
             path: {
                 space_slug: string;
@@ -3704,7 +3726,66 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description Space not found */
+            /** @description Space or note not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    listNoteAttachments: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                space_slug: string;
+                note_number: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of attachments */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Attachment"][];
+                };
+            };
+            /** @description Not authenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not a member of this space */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Space or note not found */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -3730,7 +3811,7 @@ export interface operations {
             header?: never;
             path: {
                 space_slug: string;
-                attachment_id: string;
+                attachment_number: number;
             };
             cookie?: never;
         };

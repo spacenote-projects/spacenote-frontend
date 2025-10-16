@@ -66,5 +66,5 @@ export type TelegramNotificationConfig = components["schemas"]["TelegramNotifica
 export type VersionInfo = Record<string, string | undefined>
 
 // LLM Log types
-export type LLMLog = components["schemas"]["LLMLog"]
+export type LLMLog = components["schemas"]["LLMLog-Output"]
 export type LLMOperationType = components["schemas"]["LLMOperationType"]
