@@ -1,10 +1,12 @@
-import { Suspense } from "react"
+import { Suspense, useState } from "react"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { api } from "@/lib/api"
 import { formatFileSize, formatDateTime } from "@/lib/formatters"
 import { Button } from "@/components/ui/button"
-import { Download } from "lucide-react"
+import { Download, Eye } from "lucide-react"
 import { Username } from "@/components/shared/Username"
+import type { Attachment } from "@/types"
+import { ViewerDialog } from "./ViewerDialog"
 
 function getApiUrl(): string {
   if (import.meta.env.DEV) {
@@ -13,14 +15,25 @@ function getApiUrl(): string {
   return window.__SPACENOTE_CONFIG__?.API_URL ?? ""
 }
 
+function isViewable(mimeType: string): boolean {
+  return mimeType.startsWith("image/") || mimeType === "application/pdf" || mimeType.startsWith("text/")
+}
+
 function AttachmentList({ slug, noteNumber }: { slug: string; noteNumber: number }) {
   const { data: attachments } = useSuspenseQuery(api.queries.noteAttachments(slug, noteNumber))
+  const [selectedAttachment, setSelectedAttachment] = useState<Attachment | null>(null)
+  const [dialogOpen, setDialogOpen] = useState(false)
 
   if (attachments.length === 0) {
     return <p className="text-muted-foreground">No attachments yet</p>
   }
 
   const apiUrl = getApiUrl()
+
+  const handleViewClick = (attachment: Attachment) => {
+    setSelectedAttachment(attachment)
+    setDialogOpen(true)
+  }
 
   return (
     <div className="space-y-2">
@@ -36,15 +49,30 @@ function AttachmentList({ slug, noteNumber }: { slug: string; noteNumber: number
                 {formatDateTime(attachment.created_at)}
               </p>
             </div>
-            <Button variant="outline" size="sm" asChild>
-              <a href={downloadUrl} download>
-                <Download className="size-4 mr-2" />
-                Download
-              </a>
-            </Button>
+            <div className="flex gap-2">
+              {isViewable(attachment.mime_type) && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    handleViewClick(attachment)
+                  }}
+                >
+                  <Eye className="size-4 mr-2" />
+                  View
+                </Button>
+              )}
+              <Button variant="outline" size="sm" asChild>
+                <a href={downloadUrl} download>
+                  <Download className="size-4 mr-2" />
+                  Download
+                </a>
+              </Button>
+            </div>
           </div>
         )
       })}
+      <ViewerDialog slug={slug} attachment={selectedAttachment} open={dialogOpen} onOpenChange={setDialogOpen} />
     </div>
   )
 }
