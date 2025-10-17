@@ -15,7 +15,18 @@ import { cache } from "@/hooks/useCache"
 import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
 import type { FieldType } from "@/types"
 
-const fieldTypes: FieldType[] = ["string", "markdown", "boolean", "string_choice", "tags", "user", "datetime", "int", "float"]
+const fieldTypes: FieldType[] = [
+  "string",
+  "markdown",
+  "boolean",
+  "string_choice",
+  "tags",
+  "user",
+  "datetime",
+  "int",
+  "float",
+  "image",
+]
 
 const formSchema = z.object({
   id: z

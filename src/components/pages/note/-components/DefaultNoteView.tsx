@@ -13,7 +13,7 @@ export function DefaultNoteView({ note, space }: DefaultNoteViewProps) {
         <div key={field.id} className="flex gap-4">
           <div className="font-medium min-w-32">{field.id}</div>
           <div className="text-sm">
-            <NoteFieldValue note={note} fieldKey={field.id} field={field} />
+            <NoteFieldValue note={note} fieldKey={field.id} field={field} spaceSlug={space.slug} />
           </div>
         </div>
       ))}
@@ -23,7 +23,7 @@ export function DefaultNoteView({ note, space }: DefaultNoteViewProps) {
         <div className="text-sm">
           <NoteFieldValue note={note} fieldKey="created_at" />
           {" by "}
-          <NoteFieldValue note={note} fieldKey="user_id" />
+          <NoteFieldValue note={note} fieldKey="user_id" spaceSlug={space.slug} />
         </div>
       </div>
 

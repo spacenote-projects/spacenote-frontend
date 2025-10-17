@@ -619,17 +619,22 @@ export const api = {
       const queryClient = useQueryClient()
 
       return useMutation({
-        mutationFn: ({ slug, noteNumber, file }: { slug: string; noteNumber: number; file: File }) => {
+        mutationFn: ({ slug, noteNumber, file }: { slug: string; noteNumber?: number; file: File }) => {
           const formData = new FormData()
           formData.append("file", file)
-          const searchParams = new URLSearchParams({ note_number: String(noteNumber) })
-          return httpClient.post(`api/v1/spaces/${slug}/attachments?${searchParams}`, { body: formData }).json<Attachment>()
+          const searchParams = noteNumber ? new URLSearchParams({ note_number: String(noteNumber) }) : new URLSearchParams()
+          const url = searchParams.toString()
+            ? `api/v1/spaces/${slug}/attachments?${searchParams}`
+            : `api/v1/spaces/${slug}/attachments`
+          return httpClient.post(url, { body: formData }).json<Attachment>()
         },
         onSuccess: (_data, variables) => {
-          // Invalidate attachments query to refresh the list
-          void queryClient.invalidateQueries({
-            queryKey: ["spaces", variables.slug, "notes", variables.noteNumber, "attachments"],
-          })
+          // Invalidate attachments query to refresh the list if noteNumber is provided
+          if (variables.noteNumber) {
+            void queryClient.invalidateQueries({
+              queryKey: ["spaces", variables.slug, "notes", variables.noteNumber, "attachments"],
+            })
+          }
         },
       })
     },

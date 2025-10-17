@@ -1,10 +1,12 @@
 import type { Control } from "react-hook-form"
+import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import MarkdownEditor from "@/components/shared/MarkdownEditor"
 import { cache } from "@/hooks/useCache"
+import { api } from "@/lib/api"
 import type { SpaceField, Space } from "@/types"
 
 interface FieldInputProps {
@@ -43,6 +45,14 @@ interface FieldInputProps {
  * ```
  */
 export default function FieldInput({ field, control, name, space, onChange }: FieldInputProps) {
+  // Upload mutation for image fields - must be declared at top level due to React's Rules of Hooks
+  // Cannot be called conditionally inside switch statement even though only used for image type
+  const uploadMutation = api.mutations.useUploadAttachment()
+
+  // Preview URL state for image field uploads - stores blob URL for immediate preview
+  // Only used for image field type but declared at top level per React hooks requirements
+  const [previewUrl, setPreviewUrl] = useState<string>()
+
   switch (field.type) {
     case "string":
       return (
@@ -293,6 +303,60 @@ export default function FieldInput({ field, control, name, space, onChange }: Fi
           )}
         />
       )
+
+    case "image": {
+      const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, formField: { onChange: (value: string) => void }) => {
+        const file = e.target.files?.[0]
+        if (!file) return
+
+        uploadMutation.mutate(
+          { slug: space.slug, file },
+          {
+            onSuccess: (attachment) => {
+              formField.onChange(attachment.id)
+              setPreviewUrl(URL.createObjectURL(file))
+              if (onChange) {
+                onChange(name)
+              }
+            },
+          }
+        )
+      }
+
+      return (
+        <FormField
+          control={control}
+          name={name}
+          render={({ field: formField }) => (
+            <FormItem>
+              <FormLabel>
+                {field.id}
+                {field.required && <span className="text-destructive ml-1">*</span>}
+              </FormLabel>
+              <FormControl>
+                <div className="space-y-2">
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      handleFileChange(e, formField)
+                    }}
+                    disabled={uploadMutation.isPending}
+                  />
+                  {uploadMutation.isPending && <p className="text-sm text-muted-foreground">Uploading...</p>}
+                  {previewUrl && (
+                    <div className="mt-2">
+                      <img src={previewUrl} alt="Preview" className="max-w-xs max-h-48 rounded border" />
+                    </div>
+                  )}
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )
+    }
 
     default:
       // Fallback for any unknown field types - renders a basic text input

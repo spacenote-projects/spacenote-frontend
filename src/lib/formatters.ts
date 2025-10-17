@@ -76,6 +76,9 @@ export function formatFieldValue(value: string | boolean | string[] | number | n
     case "user":
       // User fields store UUID, display handled by component
       return String(value)
+    case "image":
+      // Image fields store attachment UUID
+      return typeof value === "string" && value ? "Image" : "-"
     default:
       return String(value)
   }
