@@ -600,7 +600,7 @@ export type paths = {
     patch?: never
     trace?: never
   }
-  "/api/v1/spaces/{space_slug}/notes/{note_number}/fields/{field_id}/previews/{preview_key}": {
+  "/api/v1/spaces/{space_slug}/notes/{note_number}/images/{field_id}": {
     parameters: {
       query?: never
       header?: never
@@ -608,10 +608,10 @@ export type paths = {
       cookie?: never
     }
     /**
-     * Download image preview
-     * @description Download a preview image for an IMAGE field. Preview is generated based on field's preview configuration.
+     * Download image
+     * @description Download the image for an IMAGE field. Image is generated based on field's max_width configuration.
      */
-    get: operations["downloadPreview"]
+    get: operations["downloadImage"]
     put?: never
     post?: never
     delete?: never
@@ -1235,7 +1235,7 @@ export type components = {
      * @description Configuration options for field types.
      * @enum {string}
      */
-    FieldOption: "values" | "min" | "max" | "value_maps" | "previews"
+    FieldOption: "values" | "min" | "max" | "value_maps" | "max_width"
     /**
      * FieldType
      * @description Available field types for space schemas.
@@ -1644,7 +1644,7 @@ export type components = {
       required: boolean
       /**
        * Options
-       * @description Field type-specific options (e.g., 'values' for select, 'min'/'max' for numeric types, 'value_maps' for select metadata)
+       * @description Field type-specific options (e.g., 'values' for select, 'min'/'max' for numeric types, 'value_maps' for select metadata, 'max_width' for image)
        */
       options?: {
         [key: string]:
@@ -1653,11 +1653,6 @@ export type components = {
           | {
               [key: string]: {
                 [key: string]: string
-              }
-            }
-          | {
-              [key: string]: {
-                [key: string]: number
               }
             }
       }
@@ -3868,7 +3863,7 @@ export interface operations {
       }
     }
   }
-  downloadPreview: {
+  downloadImage: {
     parameters: {
       query?: never
       header?: never
@@ -3876,13 +3871,12 @@ export interface operations {
         space_slug: string
         note_number: number
         field_id: string
-        preview_key: string
       }
       cookie?: never
     }
     requestBody?: never
     responses: {
-      /** @description Preview image (WebP format) */
+      /** @description Image (WebP format) */
       200: {
         headers: {
           [name: string]: unknown
@@ -3909,7 +3903,7 @@ export interface operations {
           "application/json": components["schemas"]["ErrorResponse"]
         }
       }
-      /** @description Space, note, field, or preview not found */
+      /** @description Space, note, field, or image not found */
       404: {
         headers: {
           [name: string]: unknown

@@ -55,19 +55,8 @@ function UserField({ userId, fieldKey, spaceSlug }: { userId: string; fieldKey?:
   }
 }
 
-function ImageField({
-  spaceSlug,
-  noteNumber,
-  fieldKey,
-  field,
-}: {
-  spaceSlug: string
-  noteNumber: number
-  fieldKey: string
-  field: SpaceField
-}) {
-  const previewKey = Object.keys(field.options?.previews ?? {})[0]
-  const imageUrl = `/api/v1/spaces/${spaceSlug}/notes/${String(noteNumber)}/fields/${fieldKey}/previews/${previewKey}`
+function ImageField({ spaceSlug, noteNumber, fieldKey }: { spaceSlug: string; noteNumber: number; fieldKey: string }) {
+  const imageUrl = `/api/v1/spaces/${spaceSlug}/notes/${String(noteNumber)}/images/${fieldKey}`
 
   return (
     <div className="mt-1">
@@ -168,7 +157,7 @@ export default function NoteFieldValue({ note, fieldKey, field, spaceSlug }: Not
 
       // Special handling for image fields
       if (field?.type === "image" && typeof value === "string" && spaceSlug) {
-        return <ImageField spaceSlug={spaceSlug} noteNumber={note.number} fieldKey={fieldKey} field={field} />
+        return <ImageField spaceSlug={spaceSlug} noteNumber={note.number} fieldKey={fieldKey} />
       }
 
       return <>{formatFieldValue(value, field?.type)}</>

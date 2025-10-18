@@ -95,10 +95,9 @@ engine.registerFilter("tags_links", (tags: string[]) => {
     .join(" ")
 })
 
-engine.registerFilter("image_url", (fieldId: string, spaceSlug: string, noteNumber: number, previewKey?: string) => {
+engine.registerFilter("image_url", (fieldId: string, spaceSlug: string, noteNumber: number) => {
   if (!fieldId || !spaceSlug || !noteNumber) return ""
-  const preview = previewKey ?? "main"
-  return `/api/v1/spaces/${spaceSlug}/notes/${String(noteNumber)}/fields/${fieldId}/previews/${preview}`
+  return `/api/v1/spaces/${spaceSlug}/notes/${String(noteNumber)}/images/${fieldId}`
 })
 
 interface NoteDetailTemplateContext {
