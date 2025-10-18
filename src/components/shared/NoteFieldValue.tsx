@@ -140,15 +140,15 @@ export default function NoteFieldValue({ note, fieldKey, field, spaceSlug }: Not
         )
       }
 
-      // Special handling for string_choice fields - render as clickable badge
-      if (field?.type === "string_choice" && typeof value === "string" && spaceSlug) {
+      // Special handling for select fields - render as clickable badge
+      if (field?.type === "select" && typeof value === "string" && spaceSlug) {
         return (
           <Badge
             variant="secondary"
             className="cursor-pointer hover:bg-secondary/80"
             onClick={(e) => {
               e.stopPropagation()
-              handleFieldClick(fieldKey, "string_choice", value)
+              handleFieldClick(fieldKey, "select", value)
             }}
           >
             {value}

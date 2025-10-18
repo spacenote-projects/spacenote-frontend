@@ -129,7 +129,7 @@ export default function FieldInput({ field, control, name, space, onChange }: Fi
       )
     }
 
-    case "string_choice": {
+    case "select": {
       const options = field.options?.values as string[] | undefined
       return (
         <FormField

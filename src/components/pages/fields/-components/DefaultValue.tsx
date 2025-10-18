@@ -32,7 +32,7 @@ export default function DefaultValue({ field }: { field: SpaceField }) {
       return <>{String(defaultValue)}</>
 
     case "tags":
-    case "string_choice":
+    case "select":
       if (Array.isArray(defaultValue)) {
         return <>{defaultValue.join(", ")}</>
       }

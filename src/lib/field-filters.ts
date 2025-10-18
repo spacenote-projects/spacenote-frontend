@@ -6,7 +6,7 @@ import type { FieldType } from "@/types"
  */
 export const CLICKABLE_FIELD_CONFIG: Record<FieldType, string | null> = {
   tags: "in",
-  string_choice: "eq",
+  select: "eq",
   user: "eq",
   string: null,
   markdown: null,

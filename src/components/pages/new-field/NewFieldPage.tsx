@@ -15,18 +15,7 @@ import { cache } from "@/hooks/useCache"
 import { SpacePageHeader } from "@/components/shared/SpacePageHeader"
 import type { FieldType } from "@/types"
 
-const fieldTypes: FieldType[] = [
-  "string",
-  "markdown",
-  "boolean",
-  "string_choice",
-  "tags",
-  "user",
-  "datetime",
-  "int",
-  "float",
-  "image",
-]
+const fieldTypes: FieldType[] = ["string", "markdown", "boolean", "select", "tags", "user", "datetime", "int", "float", "image"]
 
 const formSchema = z.object({
   id: z
@@ -202,7 +191,7 @@ export default function NewFieldPage() {
                 <FormControl>
                   <Textarea
                     {...field}
-                    placeholder='{"values": ["option1", "option2"]} for string_choice, or {"min": 0, "max": 100} for numeric fields'
+                    placeholder='{"values": ["option1", "option2"]} for select, or {"min": 0, "max": 100} for numeric fields'
                     className="font-mono text-sm"
                   />
                 </FormControl>

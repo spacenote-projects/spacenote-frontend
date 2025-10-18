@@ -1241,7 +1241,7 @@ export type components = {
      * @description Available field types for space schemas.
      * @enum {string}
      */
-    FieldType: "string" | "markdown" | "boolean" | "string_choice" | "tags" | "user" | "datetime" | "int" | "float" | "image"
+    FieldType: "string" | "markdown" | "boolean" | "select" | "tags" | "user" | "datetime" | "int" | "float" | "image"
     /**
      * Filter
      * @description Saved filter configuration for a space.
@@ -1644,7 +1644,7 @@ export type components = {
       required: boolean
       /**
        * Options
-       * @description Field type-specific options (e.g., 'values' for string_choice, 'min'/'max' for numeric types, 'value_maps' for string_choice metadata)
+       * @description Field type-specific options (e.g., 'values' for select, 'min'/'max' for numeric types, 'value_maps' for select metadata)
        */
       options?: {
         [key: string]:

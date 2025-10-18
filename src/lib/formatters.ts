@@ -62,7 +62,7 @@ export function formatFieldValue(value: string | boolean | string[] | number | n
   switch (fieldType) {
     case "datetime":
       return typeof value === "string" ? formatDateTime(value) : String(value)
-    case "string_choice":
+    case "select":
     case "tags":
       if (Array.isArray(value)) {
         return value.join(", ")

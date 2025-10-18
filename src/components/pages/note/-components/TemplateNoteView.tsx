@@ -64,7 +64,7 @@ export function TemplateNoteView({ note, space }: TemplateNoteViewProps) {
   }
 
   const handleClick = (e: React.MouseEvent) => {
-    // Check if clicked on a field filter element (user, string_choice, etc.)
+    // Check if clicked on a field filter element (user, select, etc.)
     const fieldElement = (e.target as HTMLElement).closest("[data-field-id]")
     if (fieldElement) {
       e.preventDefault()
