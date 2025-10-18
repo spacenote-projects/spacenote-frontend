@@ -29,15 +29,8 @@ const apiUrl = resolveApiUrl()
 
 export const httpClient = ky.create({
   prefixUrl: apiUrl,
+  credentials: "include",
   hooks: {
-    beforeRequest: [
-      (request) => {
-        const authToken = authStorage.getAuthToken()
-        if (authToken) {
-          request.headers.set("Authorization", `Bearer ${authToken}`)
-        }
-      },
-    ],
     afterResponse: [
       async (_request, _options, response) => {
         // Handle 401 redirect early
