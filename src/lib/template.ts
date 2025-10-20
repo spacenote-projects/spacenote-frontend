@@ -80,17 +80,17 @@ engine.registerFilter("markdown", (value: string) => {
   return markdownToHtmlSafeSync(value)
 })
 
-engine.registerFilter("tag_link", (tag: string) => {
-  if (!tag) return ""
-  return `<span class="inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 cursor-pointer hover:bg-gray-200 transition-colors" data-field-id="tags" data-field-type="tags" data-field-value="${tag}">${tag}</span>`
+engine.registerFilter("tag_link", (tag: string, fieldId: string) => {
+  if (!tag || !fieldId) return ""
+  return `<span class="inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 cursor-pointer hover:bg-gray-200 transition-colors" data-field-id="${fieldId}" data-field-type="tags" data-field-value="${tag}">${tag}</span>`
 })
 
-engine.registerFilter("tags_links", (tags: string[]) => {
-  if (!Array.isArray(tags) || tags.length === 0) return ""
+engine.registerFilter("tags_links", (tags: string[], fieldId: string) => {
+  if (!Array.isArray(tags) || tags.length === 0 || !fieldId) return ""
   return tags
     .map(
       (tag) =>
-        `<span class="inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 cursor-pointer hover:bg-gray-200 transition-colors" data-field-id="tags" data-field-type="tags" data-field-value="${tag}">${tag}</span>`
+        `<span class="inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 cursor-pointer hover:bg-gray-200 transition-colors" data-field-id="${fieldId}" data-field-type="tags" data-field-value="${tag}">${tag}</span>`
     )
     .join(" ")
 })
