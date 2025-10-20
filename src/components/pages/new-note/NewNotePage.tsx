@@ -32,7 +32,7 @@ export default function NewNotePage() {
 
   const onSubmit = (data: Record<string, unknown>) => {
     const noteData: CreateNoteRequest = {
-      raw_fields: formToRawFields(data),
+      raw_fields: formToRawFields(data, visibleFields),
     }
 
     mutation.mutate(

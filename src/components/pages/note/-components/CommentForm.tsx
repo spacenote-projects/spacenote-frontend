@@ -47,7 +47,7 @@ export function CommentForm({ slug, noteNumber, space, note }: { slug: string; n
       .filter((key) => editableFieldIds.includes(key) && dirtyFields[key])
       .reduce<Record<string, boolean | undefined>>((acc, key) => ({ ...acc, [key]: dirtyFields[key] }), {})
 
-    const rawFields = hasEditableFields ? dirtyFieldsToRawFields(data, filteredDirtyFields) : {}
+    const rawFields = hasEditableFields ? dirtyFieldsToRawFields(data, filteredDirtyFields, editableFields) : {}
 
     mutation.mutate(
       {

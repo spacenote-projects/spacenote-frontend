@@ -1,5 +1,6 @@
 import { z } from "zod"
 import type { SpaceField, User } from "@/types"
+import { localDatetimeToUTC, utcToLocalDatetime } from "@/lib/datetime"
 
 /**
  * Create Zod schema for form fields based on space fields
@@ -28,6 +29,8 @@ export function noteToFormValues(fields: SpaceField[], noteFields: Record<string
 
     if (field.type === "boolean") {
       acc[field.id] = value === true || value === "true"
+    } else if (field.type === "datetime" && typeof value === "string") {
+      acc[field.id] = utcToLocalDatetime(value)
     } else if (field.type === "tags" && Array.isArray(value)) {
       acc[field.id] = value.join(", ")
     } else if (typeof value === "string" || typeof value === "number") {
@@ -47,6 +50,8 @@ export function fieldsToDefaultValues(fields: SpaceField[], currentUser?: User) 
     if (field.default !== undefined && field.default !== null) {
       if (field.type === "user" && field.default === "$me" && currentUser) {
         acc[field.id] = currentUser.id
+      } else if (field.type === "datetime" && field.default === "$now") {
+        acc[field.id] = "$now"
       } else if (field.type === "boolean") {
         acc[field.id] = field.default === "true" || field.default === true
       } else if (Array.isArray(field.default)) {
@@ -66,12 +71,18 @@ export function fieldsToDefaultValues(fields: SpaceField[], currentUser?: User) 
 /**
  * Convert form values to raw fields for API
  */
-export function formToRawFields(data: Record<string, unknown>) {
+export function formToRawFields(data: Record<string, unknown>, fields: SpaceField[]) {
+  const fieldTypeMap = new Map(fields.map((field) => [field.id, field.type]))
+
   return Object.entries(data).reduce<Record<string, string>>((acc, [key, value]) => {
     if (typeof value === "boolean") {
       acc[key] = value ? "true" : "false"
     } else if (typeof value === "string" && value !== "") {
-      acc[key] = value
+      if (fieldTypeMap.get(key) === "datetime" && value !== "$now") {
+        acc[key] = localDatetimeToUTC(value)
+      } else {
+        acc[key] = value
+      }
     } else if (typeof value === "number") {
       acc[key] = value.toString()
     }
@@ -82,8 +93,13 @@ export function formToRawFields(data: Record<string, unknown>) {
 /**
  * Convert only dirty form fields to raw fields for API
  */
-export function dirtyFieldsToRawFields(data: Record<string, unknown>, dirtyFields: Partial<Record<string, boolean | undefined>>) {
+export function dirtyFieldsToRawFields(
+  data: Record<string, unknown>,
+  dirtyFields: Partial<Record<string, boolean | undefined>>,
+  fields: SpaceField[]
+) {
   const dirtyKeys = Object.keys(dirtyFields).filter((key) => dirtyFields[key] === true)
+  const fieldTypeMap = new Map(fields.map((field) => [field.id, field.type]))
 
   return dirtyKeys.reduce<Record<string, string>>((acc, key) => {
     const value = data[key]
@@ -91,7 +107,11 @@ export function dirtyFieldsToRawFields(data: Record<string, unknown>, dirtyField
     if (typeof value === "boolean") {
       acc[key] = value ? "true" : "false"
     } else if (typeof value === "string") {
-      acc[key] = value
+      if (fieldTypeMap.get(key) === "datetime" && value !== "$now") {
+        acc[key] = localDatetimeToUTC(value)
+      } else {
+        acc[key] = value
+      }
     } else if (typeof value === "number") {
       acc[key] = value.toString()
     }

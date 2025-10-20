@@ -61,6 +61,9 @@ export function formatFieldValue(value: string | boolean | string[] | number | n
 
   switch (fieldType) {
     case "datetime":
+      if (value === "$now") {
+        return "Current time ($now)"
+      }
       return typeof value === "string" ? formatDateTime(value) : String(value)
     case "select":
     case "tags":

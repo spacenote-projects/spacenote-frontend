@@ -6,6 +6,7 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/comp
 import MarkdownEditor from "@/components/shared/MarkdownEditor"
 import UserFieldInput from "@/components/shared/field-input-components/UserFieldInput"
 import ImageFieldInput from "@/components/shared/field-input-components/ImageFieldInput"
+import DatetimeFieldInput from "@/components/shared/field-input-components/DatetimeFieldInput"
 import type { SpaceField, Space } from "@/types"
 
 interface FieldInputProps {
@@ -231,32 +232,7 @@ export default function FieldInput({ field, control, name, space, onChange }: Fi
       )
 
     case "datetime":
-      return (
-        <FormField
-          control={control}
-          name={name}
-          render={({ field: formField }) => (
-            <FormItem>
-              <FormLabel>
-                {field.id}
-                {field.required && <span className="text-destructive ml-1">*</span>}
-              </FormLabel>
-              <FormControl>
-                <Input
-                  {...formField}
-                  value={formField.value as string}
-                  type="datetime-local"
-                  onChange={(e) => {
-                    formField.onChange(e)
-                    onChange?.(name)
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      )
+      return <DatetimeFieldInput field={field} control={control} name={name} onChange={onChange} />
 
     case "image":
       return <ImageFieldInput field={field} control={control} name={name} space={space} onChange={onChange} />

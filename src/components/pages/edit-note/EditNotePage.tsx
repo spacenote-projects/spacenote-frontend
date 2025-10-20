@@ -30,7 +30,7 @@ export default function EditNotePage() {
   const onSubmit = (data: Record<string, unknown>) => {
     // Only include dirty fields in the update
     const updateData: UpdateNoteFieldsRequest = {
-      raw_fields: dirtyFieldsToRawFields(data, form.formState.dirtyFields),
+      raw_fields: dirtyFieldsToRawFields(data, form.formState.dirtyFields, space.fields),
     }
 
     mutation.mutate(
