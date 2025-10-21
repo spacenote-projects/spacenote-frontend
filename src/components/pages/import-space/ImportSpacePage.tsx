@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Checkbox } from "@/components/ui/checkbox"
 import { ErrorMessage } from "@/components/shared/ErrorMessage"
 import { toast } from "sonner"
 import type { ExportData } from "@/types"
@@ -21,7 +20,6 @@ const formSchema = z.object({
       "Slug must be lowercase letters and numbers, optionally separated by single hyphens"
     )
     .optional(),
-  createMissingUsers: z.boolean(),
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -35,7 +33,6 @@ export default function ImportSpacePage() {
     defaultValues: {
       jsonData: "",
       newSlug: "",
-      createMissingUsers: false,
     },
   })
 
@@ -52,7 +49,6 @@ export default function ImportSpacePage() {
       {
         data: parsedData,
         newSlug: data.newSlug ?? undefined,
-        createMissingUsers: data.createMissingUsers,
       },
       {
         onSuccess: (space) => {
@@ -102,22 +98,6 @@ export default function ImportSpacePage() {
                   Rename the space on import. Leave blank to use the original slug from the export.
                 </FormDescription>
                 <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="createMissingUsers"
-            render={({ field }) => (
-              <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                <FormControl>
-                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                </FormControl>
-                <div className="space-y-1 leading-none">
-                  <FormLabel>Create missing users</FormLabel>
-                  <FormDescription>Automatically create user accounts that don't exist (with random passwords)</FormDescription>
-                </div>
               </FormItem>
             )}
           />

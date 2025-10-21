@@ -1114,6 +1114,38 @@ export type components = {
       type: string
     }
     /**
+     * ExportAttachment
+     * @description Attachment representation for export without system-specific IDs.
+     */
+    ExportAttachment: {
+      /**
+       * Number
+       * @description Attachment number within the space
+       */
+      number: number
+      /**
+       * Note Number
+       * @description Number of the note this attachment belongs to (None for space-level)
+       */
+      note_number: number | null
+      /**
+       * Username
+       * @description Username of uploader (not UUID)
+       */
+      username: string
+      /** Filename */
+      filename: string
+      /** Size */
+      size: number
+      /** Mime Type */
+      mime_type: string
+      /**
+       * Created At
+       * Format: date-time
+       */
+      created_at: string
+    }
+    /**
      * ExportComment
      * @description Comment representation for export without system-specific IDs.
      */
@@ -1159,6 +1191,11 @@ export type components = {
        * @description Comments data (when include_data=true)
        */
       comments?: components["schemas"]["ExportComment"][] | null
+      /**
+       * Attachments
+       * @description Attachments data (when include_data=true)
+       */
+      attachments?: components["schemas"]["ExportAttachment"][] | null
       /**
        * Exported At
        * Format: date-time
@@ -3831,7 +3868,7 @@ export interface operations {
   downloadAttachment: {
     parameters: {
       query?: {
-        output_format?: string | null
+        format?: string | null
         option?: string | null
       }
       header?: never
@@ -4025,8 +4062,6 @@ export interface operations {
       query?: {
         /** @description Optional new slug to rename the space on import */
         new_slug?: string | null
-        /** @description Create users that don't exist (with random passwords) */
-        create_missing_users?: boolean
       }
       header?: never
       path?: never

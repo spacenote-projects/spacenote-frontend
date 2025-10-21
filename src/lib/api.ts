@@ -224,20 +224,17 @@ export const api = {
       const queryClient = useQueryClient()
 
       return useMutation({
-        mutationFn: (params: { data: ExportData; newSlug?: string; createMissingUsers?: boolean }) => {
+        mutationFn: (params: { data: ExportData; newSlug?: string }) => {
           const searchParams = new URLSearchParams()
           if (params.newSlug) searchParams.append("new_slug", params.newSlug)
-          if (params.createMissingUsers) searchParams.append("create_missing_users", "true")
           const url = searchParams.toString() ? `api/v1/spaces/import?${searchParams}` : "api/v1/spaces/import"
           return httpClient.post(url, { json: params.data }).json<Space>()
         },
-        onSuccess: async (_data, variables) => {
+        onSuccess: async () => {
           // Refetch spaces to ensure cache is updated before navigation
           await queryClient.refetchQueries({ queryKey: ["spaces"] })
-          // If users were created, invalidate users cache
-          if (variables.createMissingUsers) {
-            void queryClient.invalidateQueries({ queryKey: ["users"] })
-          }
+          // Invalidate users cache in case new users were created during import
+          void queryClient.invalidateQueries({ queryKey: ["users"] })
         },
       })
     },
