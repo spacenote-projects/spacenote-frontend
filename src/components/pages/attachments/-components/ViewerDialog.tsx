@@ -1,5 +1,6 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import type { Attachment } from "@/types"
+import { isBrowserUnsupportedImage } from "@/lib/formatters"
 import { ImageViewer } from "./ImageViewer"
 import { PdfViewer } from "./PdfViewer"
 import { TextViewer } from "./TextViewer"
@@ -25,7 +26,8 @@ export function ViewerDialog({
   if (!attachment) return null
 
   const apiUrl = getApiUrl()
-  const viewUrl = `${apiUrl}/api/v1/spaces/${slug}/attachments/${String(attachment.number)}`
+  const formatParam = isBrowserUnsupportedImage(attachment.mime_type) ? "?format=webp" : ""
+  const viewUrl = `${apiUrl}/api/v1/spaces/${slug}/attachments/${String(attachment.number)}${formatParam}`
 
   const isImage = attachment.mime_type.startsWith("image/")
   const isPdf = attachment.mime_type === "application/pdf"

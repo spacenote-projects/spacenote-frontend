@@ -589,7 +589,7 @@ export type paths = {
     }
     /**
      * Download attachment
-     * @description Download the original attachment file by number.
+     * @description Download attachment file by number. Use `?format=webp` to convert images to WebP format. Optional `&option=max_width:800` to resize during conversion.
      */
     get: operations["downloadAttachment"]
     put?: never
@@ -1226,8 +1226,12 @@ export type components = {
       list_fields: string[]
       /** Hidden Create Fields */
       hidden_create_fields: string[]
+      /** Comment Editable Fields */
+      comment_editable_fields: string[]
       /** Filters */
       filters: components["schemas"]["Filter"][]
+      /** Default Filter */
+      default_filter: string | null
       templates: components["schemas"]["SpaceTemplates"]
       /** @description Telegram integration configuration (excludes credentials) */
       telegram?: components["schemas"]["ExportTelegramConfig"] | null
@@ -2029,9 +2033,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          "application/json": {
-            [key: string]: string
-          }
+          "application/json": unknown
         }
       }
     }
@@ -3828,7 +3830,10 @@ export interface operations {
   }
   downloadAttachment: {
     parameters: {
-      query?: never
+      query?: {
+        output_format?: string | null
+        option?: string | null
+      }
       header?: never
       path: {
         space_slug: string
@@ -3845,6 +3850,15 @@ export interface operations {
         }
         content: {
           "application/json": unknown
+        }
+      }
+      /** @description Invalid format parameter */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
         }
       }
       /** @description Not authenticated */
@@ -4698,7 +4712,7 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Successful Response */
+      /** @description Mapping of field types to valid operators */
       200: {
         headers: {
           [name: string]: unknown
@@ -4707,6 +4721,15 @@ export interface operations {
           "application/json": {
             [key: string]: components["schemas"]["FilterOperator"][]
           }
+        }
+      }
+      /** @description Not authenticated */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
         }
       }
     }
@@ -4720,7 +4743,7 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Successful Response */
+      /** @description Version and build information */
       200: {
         headers: {
           [name: string]: unknown
@@ -4729,6 +4752,15 @@ export interface operations {
           "application/json": {
             [key: string]: string
           }
+        }
+      }
+      /** @description Not authenticated */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"]
         }
       }
     }

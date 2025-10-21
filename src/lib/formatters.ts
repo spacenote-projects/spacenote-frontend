@@ -48,6 +48,14 @@ export function formatFileSize(bytes: number): string {
 }
 
 /**
+ * Check if image format is unsupported by browsers and needs server-side conversion
+ */
+export function isBrowserUnsupportedImage(mimeType: string): boolean {
+  const unsupportedFormats = ["image/heic", "image/heif"]
+  return unsupportedFormats.includes(mimeType.toLowerCase())
+}
+
+/**
  * Format a field value based on its type
  */
 export function formatFieldValue(value: string | boolean | string[] | number | null | undefined, fieldType?: string): string {

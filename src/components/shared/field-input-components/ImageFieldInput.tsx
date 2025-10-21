@@ -4,6 +4,14 @@ import { Input } from "@/components/ui/input"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { api } from "@/lib/api"
 import type { SpaceField, Space } from "@/types"
+import { isBrowserUnsupportedImage } from "@/lib/formatters"
+
+function getApiUrl(): string {
+  if (import.meta.env.DEV) {
+    return import.meta.env.VITE_API_URL
+  }
+  return window.__SPACENOTE_CONFIG__?.API_URL ?? ""
+}
 
 interface ImageFieldInputProps {
   field: SpaceField
@@ -27,7 +35,14 @@ export default function ImageFieldInput({ field, control, name, space, onChange 
       {
         onSuccess: (attachment) => {
           formField.onChange(attachment.id)
-          setPreviewUrl(URL.createObjectURL(file))
+
+          if (isBrowserUnsupportedImage(file.type)) {
+            const apiUrl = getApiUrl()
+            const serverUrl = `${apiUrl}/api/v1/spaces/${space.slug}/attachments/${String(attachment.number)}?format=webp&option=max_width:400`
+            setPreviewUrl(serverUrl)
+          } else {
+            setPreviewUrl(URL.createObjectURL(file))
+          }
           if (onChange) {
             onChange(name)
           }
