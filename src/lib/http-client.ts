@@ -30,6 +30,7 @@ const apiUrl = resolveApiUrl()
 export const httpClient = ky.create({
   prefixUrl: apiUrl,
   credentials: "include",
+  timeout: 600000, // 10 minutes for large file uploads
   hooks: {
     afterResponse: [
       async (_request, _options, response) => {
