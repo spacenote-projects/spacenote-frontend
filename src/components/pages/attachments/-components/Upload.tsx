@@ -2,6 +2,7 @@ import { useState } from "react"
 import { api } from "@/lib/api"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Progress } from "@/components/ui/progress"
 import { ErrorMessage } from "@/components/shared/ErrorMessage"
 import { toast } from "sonner"
 
@@ -44,6 +45,13 @@ export function Upload({ slug, noteNumber }: { slug: string; noteNumber: number 
         <div>
           <Input id="file-input" type="file" onChange={handleFileChange} />
         </div>
+
+        {mutation.isPending && (
+          <div className="space-y-1">
+            <Progress value={66} className="w-full" />
+            <p className="text-sm text-muted-foreground">Uploading...</p>
+          </div>
+        )}
 
         {mutation.error && <ErrorMessage error={mutation.error} />}
 

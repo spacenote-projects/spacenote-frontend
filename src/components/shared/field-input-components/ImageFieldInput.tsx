@@ -2,6 +2,7 @@ import type { Control } from "react-hook-form"
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Progress } from "@/components/ui/progress"
 import { api } from "@/lib/api"
 import type { SpaceField, Space } from "@/types"
 import { isBrowserUnsupportedImage } from "@/lib/formatters"
@@ -71,7 +72,12 @@ export default function ImageFieldInput({ field, control, name, space, onChange 
                 }}
                 disabled={uploadMutation.isPending}
               />
-              {uploadMutation.isPending && <p className="text-sm text-muted-foreground">Uploading...</p>}
+              {uploadMutation.isPending && (
+                <div className="space-y-1">
+                  <Progress value={66} className="w-full" />
+                  <p className="text-sm text-muted-foreground">Uploading...</p>
+                </div>
+              )}
               {previewUrl && (
                 <div className="mt-2">
                   <img src={previewUrl} alt="Preview" className="max-w-xs max-h-48 rounded border" />
